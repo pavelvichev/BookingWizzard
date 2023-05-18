@@ -1,0 +1,13 @@
+﻿@model List<BookingWizard.Models.Hotel>
+
+
+
+@foreach(var hotel in Model){
+<div class="card" style="width: 18rem;">
+  <img src="@hotel.imageUrl" class="card-img-top" alt="Photo">
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">@hotel.HotelShortDescription</p>
+  </div>
+</div>
+}
