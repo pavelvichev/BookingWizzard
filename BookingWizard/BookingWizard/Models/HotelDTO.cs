@@ -26,7 +26,8 @@ namespace BookingWizard.Models
 
         public List<hotelRoomDTO>? roomList { get; set; }
    
-
+        //вавываываыв.аэ
+       
 
 
     }
