@@ -1,0 +1,77 @@
+﻿@model BookingWizard.Models.HotelDTO
+
+<div>
+	<div>
+		<h1>@Model.HotelName</h1>
+		<p>@Model.HotelLongDescription</p>
+	</div>
+	<div class="row">
+		@if (Model.roomList != null)
+		{
+			@foreach (var room in Model.roomList)
+			{
+				<div class="col-md-4">
+					<div class="card" style="width: 18rem;">
+						<img src="@room.imageUrl" alt="Hotel Image" class="img-fluid">
+						<h2>Room name: @room.Name</h2>
+						<p>Description: @room.Description</p>
+						<p>Room price: @room.roomPricePerNight</p>
+						<p>Is Booking: @room.isBooking</p>
+					</div>
+				</div>
+			}
+		}
+	</div>
+</div>
+<button class="alert alert-prime" type="button" id="toggleButton">ADD ROOM</button>
+<div id="myContent" style="display: none;">
+	<form method="post" action="/Hotels/AddRoom">
+		<input type="hidden" asp-for="HotelName" />
+		<input type="hidden" asp-for="Id" />
+		<input type="hidden" asp-for="HotelShortDescription" />
+		<input type="hidden" asp-for="HotelLongDescription" />
+		<input type="hidden" asp-for="imageUrl" />
+		<input type="hidden" asp-for="@Model.address.Country" />
+		<input type="hidden" asp-for="@Model.address.City" />
+		<input type="hidden" asp-for="@Model.address.Region" />
+		<input type="hidden" asp-for="@Model.address.street" />
+		<input type="hidden" asp-for="@Model.address.PostalCode" />
+		<input type="hidden" asp-for="@Model.room.booking" />
+
+
+
+
+		<div class="input-group mb-3">
+			<input type="text" class="form-control" asp-for="@Model.room.Name" aria-describedby="basic-addon2">
+			<span class="input-group-text" id="basic-addon2">Name</span>
+		</div>
+		<div class="input-group mb-3">
+			<input type="text" class="form-control" asp-for="@Model.room.Description" aria-describedby="basic-addon2">
+			<span class="input-group-text" id="basic-addon2">Short Description</span>
+		</div>
+		<div class="input-group mb-3">
+			<input type="text" class="form-control" asp-for="@Model.room.roomPricePerNight" aria-describedby="basic-addon2">
+			<span class="input-group-text" id="basic-addon2">Price</span>
+		</div>
+		<div class="input-group mb-3">
+			<input type="text" class="form-control" asp-for="@Model.room.imageUrl" aria-describedby="basic-addon2">
+			<span class="input-group-text" id="basic-addon2">Image url</span>
+		</div>
+		<button type="submit">Add room</button>
+	</form>
+</div>
+
+<form method="post" action="/Hotels/Delete">
+	<input type="hidden" asp-for="Id" />
+	<button class="alert alert-danger" type="submit" id="toggleButton">Delete Hotel</button>
+	</form>
+
+<script>
+	document.addEventListener("click", function (e) {
+		let m = document.getElementById('myContent');
+		if (e.target.id == 'toggleButton') {
+			m.style.display = (m.style.display != 'none') ? 'none' : 'block';
+		}
+	});
+</script>
+

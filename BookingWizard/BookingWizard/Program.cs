@@ -1,11 +1,22 @@
+using BookingWizard.Core.Entities;
+using BookingWizard.Core.Interfaces;
+using BookingWizard.Infrastrucure.Data;
+using BookingWizard.Infrastrucure.Repositories;
 using BookingWizard.Models;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using BookingWizard;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("HotelsDbConnection")));
+builder.Services.AddScoped<IEntityRepository<Hotel>,HotelRepository>();
+builder.Services.AddScoped<IEntityRepository<hotelRoom>,hotelRoomsRepository>();
+
+builder.Services.AddAutoMapper(typeof(MapProfile));
+
 
 var app = builder.Build();
 
@@ -26,6 +37,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Hotels}/{action=Hotels}/{id?}");
 
 app.Run();

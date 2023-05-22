@@ -1,0 +1,44 @@
+﻿@model BookingWizard.Models.HotelDTO
+<form method="post">
+	<div class="input-group mb-3">
+		<input type="text" class="form-control"  asp-for="HotelName" aria-describedby="basic-addon2">
+		<span class="input-group-text" id="basic-addon2">Name</span>
+	</div>
+	<div class="input-group mb-3">
+		<input type="text" class="form-control"  asp-for="HotelShortDescription" aria-describedby="basic-addon2">
+		<span class="input-group-text" id="basic-addon2">Short Description</span>
+	</div>
+	<div class="input-group mb-3">
+		<input type="text" class="form-control"  asp-for="HotelLongDescription" aria-describedby="basic-addon2">
+		<span class="input-group-text" id="basic-addon2">Long Description</span>
+	</div>
+	<div class="input-group mb-3">
+		<input type="text" class="form-control" asp-for="@Model.imageUrl" aria-describedby="basic-addon2">
+		<span class="input-group-text" id="basic-addon2">Image url</span>
+	</div>
+	<div class="input-group mb-3">
+		<input type="text" class="form-control"  asp-for="@Model.address.Country" aria-describedby="basic-addon2">
+		<span class="input-group-text" id="basic-addon2">Country</span>
+	</div>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" asp-for="@Model.address.City" aria-describedby="basic-addon2">
+        <span class="input-group-text" id="basic-addon2">City</span>
+    </div>
+	<div class="input-group mb-3">
+		<input type="text" class="form-control" asp-for="@Model.address.Region" aria-describedby="basic-addon2">
+		<span class="input-group-text" id="basic-addon2">Region</span>
+	</div>
+	<div class="input-group mb-3">
+		<input type="text" class="form-control" asp-for="@Model.address.street" aria-describedby="basic-addon2">
+		<span class="input-group-text" id="basic-addon2">Street</span>
+	</div>
+	<div class="input-group mb-3">
+		<input type="text" class="form-control" asp-for="@Model.address.PostalCode" aria-describedby="basic-addon2">
+		<span class="input-group-text" id="basic-addon2">PostalCode</span>
+	</div>
+
+
+
+	<button type="submit">Add</button>
+
+</form>
