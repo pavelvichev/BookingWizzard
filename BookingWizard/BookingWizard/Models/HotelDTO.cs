@@ -11,7 +11,7 @@ namespace BookingWizard.Models
         public string HotelShortDescription { get; set; } // короткое описание отеля(на карточке)
         [Required(ErrorMessage = "Field can`t be null")]
         public string HotelLongDescription { get; set; } // общее описание (при нажатии)
-       
+        
         public ushort HotelMark { get; set; } // оценка
         public bool isFavourite { get; set; } // добавить в избраное
 

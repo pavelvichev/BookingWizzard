@@ -1,0 +1,25 @@
+﻿@model BookingWizard.Models.hotelRoomDTO
+
+
+<form method="post" action="/Rooms/Edit">
+	<input type="hidden" asp-for="Id" />
+	<input type="hidden" asp-for="HotelId" />
+	<div class="input-group mb-3">
+		<input type="text" class="form-control" placeholder="@Model.Name" asp-for="Name" aria-describedby="basic-addon2">
+		<span class="input-group-text" id="basic-addon2">Name</span>
+	</div>
+	<div class="input-group mb-3">
+		<input type="text" class="form-control" placeholder="@Model.Description" asp-for="Description" aria-describedby="basic-addon2">
+		<span class="input-group-text" id="basic-addon2"> Description</span>
+	</div>
+	<div class="input-group mb-3">
+		<input type="text" class="form-control" placeholder="@Model.roomPricePerNight" asp-for="roomPricePerNight" aria-describedby="basic-addon2">
+		<span class="input-group-text" id="basic-addon2"> Price per Night</span>
+	</div>
+	<div class="input-group mb-3">
+		<input type="text" class="form-control" placeholder="@Model.imageUrl" asp-for="imageUrl" aria-describedby="basic-addon2">
+		<span class="input-group-text" id="basic-addon2">Image</span>
+	</div>
+
+	<button type="submit">Edit</button>
+</form>

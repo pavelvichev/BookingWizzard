@@ -10,114 +10,113 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace BookingWizard.Controllers
 {
-    public class HotelsController : Controller
-    {
-        
-        AppDbContext _context;
-        IEntityRepository<Hotel> _hotelRepository;
-        IMapper _map;
+	public class HotelsController : Controller
+	{
 
-        public HotelsController(AppDbContext context, IEntityRepository<Hotel> hotelRepository,IMapper map)
-        {
-            _context= context;
-            _hotelRepository= hotelRepository;
-            _map= map;
-        }
+
+		IHotelRepository<Hotel> _hotelRepository;
+		IHotelRoomRepository<hotelRoom> _hotelRoomRepository;
+		IMapper _map;
+
+		public HotelsController(IHotelRepository<Hotel> hotelRepository, IMapper map, IHotelRoomRepository<hotelRoom> hotelRoomRepository)
+		{
+
+			_hotelRepository = hotelRepository;
+			_hotelRoomRepository = hotelRoomRepository;
+			_map = map;
+		}
 		public IActionResult Hotels()
-        {
-		
+		{
+
 			IEnumerable<Hotel> hotelList = _hotelRepository.GetAll();
-			IEnumerable<HotelDTO> hotelDTOList = _map.Map<IEnumerable<Hotel>,IEnumerable<HotelDTO>>(hotelList);
+			IEnumerable<HotelDTO> hotelDTOList = _map.Map<IEnumerable<Hotel>, IEnumerable<HotelDTO>>(hotelList);
 			return View(hotelDTOList);
-        }
+		}
 
 
-        public IActionResult Add()
-        {
-            return View();
-        }
+		public IActionResult Add()
+		{
+			return View();
+		}
 
-        [HttpPost]
-        public IActionResult Add(HotelDTO hotelDTO)
-        {
+		[HttpPost]
+		public IActionResult Add(HotelDTO hotelDTO)
+		{
 
-            if (ModelState.IsValid)
-            {
-				
-                var hotel = _map.Map<HotelDTO,Hotel>(hotelDTO);
+			if (ModelState.IsValid)
+			{
+
+				var hotel = _map.Map<HotelDTO, Hotel>(hotelDTO);
 				_hotelRepository.Add(hotel);
-                
-            }
-            return   RedirectToAction("Hotels");
-        }
-  //      [HttpGet]
-  //      public IActionResult Edit(int id)
-  //      {
-  //          HotelDTO hotel = _context.hotels.FirstOrDefault(x => x.Id == id);
-  //          hotel.address = _context.Address.FirstOrDefault(x => hotel.addressId == x.Id);
-           
-  //          return View(hotel);
-  //      }
 
-  //      [HttpPost]
-  //      public IActionResult Edit(HotelDTO hotel)
-  //      {
+			}
+			return RedirectToAction("Hotels");
+		}
+		[HttpGet]
+		public IActionResult Edit(int id)
+		{
+			var hotel = _hotelRepository.Get(id);
 
-  //          if (ModelState.IsValid)
-  //          {
-                
-  //              _context.Update(hotel);
-  //              _context.SaveChanges();
-  //          }
-  //          return RedirectToAction("Hotels");
-  //      }
+			var hotelMod = _map.Map<Hotel, HotelDTO>(hotel);
+			return View(hotelMod);
+		}
 
-  //      public IActionResult Hotel(int id)
-  //      {
-        
-  //          if (ModelState.IsValid)
-  //          {
-               
-  //              HotelDTO hotel = _context.hotels.FirstOrDefault(x => x.Id == id);
-  //              hotel.address = _context.Address.FirstOrDefault(x => hotel.addressId == x.Id);
-  //              hotel.room = new hotelRoomDTO();
-  //              hotel.room.Hotel = hotel;
-  //              hotel.roomList = _context.hotelRooms.Where(x => x.HotelId == hotel.Id).ToList();
+		[HttpPost]
+		public IActionResult Edit(HotelDTO hotelDTO)
+		{
+
+			if (ModelState.IsValid)
+			{
+				var hotel = _map.Map<Hotel>(hotelDTO);
+				_hotelRepository.Update(hotel);
+
+			}
+			return RedirectToAction("Hotels");
+		}
+
+		public IActionResult Hotel(int id)
+		{
+
+			if (ModelState.IsValid)
+			{
+
+				Hotel hotel = _hotelRepository.Get(id);
+
+				hotel.room = new hotelRoom();
+				hotel.room.Hotel = hotel;
+
+				hotel.roomList = _hotelRoomRepository.GetAll(id);
+
+				var hotelDTO = _map.Map<HotelDTO>(hotel);
+				return View(hotelDTO);
+			}
+			return View();
+		}
+		[HttpPost]
+		public IActionResult AddRoom(HotelDTO hotelDTO)
+		{
+
+			Hotel hotel = _hotelRepository.Get(hotelDTO.Id);
+			hotel.room = _map.Map<hotelRoom>(hotelDTO.room);
+
+
+			if (ModelState.IsValid)
+			{
+
+				_hotelRoomRepository.Add(hotel.room, hotelDTO.Id);
 				
+			}
 
-		//		return View(hotel);
-  //          }
-  //        return View();
-		//}
-  //      [HttpPost]
-  //      public IActionResult AddRoom(HotelDTO hotelCurr)
-  //      {
-  //          HotelDTO hotel = _context.hotels.FirstOrDefault(x => x.Id == hotelCurr.Id);
-         
-  //          hotelCurr.room.Hotel = hotel;
-  //          hotelCurr.room.HotelId = hotel.Id;
-  //          hotel.room = hotelCurr.room;
-           
-           
-            
-  //          if (ModelState.IsValid)
-  //          {
+		return RedirectToAction("Hotel", new { id = hotel.Id });
+		}
 
-  //              _context.hotelRooms.Add(hotel.room);
-  //              _context.SaveChanges();
-				
-		//	}
+		[HttpPost]
+		public IActionResult Delete(int id)
+		{
+			Hotel hotel = _hotelRepository.Get(id);
+			_hotelRepository.Delete(hotel);
 			
-		//	return RedirectToAction("Hotel", new { id = hotel.Id });
-  //      }
-
-  //      [HttpPost]
-  //      public IActionResult Delete(int id)
-  //      {
-  //          HotelDTO hotel = _context.hotels.FirstOrDefault(x => x.Id == id);
-  //          _context.Remove(hotel);
-  //          _context.SaveChanges();
-		//	return RedirectToAction("Hotels");
-		//}
-    }
+			return RedirectToAction("Hotels");
+		}
+	}
 }

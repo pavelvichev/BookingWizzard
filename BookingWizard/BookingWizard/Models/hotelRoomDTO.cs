@@ -1,4 +1,6 @@
-﻿namespace BookingWizard.Models
+﻿using BookingWizard.Core.Entities;
+
+namespace BookingWizard.Models
 {
     public class hotelRoomDTO
     {
@@ -7,7 +9,7 @@
 
         public string Description { get; set; } // описание номера
 
-      
+        public int HotelId { get; set;}
         public ushort roomPricePerNight { get; set; } // цена за ночь
         public BookingDTO? booking { get; set; } // информация про бронь
         public int? bookingId { get; set; } // номер бронирования

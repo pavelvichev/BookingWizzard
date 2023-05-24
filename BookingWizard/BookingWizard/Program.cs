@@ -12,8 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("HotelsDbConnection")));
-builder.Services.AddScoped<IEntityRepository<Hotel>,HotelRepository>();
-builder.Services.AddScoped<IEntityRepository<hotelRoom>,hotelRoomsRepository>();
+builder.Services.AddScoped<IHotelRepository<Hotel>,HotelRepository>();
+builder.Services.AddScoped<IHotelRoomRepository<hotelRoom>,hotelRoomsRepository>();
 
 builder.Services.AddAutoMapper(typeof(MapProfile));
 
@@ -38,5 +38,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Hotels}/{action=Hotels}/{id?}");
+
+
 
 app.Run();

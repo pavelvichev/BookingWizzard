@@ -29,7 +29,7 @@ namespace BookingWizard.Core.Entities
 
 		public hotelRoom? room { get; set; }
 
-		public List<hotelRoom>? roomList { get; set; }
+		public IEnumerable<hotelRoom>? roomList { get; set; }
 
 
 

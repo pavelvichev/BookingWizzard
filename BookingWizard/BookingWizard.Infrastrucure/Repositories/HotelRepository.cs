@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BookingWizard.Infrastrucure.Repositories
 {
-	public class HotelRepository : IEntityRepository<Hotel>
+	public class HotelRepository : IHotelRepository<Hotel>
 	{
 		readonly AppDbContext _context;
 		public HotelRepository(AppDbContext context)
@@ -33,9 +33,11 @@ namespace BookingWizard.Infrastrucure.Repositories
 		public Hotel Get(int id)
 		{
 			Hotel hotel = _context.hotels.FirstOrDefault(h => h.Id == id);
+			hotel.address = _context.Address.FirstOrDefault(x => hotel.addressId == x.Id);
 			
 			return hotel;
 		}
+		
 
 		public IEnumerable<Hotel> GetAll()
 		{

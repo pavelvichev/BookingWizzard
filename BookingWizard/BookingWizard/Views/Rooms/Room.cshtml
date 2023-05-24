@@ -1,0 +1,11 @@
+﻿@model BookingWizard.Models.hotelRoomDTO
+
+
+<h1>Room Name: @Model.Name</h1>
+<p>Description: @Model.Description</p>
+<p>Price: @Model.roomPricePerNight.ToString("c")</p>
+
+<form method="post" action="/Rooms/Delete">
+	<input type="hidden" asp-for="Id" />
+	<button class="alert alert-danger" type="submit" id="toggleButton">Delete</button>
+</form>

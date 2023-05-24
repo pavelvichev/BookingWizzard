@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BookingWizard.Infrastrucure.Repositories
 {
-	public class hotelRoomsRepository : IEntityRepository<hotelRoom>
+	public class hotelRoomsRepository : IHotelRoomRepository<hotelRoom>
 	{
 
 		readonly AppDbContext _context;
@@ -18,8 +18,9 @@ namespace BookingWizard.Infrastrucure.Repositories
 		{
 			_context = context;
 		}
-		public hotelRoom Add(hotelRoom item)
+		public hotelRoom Add(hotelRoom item, int hotelId)
 		{
+			item.HotelId = hotelId;
 			_context.hotelRooms.Add(item);
 			_context.SaveChanges();
 			return item;
@@ -31,23 +32,28 @@ namespace BookingWizard.Infrastrucure.Repositories
 			_context.SaveChanges();
 			return item;
 		}
-
+		
 		public hotelRoom Get(int id)
 		{
-			hotelRoom hotel = _context.hotelRooms.FirstOrDefault(h => h.Id == id);
-
-			return hotel;
+			
+				hotelRoom room = _context.hotelRooms.FirstOrDefault(r => r.Id == id);
+				room.HotelId = _context.hotelRooms.FirstOrDefault(x => x.Id == id).HotelId;
+				
+				return room;
+			
 		}
 
-		public IEnumerable<hotelRoom> GetAll()
+		public IEnumerable<hotelRoom> GetAll(int hotelId)
 		{
-			var all = (from h in _context.hotelRooms select h).ToList();
+
+			var all = (from h in _context.hotelRooms where h.HotelId == hotelId select h).ToList();
 			return all;
 
 		}
 
 		public hotelRoom Update(hotelRoom item)
 		{
+			
 			_context.Update(item);
 			_context.SaveChanges();
 			return item;
