@@ -10,10 +10,11 @@ namespace BookingWizard.Core.Entities
 		{
 			public int Id { get; set; }
 
-			public hotelRoom room { get; set; }
+			public hotelRoom Room { get; set; }
+			public int RoomId { get; set; }
 
-			public DateTime arrival_date { get; set; }
-			public DateTime date_of_departure { get; set; }
+			public DateTime ArrivalDate { get; set; }
+			public DateTime DateOfDeparture { get; set; }
 		}
 	
 }

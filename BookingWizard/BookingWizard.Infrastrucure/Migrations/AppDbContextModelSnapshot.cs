@@ -136,7 +136,7 @@ namespace BookingWizard.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("bookingId")
+                    b.Property<int?>("BookingId")
                         .HasColumnType("int");
 
                     b.Property<string>("imageUrl")
@@ -157,9 +157,9 @@ namespace BookingWizard.Migrations
                         .IsUnique()
                         .HasFilter("[HotelId1] IS NOT NULL");
 
-                    b.HasIndex("bookingId")
+                    b.HasIndex("BookingId")
                         .IsUnique()
-                        .HasFilter("[bookingId] IS NOT NULL");
+                        .HasFilter("[BookingId] IS NOT NULL");
 
                     b.ToTable("hotelRooms");
                 });
@@ -184,27 +184,27 @@ namespace BookingWizard.Migrations
                         .IsRequired();
 
                     b.HasOne("BookingWizard.Models.Hotel", null)
-                        .WithOne("room")
+                        .WithOne("Room")
                         .HasForeignKey("BookingWizard.Models.hotelRoom", "HotelId1");
 
-                    b.HasOne("BookingWizard.Models.Booking", "booking")
-                        .WithOne("room")
-                        .HasForeignKey("BookingWizard.Models.hotelRoom", "bookingId");
+                    b.HasOne("BookingWizard.Models.Booking", "Booking")
+                        .WithOne("Room")
+                        .HasForeignKey("BookingWizard.Models.hotelRoom", "BookingId");
 
                     b.Navigation("Hotel");
 
-                    b.Navigation("booking");
+                    b.Navigation("Booking");
                 });
 
             modelBuilder.Entity("BookingWizard.Models.Booking", b =>
                 {
-                    b.Navigation("room")
+                    b.Navigation("Room")
                         .IsRequired();
                 });
 
             modelBuilder.Entity("BookingWizard.Models.Hotel", b =>
                 {
-                    b.Navigation("room");
+                    b.Navigation("Room");
 
                     b.Navigation("roomList");
                 });

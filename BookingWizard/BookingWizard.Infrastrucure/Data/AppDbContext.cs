@@ -22,10 +22,12 @@ namespace BookingWizard.Infrastrucure.Data
 				.WithOne(r => r.Hotel)
 				.HasForeignKey(r => r.HotelId);
 
-			// Other configurations
-
+		
+		
 			base.OnModelCreating(modelBuilder);
 		}
+
+
 	}
 
 }

@@ -106,9 +106,9 @@ namespace BookingWizard.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_hotelRooms_bookingId",
                 table: "hotelRooms",
-                column: "bookingId",
+                column: "BookingId",
                 unique: true,
-                filter: "[bookingId] IS NOT NULL");
+                filter: "[BookingId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_hotelRooms_HotelId",

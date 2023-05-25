@@ -11,7 +11,7 @@ namespace BookingWizard.Models
 
         public int HotelId { get; set;}
         public ushort roomPricePerNight { get; set; } // цена за ночь
-        public BookingDTO? booking { get; set; } // информация про бронь
+       
         public int? bookingId { get; set; } // номер бронирования
         public string imageUrl { get; set; } // фото
 
