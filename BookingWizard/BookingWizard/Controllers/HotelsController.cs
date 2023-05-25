@@ -69,16 +69,16 @@ namespace BookingWizard.Controllers
 			{
 				var hotel = _map.Map<Hotel>(hotelDTO);
 				_hotelRepository.Update(hotel);
-
+				return RedirectToAction("Hotels");
 			}
-			return RedirectToAction("Hotels");
+			return View();
+			
 		}
 
 		public IActionResult Hotel(int id)
 		{
 
-			if (ModelState.IsValid)
-			{
+			
 
 				Hotel hotel = _hotelRepository.Get(id);
 
@@ -89,8 +89,8 @@ namespace BookingWizard.Controllers
 
 				var hotelDTO = _map.Map<HotelDTO>(hotel);
 				return View(hotelDTO);
-			}
-			return View();
+			
+			
 		}
 		[HttpPost]
 		public IActionResult AddRoom(HotelDTO hotelDTO)
@@ -104,10 +104,11 @@ namespace BookingWizard.Controllers
 			{
 
 				_hotelRoomRepository.Add(hotel.room, hotelDTO.Id);
-				
+				return RedirectToAction("Hotel", new { id = hotel.Id });
 			}
 
-		return RedirectToAction("Hotel", new { id = hotel.Id });
+			return View();
+		
 		}
 
 		[HttpPost]

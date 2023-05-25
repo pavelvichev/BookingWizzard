@@ -37,7 +37,7 @@ namespace BookingWizard.Infrastrucure.Repositories
 		{
 			
 				hotelRoom room = _context.hotelRooms.FirstOrDefault(r => r.Id == id);
-				room.HotelId = _context.hotelRooms.FirstOrDefault(x => x.Id == id).HotelId;
+				
 				
 				return room;
 			

@@ -43,13 +43,11 @@ namespace BookingWizard.Controllers
 			if (ModelState.IsValid)
 			{
 				var room = _map.Map<hotelRoom>(roomDTO);
-				
-
-
 				_hotelRoomRepository.Update(room);
-
+				return RedirectToAction("Hotel", "Hotels", new { id = room.HotelId });
 			}
-			return RedirectToAction("Hotel", "Hotels", new { id = (int)TempData["hotelId"] });
+			return View();
+			
 		}
 
 
@@ -59,7 +57,7 @@ namespace BookingWizard.Controllers
 			hotelRoom room = _hotelRoomRepository.Get(id);
 			_hotelRoomRepository.Delete(room);
 
-			return RedirectToAction("Room");
+			return RedirectToAction("Hotel", "Hotels", new { id = room.HotelId });
 		}
 	}
 }
