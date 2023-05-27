@@ -5,7 +5,7 @@ namespace BookingWizard.Infrastrucure.Data
 {
     public class AppDbContext : DbContext
     {
-		private readonly string _connectionString;
+		
 		public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 		
 
@@ -17,13 +17,8 @@ namespace BookingWizard.Infrastrucure.Data
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			modelBuilder.Entity<Hotel>()
-				.HasMany(h => h.roomList)
-				.WithOne(r => r.Hotel)
-				.HasForeignKey(r => r.HotelId);
+			modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
 
-		
-		
 			base.OnModelCreating(modelBuilder);
 		}
 

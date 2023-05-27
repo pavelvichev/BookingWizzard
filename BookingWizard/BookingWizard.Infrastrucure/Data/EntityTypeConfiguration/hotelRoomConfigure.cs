@@ -9,17 +9,24 @@ using System.Threading.Tasks;
 
 namespace BookingWizard.Infrastrucure.Data.EntityTypeConfiguration
 {
-	internal class hotelRoomConfigure : IEntityTypeConfiguration<hotelRoom>
-	{
-		public void Configure(EntityTypeBuilder<hotelRoom> builder)
+	
+		internal class hotelRoomConfigure : IEntityTypeConfiguration<hotelRoom>
 		{
+			public void Configure(EntityTypeBuilder<hotelRoom> builder)
+			{
 
-			builder
-				 .HasOne(h => h.Booking)
-				 .WithOne(b => b.Room)
-				 .HasForeignKey<Booking>(h => h.RoomId)
+
+
+				builder
+				 .HasOne(h => h.Hotel)
+				 .WithMany(b => b.roomList)
+				 .HasForeignKey(h => h.HotelId)
 				 .IsRequired(false)
-				.OnDelete(DeleteBehavior.Cascade);
+				 .OnDelete(DeleteBehavior.Cascade);
+
+
+
+			}
 		}
 	}
-}
+

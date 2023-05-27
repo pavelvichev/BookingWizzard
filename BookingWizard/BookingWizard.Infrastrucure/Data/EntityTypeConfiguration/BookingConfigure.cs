@@ -14,12 +14,12 @@ namespace BookingWizard.Infrastrucure.Data.EntityTypeConfiguration
     {
         public  void Configure(EntityTypeBuilder<Booking> builder)
         {
-
-            builder
-                .HasOne(b => b.Room)
-                .WithOne(h => h.Booking);
-                
-                
-        }
+			builder
+			 .HasOne(h => h.Room)
+			 .WithMany(b => b.Bookings)
+			 .HasForeignKey(h => h.RoomId)
+			 .IsRequired()
+			 .OnDelete(DeleteBehavior.Cascade);
+		}
     }
 }
