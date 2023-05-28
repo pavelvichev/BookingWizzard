@@ -38,9 +38,6 @@ namespace BookingWizard.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("HotelId")
-                        .HasColumnType("int");
-
                     b.Property<string>("PostalCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -130,17 +127,11 @@ namespace BookingWizard.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("BookingId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("HotelId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("HotelId1")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -161,10 +152,6 @@ namespace BookingWizard.Migrations
 
                     b.HasIndex("HotelId");
 
-                    b.HasIndex("HotelId1")
-                        .IsUnique()
-                        .HasFilter("[HotelId1] IS NOT NULL");
-
                     b.ToTable("hotelRooms");
                 });
 
@@ -182,7 +169,7 @@ namespace BookingWizard.Migrations
             modelBuilder.Entity("BookingWizard.Core.Entities.Hotel", b =>
                 {
                     b.HasOne("BookingWizard.Core.Entities.Address", "address")
-                        .WithMany("HotelList")
+                        .WithMany()
                         .HasForeignKey("addressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -197,22 +184,11 @@ namespace BookingWizard.Migrations
                         .HasForeignKey("HotelId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("BookingWizard.Core.Entities.Hotel", null)
-                        .WithOne("room")
-                        .HasForeignKey("BookingWizard.Core.Entities.hotelRoom", "HotelId1");
-
                     b.Navigation("Hotel");
-                });
-
-            modelBuilder.Entity("BookingWizard.Core.Entities.Address", b =>
-                {
-                    b.Navigation("HotelList");
                 });
 
             modelBuilder.Entity("BookingWizard.Core.Entities.Hotel", b =>
                 {
-                    b.Navigation("room");
-
                     b.Navigation("roomList");
                 });
 

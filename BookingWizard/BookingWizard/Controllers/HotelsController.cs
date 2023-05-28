@@ -72,43 +72,40 @@ namespace BookingWizard.Controllers
 				return RedirectToAction("Hotels");
 			}
 			return View();
-			
+
 		}
 
 		public IActionResult Hotel(int id)
 		{
 
-			
 
-				Hotel hotel = _hotelRepository.Get(id);
 
-				hotel.room = new hotelRoom();
-				hotel.room.Hotel = hotel;
+			Hotel hotel = _hotelRepository.Get(id);
 
-				hotel.roomList = _hotelRoomRepository.GetAll(id);
+			hotel.roomList = _hotelRoomRepository.GetAll(id);
 
-				var hotelDTO = _map.Map<HotelDTO>(hotel);
-				return View(hotelDTO);
-			
-			
+			var hotelDTO = _map.Map<HotelDTO>(hotel);
+			return View(hotelDTO);
+
+
 		}
 		[HttpPost]
 		public IActionResult AddRoom(HotelDTO hotelDTO)
 		{
 
 			Hotel hotel = _hotelRepository.Get(hotelDTO.Id);
-			hotel.room = _map.Map<hotelRoom>(hotelDTO.room);
+			
 
 
 			if (ModelState.IsValid)
 			{
 
-				_hotelRoomRepository.Add(hotel.room, hotelDTO.Id);
+				_hotelRoomRepository.Add(_map.Map<hotelRoom>(hotelDTO.room), hotelDTO.Id);
 				return RedirectToAction("Hotel", new { id = hotel.Id });
 			}
 
 			return View();
-		
+
 		}
 
 		[HttpPost]
@@ -116,8 +113,9 @@ namespace BookingWizard.Controllers
 		{
 			Hotel hotel = _hotelRepository.Get(id);
 			_hotelRepository.Delete(hotel);
-			
+
 			return RedirectToAction("Hotels");
 		}
 	}
 }
+	

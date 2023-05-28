@@ -27,7 +27,6 @@ namespace BookingWizard.Core.Entities
 		public int addressId { get; set; } // айди адресса в таблице
 		public string imageUrl { get; set; } // фото
 
-		public hotelRoom? room { get; set; }
 
 		public IEnumerable<hotelRoom>? roomList { get; set; }
 

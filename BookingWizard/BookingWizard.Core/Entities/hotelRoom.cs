@@ -19,7 +19,6 @@ namespace BookingWizard.Core.Entities
 
 		public ushort roomPricePerNight { get; set; } // цена за ночь
 		public ICollection<Booking>? Bookings { get; set; } // информация про бронь
-		public int? BookingId { get; set; } // номер бронирования
 		public string imageUrl { get; set; } // фото
 
 

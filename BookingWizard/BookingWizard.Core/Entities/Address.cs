@@ -12,8 +12,6 @@ namespace BookingWizard.Core.Entities
 		public string Country { get; set; }
 		public string City { get; set; }
 		public string Region { get; set; }
-		public int HotelId { get; set; }
-		public ICollection<Hotel> HotelList { get; set; }
 		public string Street { get; set; }
 		public string PostalCode { get; set; }
 
