@@ -1,6 +1,6 @@
 ﻿namespace BookingWizard.Models
 {
-    public class AddressDTO
+    public class AddressVM
     {
         public int Id { get; set; }
         public string Country { get; set; }

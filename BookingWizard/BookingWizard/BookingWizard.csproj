@@ -22,12 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BookingWizard.Core\BookingWizard.Core.csproj" />
-    <ProjectReference Include="..\BookingWizard.Infrastrucure\BookingWizard.Infrastrucure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\Main\" />
+    <ProjectReference Include="..\BookingWizard.BAL\BookingWizard.BLL.csproj" />
+    <ProjectReference Include="..\BookingWizard.Infrastrucure\BookingWizard.DAL.csproj" />
   </ItemGroup>
 
 </Project>

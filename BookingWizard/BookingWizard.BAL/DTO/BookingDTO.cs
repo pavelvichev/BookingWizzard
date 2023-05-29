@@ -1,4 +1,4 @@
-﻿namespace BookingWizard.Models
+﻿namespace BookingWizard.BLL.DTO
 {
     public class BookingDTO
     {

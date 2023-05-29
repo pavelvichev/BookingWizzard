@@ -1,6 +1,6 @@
-﻿using BookingWizard.Core.Entities;
+﻿using BookingWizard.DAL.Entities;
 
-namespace BookingWizard.Models
+namespace BookingWizard.BLL.DTO
 {
     public class hotelRoomDTO
     {

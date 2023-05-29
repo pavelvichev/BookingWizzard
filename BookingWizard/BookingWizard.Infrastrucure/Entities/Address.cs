@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookingWizard.Core.Entities
+namespace BookingWizard.DAL.Entities
 {
 	public class Address
 	{

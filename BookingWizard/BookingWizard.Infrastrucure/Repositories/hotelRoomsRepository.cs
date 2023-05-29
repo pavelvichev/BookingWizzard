@@ -1,5 +1,7 @@
-﻿using BookingWizard.Core.Entities;
-using BookingWizard.Core.Interfaces;
+﻿using BookingWizard.DAL.Interfaces;
+using BookingWizard.DAL.Entities;
+using BookingWizard.DAL.Entities;
+using BookingWizard.DAL.Interfaces;
 using BookingWizard.Infrastrucure.Data;
 using System;
 using System.Collections.Generic;

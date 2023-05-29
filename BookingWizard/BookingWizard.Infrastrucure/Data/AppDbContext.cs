@@ -1,4 +1,4 @@
-﻿using BookingWizard.Core.Entities;
+﻿using BookingWizard.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookingWizard.Infrastrucure.Data

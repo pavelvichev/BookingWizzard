@@ -1,0 +1,24 @@
+﻿<div>
+	<h1>@Model.HotelName</h1>
+	<p>@Model.HotelLongDescription</p>
+</div>
+<div class="row">
+	@if (Model.roomList != null)
+	{
+		@foreach (var room in Model.roomList)
+		{
+			<div class="col-md-4">
+				<div class="card" style="width: 18rem;">
+					<a href="@Url.Action("Room","Main", new {id = room.Id})">
+						<img src="@room.imageUrl" alt="Hotel Image" class="img-fluid">
+					</a>
+					<h2>Room name: @room.Name</h2>
+					<p>Description: @room.Description</p>
+					<p>Room price: @room.roomPricePerNight</p>
+					<p>Is Booking: @room.isBooking</p>
+				</div>
+			</div>
+		}
+	}
+</div>
+</div>

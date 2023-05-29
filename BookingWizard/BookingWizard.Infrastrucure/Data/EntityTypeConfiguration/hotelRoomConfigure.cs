@@ -1,4 +1,4 @@
-﻿using BookingWizard.Core.Entities;
+﻿using BookingWizard.DAL.Entities;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using System;

@@ -1,12 +1,16 @@
 ﻿using AutoMapper;
-using BookingWizard.Core.Entities;
-using BookingWizard.Core.Interfaces;
+using BookingWizard.BLL.Interfaces;
+using BookingWizard.DAL.Entities;
+using BookingWizard.DAL.Interfaces;
+using BookingWizard.DAL.Entities;
+using BookingWizard.DAL.Interfaces;
 using BookingWizard.Infrastrucure.Data;
 using BookingWizard.Infrastrucure.Repositories;
 using BookingWizard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using BookingWizard.BLL.DTO;
 
 namespace BookingWizard.Controllers
 {
@@ -14,23 +18,23 @@ namespace BookingWizard.Controllers
 	{
 
 
-		IHotelRepository<Hotel> _hotelRepository;
-		IHotelRoomRepository<hotelRoom> _hotelRoomRepository;
+		IHotelService _hotelService;
+		IHotelRoomService _hotelRoomService;
 		IMapper _map;
 
-		public HotelsController(IHotelRepository<Hotel> hotelRepository, IMapper map, IHotelRoomRepository<hotelRoom> hotelRoomRepository)
+		public HotelsController(IHotelService hotelService, IMapper map, IHotelRoomService hotelRoomService)
 		{
 
-			_hotelRepository = hotelRepository;
-			_hotelRoomRepository = hotelRoomRepository;
+			_hotelService = hotelService;
+			_hotelRoomService = hotelRoomService;
 			_map = map;
 		}
 		public IActionResult Hotels()
 		{
 
-			IEnumerable<Hotel> hotelList = _hotelRepository.GetAll();
-			IEnumerable<HotelDTO> hotelDTOList = _map.Map<IEnumerable<Hotel>, IEnumerable<HotelDTO>>(hotelList);
-			return View(hotelDTOList);
+
+			IEnumerable<HotelVM> hotelVMList = _map.Map<IEnumerable<HotelVM>>(_hotelService.GetAll());
+			return View(hotelVMList);
 		}
 
 
@@ -40,14 +44,14 @@ namespace BookingWizard.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Add(HotelDTO hotelDTO)
+		public IActionResult Add(HotelVM hotelVM)
 		{
 
 			if (ModelState.IsValid)
 			{
 
-				var hotel = _map.Map<HotelDTO, Hotel>(hotelDTO);
-				_hotelRepository.Add(hotel);
+				var hotel = _map.Map<HotelDTO>(hotelVM);
+				_hotelService.Add(hotel);
 
 			}
 			return RedirectToAction("Hotels");
@@ -55,20 +59,20 @@ namespace BookingWizard.Controllers
 		[HttpGet]
 		public IActionResult Edit(int id)
 		{
-			var hotel = _hotelRepository.Get(id);
+			var hotel = _hotelService.Get(id);
 
-			var hotelMod = _map.Map<Hotel, HotelDTO>(hotel);
+			var hotelMod = _map.Map<HotelVM>(hotel);
 			return View(hotelMod);
 		}
 
 		[HttpPost]
-		public IActionResult Edit(HotelDTO hotelDTO)
+		public IActionResult Edit(HotelVM hotelVM)
 		{
 
 			if (ModelState.IsValid)
 			{
-				var hotel = _map.Map<Hotel>(hotelDTO);
-				_hotelRepository.Update(hotel);
+				var hotel = _map.Map<HotelDTO>(hotelVM);
+				_hotelService.Update(hotel);
 				return RedirectToAction("Hotels");
 			}
 			return View();
@@ -78,29 +82,27 @@ namespace BookingWizard.Controllers
 		public IActionResult Hotel(int id)
 		{
 
+			var hotel = _hotelService.Get(id);
 
+			hotel.roomList = _map.Map<IEnumerable<hotelRoomDTO>>(_hotelRoomService.GetAll(id));
 
-			Hotel hotel = _hotelRepository.Get(id);
-
-			hotel.roomList = _hotelRoomRepository.GetAll(id);
-
-			var hotelDTO = _map.Map<HotelDTO>(hotel);
+			var hotelDTO = _map.Map<HotelVM>(hotel);
 			return View(hotelDTO);
 
 
 		}
 		[HttpPost]
-		public IActionResult AddRoom(HotelDTO hotelDTO)
+		public IActionResult AddRoom(HotelVM hotelVM)
 		{
 
-			Hotel hotel = _hotelRepository.Get(hotelDTO.Id);
+			var hotel = _hotelService.Get(hotelVM.Id);
 			
 
 
 			if (ModelState.IsValid)
 			{
 
-				_hotelRoomRepository.Add(_map.Map<hotelRoom>(hotelDTO.room), hotelDTO.Id);
+				_hotelRoomService.Add(_map.Map<hotelRoomDTO>(hotelVM.room), hotelVM.Id);
 				return RedirectToAction("Hotel", new { id = hotel.Id });
 			}
 
@@ -111,8 +113,8 @@ namespace BookingWizard.Controllers
 		[HttpPost]
 		public IActionResult Delete(int id)
 		{
-			Hotel hotel = _hotelRepository.Get(id);
-			_hotelRepository.Delete(hotel);
+			var hotel = _hotelService.Get(id);
+			_hotelService.Delete(hotel);
 
 			return RedirectToAction("Hotels");
 		}

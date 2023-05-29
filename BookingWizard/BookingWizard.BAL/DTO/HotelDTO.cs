@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BookingWizard.Models
+namespace BookingWizard.BLL.DTO
 {
     public class HotelDTO
     {
@@ -24,7 +24,7 @@ namespace BookingWizard.Models
 
         public hotelRoomDTO? room { get; set; }
 
-        public List<hotelRoomDTO>? roomList { get; set; }
+        public IEnumerable<hotelRoomDTO>? roomList { get; set; }
    
         //вавываываыв.аэ
        

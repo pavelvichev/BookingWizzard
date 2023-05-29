@@ -1,5 +1,24 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model List<BookingWizard.Models.HotelVM>
+
+
+<div class="row">
+    @foreach (var hotel in Model)
+    {
+        <div class="col-md-4">
+            <div class="card" style="width: 18rem;">
+
+                <a href="@Url.Action("Hotel","Main", new {id = hotel.Id})">
+                    <img src="@hotel.imageUrl" alt="Hotel Image" class="img-fluid">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">@hotel.HotelName</h5>
+                    <p class="card-text">@hotel.HotelShortDescription</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    }
+
+</div>

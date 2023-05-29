@@ -1,13 +1,14 @@
-﻿using BookingWizard.Core.Entities;
-using BookingWizard.Core.Interfaces;
+﻿using BookingWizard.DAL.Entities;
+using BookingWizard.DAL.Interfaces;
 using BookingWizard.Infrastrucure.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BookingWizard.DAL.Interfaces;
 
-namespace BookingWizard.Infrastrucure.Repositories
+namespace BookingWizard.DAL.Repositories
 {
 	public class HotelRepository : IHotelRepository<Hotel>
 	{

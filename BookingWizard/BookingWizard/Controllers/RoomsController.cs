@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
-using BookingWizard.Core.Entities;
-using BookingWizard.Core.Interfaces;
+using BookingWizard.BLL.DTO;
+using BookingWizard.BLL.Interfaces;
+using BookingWizard.DAL.Entities;
+using BookingWizard.DAL.Interfaces;
 using BookingWizard.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,21 +11,21 @@ namespace BookingWizard.Controllers
 	public class RoomsController : Controller
 	{
 
-		IHotelRepository<Hotel> _hotelRepository;
-		IHotelRoomRepository<hotelRoom> _hotelRoomRepository;
+		IHotelService _hotelService;
+		IHotelRoomService _hotelRoomService;
 		IMapper _map;
 
-		public RoomsController(IHotelRepository<Hotel> hotelRepository, IMapper map, IHotelRoomRepository<hotelRoom> hotelRoomRepository)
+		public RoomsController(IHotelService hotelService, IMapper map, IHotelRoomService hotelRoomService)
 		{
 
-			_hotelRepository = hotelRepository;
-			_hotelRoomRepository = hotelRoomRepository;
+			_hotelService = hotelService;
+			_hotelRoomService = hotelRoomService;
 			_map = map;
 		}
 		public IActionResult Room(int id)
 		{
 
-			var hotelRoom = _map.Map<hotelRoom, hotelRoomDTO>(_hotelRoomRepository.Get(id));
+			var hotelRoom = _map.Map<hotelRoomDTO>(_hotelRoomService.Get(id));
 			return View(hotelRoom);
 		}
 
@@ -31,19 +33,19 @@ namespace BookingWizard.Controllers
 		public IActionResult Edit(int id)
 		{
 			
-			var room = _hotelRoomRepository.Get(id);
-			var roomMod = _map.Map<hotelRoom, hotelRoomDTO>(room);
+			var room = _hotelRoomService.Get(id);
+			var roomMod = _map.Map<hotelRoomVM>(room);
 			return View(roomMod);
 		}
 
 		[HttpPost]
-		public IActionResult Edit(hotelRoomDTO roomDTO)
+		public IActionResult Edit(hotelRoomVM roomVM)
 		{
 
 			if (ModelState.IsValid)
 			{
-				var room = _map.Map<hotelRoom>(roomDTO);
-				_hotelRoomRepository.Update(room);
+				var room = _map.Map<hotelRoomDTO>(roomVM);
+				_hotelRoomService.Update(room);
 				return RedirectToAction("Hotel", "Hotels", new { id = room.HotelId });
 			}
 			return View();
@@ -54,8 +56,8 @@ namespace BookingWizard.Controllers
 		[HttpPost]
 		public IActionResult Delete(int id)
 		{
-			hotelRoom room = _hotelRoomRepository.Get(id);
-			_hotelRoomRepository.Delete(room);
+			var room = _map.Map<hotelRoomDTO>(_hotelRoomService.Get(id));
+			_hotelRoomService.Delete(room);
 
 			return RedirectToAction("Hotel", "Hotels", new { id = room.HotelId });
 		}

@@ -1,5 +1,5 @@
-using BookingWizard.Core.Entities;
-using BookingWizard.Core.Interfaces;
+using BookingWizard.DAL.Entities;
+using BookingWizard.DAL.Interfaces;
 using BookingWizard.Infrastrucure.Data;
 using BookingWizard.Infrastrucure.Repositories;
 using BookingWizard.Models;
@@ -7,6 +7,11 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using BookingWizard;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using BookingWizard.DAL.Interfaces;
+using BookingWizard.DAL.Entities;
+using BookingWizard.DAL.Repositories;
+using BookingWizard.BLL.Interfaces;
+using BookingWizard.BLL.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +20,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("HotelsDbConnection"), b => b.MigrationsAssembly("BookingWizard")));
 builder.Services.AddScoped<IHotelRepository<Hotel>,HotelRepository>();
 builder.Services.AddScoped<IHotelRoomRepository<hotelRoom>,hotelRoomsRepository>();
+builder.Services.AddScoped<IUnitOfWork,UnifOfWork>();
+builder.Services.AddScoped<IHotelService,HotelService>();
+builder.Services.AddScoped<IHotelRoomService,HotelRoomService>();
 
 builder.Services.AddAutoMapper(typeof(MapProfile));
 

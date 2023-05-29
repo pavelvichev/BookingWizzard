@@ -19,8 +19,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\BookingWizard.Core\BookingWizard.Core.csproj" />
-  </ItemGroup>
-
 </Project>
