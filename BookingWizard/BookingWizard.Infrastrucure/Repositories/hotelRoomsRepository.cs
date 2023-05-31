@@ -2,14 +2,14 @@
 using BookingWizard.DAL.Entities;
 using BookingWizard.DAL.Entities;
 using BookingWizard.DAL.Interfaces;
-using BookingWizard.Infrastrucure.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BookingWizard.DAL.Data;
 
-namespace BookingWizard.Infrastrucure.Repositories
+namespace BookingWizard.DAL.Repositories
 {
 	public class hotelRoomsRepository : IHotelRoomRepository<hotelRoom>
 	{
@@ -34,15 +34,15 @@ namespace BookingWizard.Infrastrucure.Repositories
 			_context.SaveChanges();
 			return item;
 		}
-		
+
 		public hotelRoom Get(int id)
 		{
-			
-				hotelRoom room = _context.hotelRooms.FirstOrDefault(r => r.Id == id);
-				
-				
-				return room;
-			
+
+			hotelRoom room = _context.hotelRooms.FirstOrDefault(r => r.Id == id);
+
+
+			return room;
+
 		}
 
 		public IEnumerable<hotelRoom> GetAll(int hotelId)
@@ -55,13 +55,13 @@ namespace BookingWizard.Infrastrucure.Repositories
 
 		public hotelRoom Update(hotelRoom item)
 		{
-			
+
 			_context.Update(item);
 			_context.SaveChanges();
 			return item;
 		}
 
-		
+
 	}
 }
 

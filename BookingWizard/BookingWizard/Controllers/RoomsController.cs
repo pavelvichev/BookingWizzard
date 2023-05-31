@@ -3,7 +3,7 @@ using BookingWizard.BLL.DTO;
 using BookingWizard.BLL.Interfaces;
 using BookingWizard.DAL.Entities;
 using BookingWizard.DAL.Interfaces;
-using BookingWizard.Models;
+using BookingWizard.ModelsVM;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingWizard.Controllers

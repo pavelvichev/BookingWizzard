@@ -1,8 +1,5 @@
 using BookingWizard.DAL.Entities;
 using BookingWizard.DAL.Interfaces;
-using BookingWizard.Infrastrucure.Data;
-using BookingWizard.Infrastrucure.Repositories;
-using BookingWizard.Models;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using BookingWizard;
@@ -12,6 +9,7 @@ using BookingWizard.DAL.Entities;
 using BookingWizard.DAL.Repositories;
 using BookingWizard.BLL.Interfaces;
 using BookingWizard.BLL.Services;
+using BookingWizard.DAL.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,7 +44,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Hotels}/{action=Hotels}/{id?}");
+    pattern: "{controller=Hotels}/{action=Hotels}/{id?}/{searchString?}");
 
 
 

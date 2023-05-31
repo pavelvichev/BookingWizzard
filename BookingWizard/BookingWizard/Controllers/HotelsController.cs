@@ -4,13 +4,11 @@ using BookingWizard.DAL.Entities;
 using BookingWizard.DAL.Interfaces;
 using BookingWizard.DAL.Entities;
 using BookingWizard.DAL.Interfaces;
-using BookingWizard.Infrastrucure.Data;
-using BookingWizard.Infrastrucure.Repositories;
-using BookingWizard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using BookingWizard.BLL.DTO;
+using BookingWizard.ModelsVM;
 
 namespace BookingWizard.Controllers
 {

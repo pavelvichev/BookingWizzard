@@ -1,4 +1,4 @@
-﻿namespace BookingWizard.Models
+﻿namespace BookingWizard.ModelsVM
 {
     public class BookingVM
     {

@@ -41,8 +41,11 @@ namespace BookingWizard.BLL.Services
 		}
 
 
-		public IEnumerable<HotelDTO> GetAll()
+		public IEnumerable<HotelDTO> GetAll(string name = "")
 		{
+			if (name != null)
+				return _map.Map<IEnumerable<HotelDTO>>(_unitOfWork.Hotels.GetAll(name));
+
 			return _map.Map<IEnumerable<HotelDTO>>(_unitOfWork.Hotels.GetAll());
 		}
 

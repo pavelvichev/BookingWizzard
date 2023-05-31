@@ -8,12 +8,12 @@ using BookingWizard.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace BookingWizard.Infrastrucure.Data.EntityTypeConfiguration
+namespace BookingWizard.DAL.Data.EntityTypeConfiguration
 {
-    internal class BookingConfigure : IEntityTypeConfiguration<Booking>
-    {
-        public  void Configure(EntityTypeBuilder<Booking> builder)
-        {
+	internal class BookingConfigure : IEntityTypeConfiguration<Booking>
+	{
+		public void Configure(EntityTypeBuilder<Booking> builder)
+		{
 			builder
 			 .HasOne(h => h.Room)
 			 .WithMany(b => b.Bookings)
@@ -21,5 +21,5 @@ namespace BookingWizard.Infrastrucure.Data.EntityTypeConfiguration
 			 .IsRequired()
 			 .OnDelete(DeleteBehavior.Cascade);
 		}
-    }
+	}
 }

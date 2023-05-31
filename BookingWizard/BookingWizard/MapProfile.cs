@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using BookingWizard.BLL.DTO;
 using BookingWizard.DAL.Entities;
-using BookingWizard.Models;
+using BookingWizard.ModelsVM;
 
 namespace BookingWizard
 {
-	
-		public class MapProfile : Profile
+
+	public class MapProfile : Profile
 		{
 			public MapProfile()
 			{

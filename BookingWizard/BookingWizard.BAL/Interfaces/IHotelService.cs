@@ -14,6 +14,6 @@ namespace BookingWizard.BLL.Interfaces
 		public HotelDTO Delete(HotelDTO item);
 		public HotelDTO Update(HotelDTO item);
 		public HotelDTO Get(int id);
-		IEnumerable<HotelDTO> GetAll();
+		IEnumerable<HotelDTO> GetAll(string name = "");
 	}
 }

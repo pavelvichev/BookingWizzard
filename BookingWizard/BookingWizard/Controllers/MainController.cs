@@ -3,7 +3,7 @@ using BookingWizard.BLL.DTO;
 using BookingWizard.BLL.Interfaces;
 using BookingWizard.DAL.Entities;
 using BookingWizard.DAL.Interfaces;
-using BookingWizard.Models;
+using BookingWizard.ModelsVM;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingWizard.Controllers
@@ -21,11 +21,17 @@ namespace BookingWizard.Controllers
 			_hotelRoomService = hotelRoomService;
 			_map = map;
 		}
-		public IActionResult Main()
+		public IActionResult Main(string? searchString)
 		{
 
+			IEnumerable<HotelVM> hotelVMList;
+			if (!string.IsNullOrEmpty(searchString))
+			{
+				hotelVMList = _map.Map<IEnumerable<HotelVM>>(_hotelService.GetAll(searchString));
+                return View(hotelVMList);
+            }
 
-			IEnumerable<HotelVM> hotelVMList = _map.Map<IEnumerable<HotelVM>>(_hotelService.GetAll());
+			hotelVMList = _map.Map<IEnumerable<HotelVM>>(_hotelService.GetAll());
 			return View(hotelVMList);
 			
 		}
@@ -45,6 +51,13 @@ namespace BookingWizard.Controllers
 
 			var hotelRoom = _map.Map<hotelRoomDTO>(_hotelRoomService.Get(id));
 			return View(hotelRoom);
+		}
+
+		[HttpPost]
+		public IActionResult Search(string searchString) 
+		{
+			var hotels = _map.Map<hotelRoomDTO>(_hotelService.GetAll(searchString));
+			return View(hotels);     
 		}
 
 	}

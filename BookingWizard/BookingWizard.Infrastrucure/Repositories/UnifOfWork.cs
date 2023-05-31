@@ -1,7 +1,6 @@
-﻿using BookingWizard.DAL.Entities;
+﻿using BookingWizard.DAL.Data;
+using BookingWizard.DAL.Entities;
 using BookingWizard.DAL.Interfaces;
-using BookingWizard.Infrastrucure.Data;
-using BookingWizard.Infrastrucure.Repositories;
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
@@ -42,29 +41,6 @@ namespace BookingWizard.DAL.Repositories
 			}
 		}
 
-		public void Save()
-		{
-			_context.SaveChanges();
-		}
-
-		private bool disposed = false;
-
-		public virtual void Dispose(bool disposing)
-		{
-			if (!this.disposed)
-			{
-				if (disposing)
-				{
-					_context.Dispose();
-				}
-				this.disposed = true;
-			}
-		}
-
-		public void Dispose()
-		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
-		}
+		
 	}
 }

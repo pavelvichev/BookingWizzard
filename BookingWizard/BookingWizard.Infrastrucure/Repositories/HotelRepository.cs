@@ -1,12 +1,12 @@
 ﻿using BookingWizard.DAL.Entities;
 using BookingWizard.DAL.Interfaces;
-using BookingWizard.Infrastrucure.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BookingWizard.DAL.Interfaces;
+using BookingWizard.DAL.Data;
 
 namespace BookingWizard.DAL.Repositories
 {
@@ -40,8 +40,13 @@ namespace BookingWizard.DAL.Repositories
 		}
 		
 
-		public IEnumerable<Hotel> GetAll()
+		public IEnumerable<Hotel> GetAll(string name = "")
 		{
+			if(!string.IsNullOrWhiteSpace(name))
+			{
+				var allSearch = _context.hotels.Where(x => x.HotelName.Contains(name));
+			return allSearch;
+			}
 			var all = (from h in _context.hotels select h).ToList();
 			return all;
 
