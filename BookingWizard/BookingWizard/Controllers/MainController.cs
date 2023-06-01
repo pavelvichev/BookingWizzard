@@ -35,30 +35,25 @@ namespace BookingWizard.Controllers
 			return View(hotelVMList);
 			
 		}
-		public IActionResult Hotel(int id)
+		public IActionResult Hotel(int id, string searchstring)
 		{
 
 			var hotel = _hotelService.Get(id);
 
-			hotel.roomList = _map.Map<IEnumerable<hotelRoomDTO>>(_hotelRoomService.GetAll(id));
+			hotel.roomList = _map.Map<IEnumerable<hotelRoomDTO>>(_hotelRoomService.GetAll(id, searchstring));
 
 			var hotelDTO = _map.Map<HotelVM>(hotel);
 			return View(hotelDTO);
 
 		}
-		public IActionResult Room(int id)
+		public IActionResult Room(int id, string searchstring)
 		{
 
-			var hotelRoom = _map.Map<hotelRoomDTO>(_hotelRoomService.Get(id));
+			var hotelRoom = _map.Map<hotelRoomVM>(_hotelRoomService.Get(id));
 			return View(hotelRoom);
 		}
 
-		[HttpPost]
-		public IActionResult Search(string searchString) 
-		{
-			var hotels = _map.Map<hotelRoomDTO>(_hotelService.GetAll(searchString));
-			return View(hotels);     
-		}
+		
 
 	}
 }

@@ -14,6 +14,6 @@ namespace BookingWizard.DAL.Interfaces
 		public T Delete(T item);
 		public T Update(T item);
 		public T Get(int Id);
-		IEnumerable<T> GetAll(int hotelId);
+		IEnumerable<T> GetAll(int hotelId, string searchString = "");
 	}
 }

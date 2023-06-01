@@ -15,10 +15,10 @@
 						<a href="@Url.Action("Room","Rooms", new {id = room.Id})">
 						<img src="@room.imageUrl" alt="Hotel Image" class="img-fluid">
 							</a>
-						<h2>Room name: @room.Name</h2>
+						<h2>Room name: @room.Number</h2>
 						<p>Description: @room.Description</p>
-						<p>Room price: @room.roomPricePerNight</p>
-						<p>Is Booking: @room.isBooking</p>
+						<p>Room price: @room.roomPricePerNight.ToString("c")</p>
+						
 
 						<a href="@Url.Action("Edit","Rooms", new {id = room.Id})">Edit</a>
 					</div>
@@ -46,7 +46,7 @@
 
 
 		<div class="input-group mb-3">
-			<input type="text" class="form-control" asp-for="@Model.room.Name" aria-describedby="basic-addon2">
+			<input type="number" class="form-control" asp-for="@Model.room.Number" aria-describedby="basic-addon2">
 			<span class="input-group-text" id="basic-addon2">Name</span>
 		</div>
 		<div class="input-group mb-3">

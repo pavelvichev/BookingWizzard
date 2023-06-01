@@ -22,8 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BookingWizard.BAL\BookingWizard.BLL.csproj" />
-    <ProjectReference Include="..\BookingWizard.Infrastrucure\BookingWizard.DAL.csproj" />
+    <ProjectReference Include="..\BookingWizard.BLL\BookingWizard.BLL.csproj" />
+    <ProjectReference Include="..\BookingWizard.DAL\BookingWizard.DAL.csproj" />
   </ItemGroup>
 
 </Project>

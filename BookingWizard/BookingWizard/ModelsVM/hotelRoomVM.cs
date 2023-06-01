@@ -7,15 +7,15 @@ namespace BookingWizard.ModelsVM
 	{
 		public int Id { get; set; }
 
-		[RegularExpression("^[\\p{L}]+$", ErrorMessage = "Incorect format")]
-		public string Name { get; set; } // имя номера
+		//[RegularExpression("^[\\p{L}]+$", ErrorMessage = "Incorect format")]
+		public uint Number { get; set; } // имя номера
 
 		public string Description { get; set; } // описание номера
 
-		public int HotelId { get; set; }
+		public uint HotelId { get; set; }
 		public ushort roomPricePerNight { get; set; } // цена за ночь
 
-		public int? bookingId { get; set; } // номер бронирования
+		public uint? bookingId { get; set; } // номер бронирования
 		public string imageUrl { get; set; } // фото
 
 

@@ -1,42 +1,52 @@
 ﻿@model BookingWizard.ModelsVM.HotelVM
 <form method="post">
+	<div>
 	<div class="input-group mb-3">
 		<input type="text" class="form-control"  asp-for="HotelName" aria-describedby="basic-addon2">
 		<span class="input-group-text" id="basic-addon2">Name</span>
 	</div>
+	<span asp-validation-for="HotelName"></span>
 	<div class="input-group mb-3">
 		<input type="text" class="form-control"  asp-for="HotelShortDescription" aria-describedby="basic-addon2">
 		<span class="input-group-text" id="basic-addon2">Short Description</span>
 	</div>
+	<span asp-validation-for="HotelShortDescription"></span>
 	<div class="input-group mb-3">
 		<input type="text" class="form-control"  asp-for="HotelLongDescription" aria-describedby="basic-addon2">
 		<span class="input-group-text" id="basic-addon2">Long Description</span>
 	</div>
+	<span asp-validation-for="HotelLongDescription"></span>
 	<div class="input-group mb-3">
 		<input type="text" class="form-control" asp-for="@Model.imageUrl" aria-describedby="basic-addon2">
 		<span class="input-group-text" id="basic-addon2">Image url</span>
 	</div>
+	<span asp-validation-for="imageUrl"></span>
 	<div class="input-group mb-3">
 		<input type="text" class="form-control"  asp-for="@Model.address.Country" aria-describedby="basic-addon2">
 		<span class="input-group-text" id="basic-addon2">Country</span>
 	</div>
+	<span asp-validation-for="address.Country"></span>
     <div class="input-group mb-3">
         <input type="text" class="form-control" asp-for="@Model.address.City" aria-describedby="basic-addon2">
         <span class="input-group-text" id="basic-addon2">City</span>
     </div>
+	<span asp-validation-for="@Model.address.City"></span>
 	<div class="input-group mb-3">
 		<input type="text" class="form-control" asp-for="@Model.address.Region" aria-describedby="basic-addon2">
 		<span class="input-group-text" id="basic-addon2">Region</span>
 	</div>
+	<span asp-validation-for="@Model.address.Region"></span>
 	<div class="input-group mb-3">
 		<input type="text" class="form-control" asp-for="@Model.address.street" aria-describedby="basic-addon2">
 		<span class="input-group-text" id="basic-addon2">Street</span>
 	</div>
+	<span asp-validation-for="@Model.address.street"></span>
 	<div class="input-group mb-3">
 		<input type="text" class="form-control" asp-for="@Model.address.PostalCode" aria-describedby="basic-addon2">
 		<span class="input-group-text" id="basic-addon2">PostalCode</span>
 	</div>
-
+	<span asp-validation-for="@Model.address.PostalCode"></span>
+	</div>
 
 
 	<button type="submit">Add</button>

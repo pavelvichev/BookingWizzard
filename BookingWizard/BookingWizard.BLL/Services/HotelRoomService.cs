@@ -41,8 +41,12 @@ namespace BookingWizard.BLL.Services
 		}
 
 
-		public IEnumerable<hotelRoomDTO> GetAll(int id)
+		public IEnumerable<hotelRoomDTO> GetAll(int id, string searchString = "")
 		{
+			if(!string.IsNullOrWhiteSpace(searchString)) 
+			{
+                return _map.Map<IEnumerable<hotelRoomDTO>>(_unitOfWork.Rooms.GetAll(id, searchString));
+            }
 			return _map.Map<IEnumerable<hotelRoomDTO>>(_unitOfWork.Rooms.GetAll(id));
 		}
 

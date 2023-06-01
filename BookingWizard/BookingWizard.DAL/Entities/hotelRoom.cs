@@ -10,7 +10,7 @@ namespace BookingWizard.DAL.Entities
 	public class hotelRoom
 	{
 		public int Id { get; set; }
-		public string Name { get; set; } // имя номера
+		public int Number { get; set; } // имя номера
 
 		public string Description { get; set; } // описание номера
 

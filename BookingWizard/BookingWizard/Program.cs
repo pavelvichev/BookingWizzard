@@ -15,7 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("HotelsDbConnection"), b => b.MigrationsAssembly("BookingWizard")));
+builder.Services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("HotelsDbConnection"), b => b.MigrationsAssembly("BookingWizard.DAL")));
 builder.Services.AddScoped<IHotelRepository<Hotel>,HotelRepository>();
 builder.Services.AddScoped<IHotelRoomRepository<hotelRoom>,hotelRoomsRepository>();
 builder.Services.AddScoped<IUnitOfWork,UnifOfWork>();

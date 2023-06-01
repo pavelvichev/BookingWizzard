@@ -25,7 +25,7 @@ namespace BookingWizard.Controllers
 		public IActionResult Room(int id)
 		{
 
-			var hotelRoom = _map.Map<hotelRoomDTO>(_hotelRoomService.Get(id));
+			var hotelRoom = _map.Map<hotelRoomVM>(_hotelRoomService.Get(id));
 			return View(hotelRoom);
 		}
 

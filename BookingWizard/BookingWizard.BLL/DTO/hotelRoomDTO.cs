@@ -5,7 +5,7 @@ namespace BookingWizard.BLL.DTO
     public class hotelRoomDTO
     {
         public int Id { get; set; } 
-        public string Name { get; set; } // имя номера
+        public int Number { get; set; } // имя номера
 
         public string Description { get; set; } // описание номера
 

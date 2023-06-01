@@ -45,9 +45,13 @@ namespace BookingWizard.DAL.Repositories
 
 		}
 
-		public IEnumerable<hotelRoom> GetAll(int hotelId)
+		public IEnumerable<hotelRoom> GetAll(int hotelId, string searchString = "")
 		{
-
+			if (!string.IsNullOrWhiteSpace(searchString))
+			{
+                var allSearch = _context.hotelRooms.Where(x => x.Number.ToString().Contains(searchString));
+                return allSearch;
+            }
 			var all = (from h in _context.hotelRooms where h.HotelId == hotelId select h).ToList();
 			return all;
 

@@ -50,10 +50,11 @@ namespace BookingWizard.Controllers
 
 				var hotel = _map.Map<HotelDTO>(hotelVM);
 				_hotelService.Add(hotel);
+                return RedirectToAction("Hotels");
 
-			}
-			return RedirectToAction("Hotels");
-		}
+            }
+            return View();
+        }
 		[HttpGet]
 		public IActionResult Edit(int id)
 		{

@@ -3,6 +3,12 @@
 	<h1>@Model.HotelName</h1>
 	<p>@Model.HotelLongDescription</p>
 </div>
+<form method="post">
+	<div class="input-group mb-3">
+		<input type="text" class="form-control" name="searchString" aria-label="Recipient's username" aria-describedby="button-addon2">
+		<button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
+	</div>
+</form>
 <div class="row">
 	@if (Model.roomList != null)
 	{
@@ -13,10 +19,10 @@
 					<a href="@Url.Action("Room","Main", new {id = room.Id})">
 						<img src="@room.imageUrl" alt="Hotel Image" class="img-fluid">
 					</a>
-					<h2>Room name: @room.Name</h2>
+					<h2>@room.Number</h2>
 					<p>Description: @room.Description</p>
-					<p>Room price: @room.roomPricePerNight</p>
-					<p>Is Booking: @room.isBooking</p>
+					<p>Room price: @room.roomPricePerNight.ToString();</p>
+					
 				</div>
 			</div>
 		}
