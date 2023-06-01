@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace BookingWizard.Migrations
+namespace BookingWizard.DAL.Migrations
 {
     /// <inheritdoc />
     public partial class initDB : Migration
@@ -59,7 +59,7 @@ namespace BookingWizard.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Number = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     HotelId = table.Column<int>(type: "int", nullable: false),
                     roomPricePerNight = table.Column<int>(type: "int", nullable: false),
