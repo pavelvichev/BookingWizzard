@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BookingWizard.DAL.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookingWizard.DAL.Repositories
 {
@@ -29,8 +30,8 @@ namespace BookingWizard.DAL.Repositories
 		}
 
 		public hotelRoom Delete(hotelRoom item)
-		{
-			_context.hotelRooms.Remove(item);
+		{    
+            _context.hotelRooms.Remove(item);
 			_context.SaveChanges();
 			return item;
 		}

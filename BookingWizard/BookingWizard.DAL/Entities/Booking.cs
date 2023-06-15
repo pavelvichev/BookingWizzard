@@ -14,8 +14,8 @@ namespace BookingWizard.DAL.Entities
 			public hotelRoom Room { get; set; }
 			public int RoomId { get; set; }
 
-			public DateTime ArrivalDate { get; set; }
-			public DateTime DateOfDeparture { get; set; }
+			public DateTime arrival_date { get; set; }
+			public DateTime date_of_departure { get; set; }
 		}
 	
 }

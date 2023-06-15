@@ -2,11 +2,11 @@
 {
     public class BookingVM
     {
-        public uint Id { get; set; }
+        public int Id { get; set; }
 
-		public uint roomId { get; set; }
+		public int roomId { get; set; }
 
-		public DateTime arrival_date { get; set; }
-        public DateTime date_of_departure { get; set; }
+		public DateTime arrival_date { get; set; } = DateTime.Now;
+        public DateTime date_of_departure { get; set; } = DateTime.Now;
      }
 }

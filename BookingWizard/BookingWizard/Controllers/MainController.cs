@@ -12,14 +12,16 @@ namespace BookingWizard.Controllers
 	{
 		IHotelService _hotelService;
 		IHotelRoomService _hotelRoomService;
+		IBookingService _bookService;
 		IMapper _map;
 
-		public MainController(IHotelService hotelService, IMapper map, IHotelRoomService hotelRoomService)
+		public MainController(IHotelService hotelService, IMapper map, IHotelRoomService hotelRoomService, IBookingService bookingService)
 		{
 
 			_hotelService = hotelService;
 			_hotelRoomService = hotelRoomService;
 			_map = map;
+			_bookService = bookingService;
 		}
 		public IActionResult Main(string? searchString)
 		{
@@ -28,12 +30,12 @@ namespace BookingWizard.Controllers
 			if (!string.IsNullOrEmpty(searchString))
 			{
 				hotelVMList = _map.Map<IEnumerable<HotelVM>>(_hotelService.GetAll(searchString));
-                return View(hotelVMList);
-            }
+				return View(hotelVMList);
+			}
 
 			hotelVMList = _map.Map<IEnumerable<HotelVM>>(_hotelService.GetAll());
 			return View(hotelVMList);
-			
+
 		}
 		public IActionResult Hotel(int id, string searchstring)
 		{
@@ -53,7 +55,30 @@ namespace BookingWizard.Controllers
 			return View(hotelRoom);
 		}
 
-		
+
+		public IActionResult Booking(BookingVM booking)
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					_bookService.Add(_map.Map<BookingDTO>(booking));
+                    uint sum = _bookService.CalcPrice(_map.Map<BookingDTO>(booking));
+                    TempData["MessageFromBooking"] = "Booking correctly added";
+
+
+				}
+				catch (Exception ex)
+				{
+					TempData["ErrorMessageFromBooking"] = ex.Message;
+
+				}
+
+				
+
+			}
+			return RedirectToAction("Room", new { id = booking.roomId });
+		}
 
 	}
 }

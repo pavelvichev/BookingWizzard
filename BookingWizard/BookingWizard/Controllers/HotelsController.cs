@@ -12,6 +12,7 @@ using BookingWizard.ModelsVM;
 
 namespace BookingWizard.Controllers
 {
+
 	public class HotelsController : Controller
 	{
 
@@ -27,6 +28,7 @@ namespace BookingWizard.Controllers
 			_hotelRoomService = hotelRoomService;
 			_map = map;
 		}
+		[HttpGet]
 		public IActionResult Hotels()
 		{
 
@@ -35,7 +37,7 @@ namespace BookingWizard.Controllers
 			return View(hotelVMList);
 		}
 
-
+		[HttpGet]
 		public IActionResult Add()
 		{
 			return View();
@@ -55,7 +57,7 @@ namespace BookingWizard.Controllers
             }
             return View();
         }
-		[HttpGet]
+		
 		public IActionResult Edit(int id)
 		{
 			var hotel = _hotelService.Get(id);
@@ -77,7 +79,7 @@ namespace BookingWizard.Controllers
 			return View();
 
 		}
-
+	
 		public IActionResult Hotel(int id)
 		{
 
@@ -105,11 +107,10 @@ namespace BookingWizard.Controllers
 				return RedirectToAction("Hotel", new { id = hotel.Id });
 			}
 
-			return View();
+            return RedirectToAction("Hotel", new { id = hotel.Id });
 
-		}
-
-		[HttpPost]
+        }
+		
 		public IActionResult Delete(int id)
 		{
 			var hotel = _hotelService.Get(id);

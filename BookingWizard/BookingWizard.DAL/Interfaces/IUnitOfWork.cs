@@ -12,6 +12,7 @@ namespace BookingWizard.DAL.Interfaces
 	{
 		IHotelRepository<Hotel> Hotels { get; }
 		IHotelRoomRepository<hotelRoom> Rooms { get; }
+		IBookingRepository Booking { get; }
 		
 	}
 }

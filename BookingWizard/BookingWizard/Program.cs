@@ -10,6 +10,8 @@ using BookingWizard.DAL.Repositories;
 using BookingWizard.BLL.Interfaces;
 using BookingWizard.BLL.Services;
 using BookingWizard.DAL.Data;
+using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,9 +23,17 @@ builder.Services.AddScoped<IHotelRoomRepository<hotelRoom>,hotelRoomsRepository>
 builder.Services.AddScoped<IUnitOfWork,UnifOfWork>();
 builder.Services.AddScoped<IHotelService,HotelService>();
 builder.Services.AddScoped<IHotelRoomService,HotelRoomService>();
+builder.Services.AddScoped<IBookingService,BookingService>();
+builder.Services.AddScoped<IBookingRepository,BookingRepository>();
 
 builder.Services.AddAutoMapper(typeof(MapProfile));
 
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+});
+
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -38,9 +48,16 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+});
 
 app.MapControllerRoute(
     name: "default",

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BookingWizard.DAL.Interfaces;
 using BookingWizard.DAL.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookingWizard.DAL.Repositories
 {
@@ -26,13 +27,14 @@ namespace BookingWizard.DAL.Repositories
 
 		public Hotel Delete(Hotel item)
 		{
-			_context.hotels.Remove(item);
+            _context.Entry(item).State = EntityState.Detached;
+            _context.hotels.Remove(item);
 			_context.SaveChanges();
 			return item;
 		}
 
 		public Hotel Get(int id)
-		{
+		{ 
 			Hotel hotel = _context.hotels.FirstOrDefault(h => h.Id == id);
 			hotel.address = _context.Address.FirstOrDefault(x => hotel.addressId == x.Id);
 			

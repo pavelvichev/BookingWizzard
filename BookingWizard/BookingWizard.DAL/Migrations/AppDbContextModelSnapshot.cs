@@ -63,14 +63,14 @@ namespace BookingWizard.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("ArrivalDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateOfDeparture")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("RoomId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("arrival_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("date_of_departure")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 

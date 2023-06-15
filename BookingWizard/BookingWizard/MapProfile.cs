@@ -19,6 +19,8 @@ namespace BookingWizard
 				CreateMap<Hotel, HotelDTO>().ReverseMap();
 				CreateMap<Address,AddressDTO>().ReverseMap();
 				CreateMap<AddressVM,AddressDTO>().ReverseMap();
+				CreateMap<Booking,BookingDTO>().ReverseMap();
+			CreateMap<BookingVM,BookingDTO>().ReverseMap();
 				// Добавьте другие необходимые сопоставления здесь
 			}
 		}

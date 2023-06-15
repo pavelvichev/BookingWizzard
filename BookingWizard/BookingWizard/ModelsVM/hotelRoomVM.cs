@@ -12,6 +12,7 @@ namespace BookingWizard.ModelsVM
 
 		public string Description { get; set; } // описание номера
 
+		public BookingVM? booking { get; set; }
 		public uint HotelId { get; set; }
 		public ushort roomPricePerNight { get; set; } // цена за ночь
 

@@ -16,6 +16,7 @@ namespace BookingWizard.DAL.Repositories
 		AppDbContext _context;
 		HotelRepository _hotelRepository;
 		hotelRoomsRepository _roomsRepository;
+		BookingRepository _bookingRepository;
 
 		public UnifOfWork(AppDbContext context)
 		{
@@ -28,6 +29,15 @@ namespace BookingWizard.DAL.Repositories
 				if (_hotelRepository == null)
 					_hotelRepository = new HotelRepository(_context);
 				return _hotelRepository;
+			}
+		}
+		public IBookingRepository Booking
+		{
+			get
+			{
+				if (_bookingRepository == null)
+					_bookingRepository = new BookingRepository(_context);
+				return _bookingRepository;
 			}
 		}
 

@@ -13,6 +13,7 @@ namespace BookingWizard.DAL.Data
 		public DbSet<Hotel> hotels { get; set; }
 		public DbSet<hotelRoom> hotelRooms { get; set; }
 		public DbSet<Address> Address { get; set; }
+		public DbSet<Booking> Booking { get; set; }
 
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
