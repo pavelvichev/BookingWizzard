@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using BookingWizard.BLL.DTO;
 using BookingWizard.BLL.Interfaces;
 using BookingWizard.DAL.Entities;
 using BookingWizard.DAL.Interfaces;
@@ -42,7 +41,7 @@ namespace BookingWizard.Controllers
 
 			var hotel = _hotelService.Get(id);
 
-			hotel.roomList = _map.Map<IEnumerable<hotelRoomDTO>>(_hotelRoomService.GetAll(id, searchstring));
+			hotel.roomList = _map.Map<IEnumerable<hotelRoom>>(_hotelRoomService.GetAll(id, searchstring));
 
 			var hotelDTO = _map.Map<HotelVM>(hotel);
 			return View(hotelDTO);
@@ -62,8 +61,8 @@ namespace BookingWizard.Controllers
 			{
 				try
 				{
-					_bookService.Add(_map.Map<BookingDTO>(booking));
-                    uint sum = _bookService.CalcPrice(_map.Map<BookingDTO>(booking));
+					_bookService.Add(_map.Map<Booking>(booking));
+                    uint sum = _bookService.CalcPrice(_map.Map<Booking>(booking));
                     TempData["MessageFromBooking"] = "Booking correctly added";
 
 
@@ -72,9 +71,7 @@ namespace BookingWizard.Controllers
 				{
 					TempData["ErrorMessageFromBooking"] = ex.Message;
 
-				}
-
-				
+				}	
 
 			}
 			return RedirectToAction("Room", new { id = booking.roomId });

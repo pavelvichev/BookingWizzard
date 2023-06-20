@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using BookingWizard.BLL.DTO;
 using BookingWizard.BLL.Interfaces;
 using BookingWizard.DAL.Entities;
 using BookingWizard.DAL.Interfaces;
@@ -22,36 +21,36 @@ namespace BookingWizard.BLL.Services
 			_map= map;
 		}
 
-		public HotelDTO Add(HotelDTO item)
+		public Hotel Add(Hotel item)
 		{
-			_unitOfWork.Hotels.Add(_map.Map<Hotel>(item));
+			_unitOfWork.Hotels.Add(item);
 			return item;
 		}
 
-		public HotelDTO Delete(HotelDTO item)
+		public void Delete(Hotel item)
 		{
-			_unitOfWork.Hotels.Delete(_map.Map<Hotel>(item));
-			return item;
+			_unitOfWork.Hotels.Delete(item);
+			
 		}
 
-		public HotelDTO Get(int id)
+		public Hotel Get(int id)
 		{
-			return _map.Map<HotelDTO>(_unitOfWork.Hotels.Get(id));
+			return _unitOfWork.Hotels.Get(id);
 
 		}
 
 
-		public IEnumerable<HotelDTO> GetAll(string name = "")
+		public IEnumerable<Hotel> GetAll(string name = "")
 		{
 			if (name != null)
-				return _map.Map<IEnumerable<HotelDTO>>(_unitOfWork.Hotels.GetAll(name));
+				return _unitOfWork.Hotels.GetAll(name);
 
-			return _map.Map<IEnumerable<HotelDTO>>(_unitOfWork.Hotels.GetAll());
+			return _unitOfWork.Hotels.GetAll();
 		}
 
-		public HotelDTO Update(HotelDTO item)
+		public Hotel Update(Hotel item)
 		{
-			_unitOfWork.Hotels.Update(_map.Map<Hotel>(item));
+			_unitOfWork.Hotels.Update(item);
 			return item;
 		}
 	}

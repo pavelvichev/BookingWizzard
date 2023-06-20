@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using BookingWizard.BLL.DTO;
 using BookingWizard.BLL.Interfaces;
 using BookingWizard.DAL.Entities;
 using BookingWizard.DAL.Interfaces;
@@ -21,9 +20,9 @@ namespace BookingWizard.BLL.Services
 			_map = mapper;
 		}
 
-        public uint CalcPrice(BookingDTO item)
+        public uint CalcPrice(Booking item)
         {
-			hotelRoom hotelRoom = _unitOfWork.Rooms.Get(item.roomId); ;
+			hotelRoom hotelRoom = _unitOfWork.Rooms.Get(item.RoomId); ;
 			TimeSpan time = item.date_of_departure.Date - item.arrival_date.Date;
 			uint sum;
 			sum = hotelRoom.roomPricePerNight;
@@ -31,7 +30,7 @@ namespace BookingWizard.BLL.Services
 			return sum;
         }
 
-        BookingDTO IBookingService.Add(BookingDTO item)
+		 public Booking Add(Booking item)
 		{
 			if (item.arrival_date > item.date_of_departure)
 			{
@@ -54,27 +53,28 @@ namespace BookingWizard.BLL.Services
 			return item;
 		}
 
-		BookingDTO IBookingService.Delete(BookingDTO item)
+		public void Delete(Booking item)
 		{
 			_unitOfWork.Booking.Delete(_map.Map<Booking>(item));
+		}
+
+		public Booking  Get(int id)
+		{
+			return _unitOfWork.Booking.Get(id);
+
+		}
+
+		public IEnumerable<Booking> GetAll()
+		{
+			return _unitOfWork.Booking.GetAll();
+		}
+
+		public Booking Update(Booking item)
+		{
+			_unitOfWork.Booking.Update(item);
 			return item;
 		}
 
-		BookingDTO IBookingService.Get(int id)
-		{
-			return _map.Map<BookingDTO>(_unitOfWork.Booking.Get(id));
-
-		}
-
-		IEnumerable<BookingDTO> IBookingService.GetAll()
-		{
-			return _map.Map<IEnumerable<BookingDTO>>(_unitOfWork.Booking.GetAll());
-		}
-
-		BookingDTO IBookingService.Update(BookingDTO item)
-		{
-			_unitOfWork.Booking.Update(_map.Map<Booking>(item));
-			return item;
-		}
-	}
+       
+    }
 }

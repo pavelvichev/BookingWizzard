@@ -1,4 +1,5 @@
-﻿using BookingWizard.BLL.DTO;
+﻿
+using BookingWizard.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace BookingWizard.BLL.Interfaces
 {
 	public interface IHotelRoomService
 	{
-		public hotelRoomDTO Add(hotelRoomDTO item, int hotelId);
-		public hotelRoomDTO Delete(hotelRoomDTO item);
-		public hotelRoomDTO Update(hotelRoomDTO item);
-		public hotelRoomDTO Get(int Id);
-		IEnumerable<hotelRoomDTO> GetAll(int hotelId, string searchString = "");
+		public hotelRoom Add(hotelRoom item, int hotelId);
+		public void Delete(hotelRoom item);
+		public hotelRoom Update(hotelRoom item);
+		public hotelRoom Get(int Id);
+		IEnumerable<hotelRoom> GetAll(int hotelId, string searchString = "");
 	}
 }

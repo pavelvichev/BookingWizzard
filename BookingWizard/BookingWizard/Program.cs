@@ -12,6 +12,7 @@ using BookingWizard.BLL.Services;
 using BookingWizard.DAL.Data;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +33,17 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
 });
+builder.Services.AddAuthentication("Bearer")
+            .AddJwtBearer("Bearer", options =>
+            {
+                options.Authority = "https://localhost:7037";
+                options.Audience = "BookingWizard";
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateAudience = false
+                };
+            });
+
 
 builder.Services.AddControllers();
 
@@ -51,6 +63,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseSwagger();
@@ -59,9 +72,14 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
 });
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Hotels}/{action=Hotels}/{id?}/{searchString?}");
+app.UseEndpoints(endpoints =>
+{
+    // определение маршрутов
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Hotels}/{action=Hotels}/{id?}");
+});
+
 
 
 

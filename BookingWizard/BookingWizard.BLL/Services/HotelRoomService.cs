@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using BookingWizard.BLL.DTO;
 using BookingWizard.BLL.Interfaces;
 using BookingWizard.DAL.Entities;
 using BookingWizard.DAL.Interfaces;
@@ -22,37 +21,37 @@ namespace BookingWizard.BLL.Services
 			_map = map;
 		}
 
-		public hotelRoomDTO Add(hotelRoomDTO item, int id)
+		public hotelRoom Add(hotelRoom item, int id)
 		{
-			_unitOfWork.Rooms.Add(_map.Map<hotelRoom>(item), id);
+			_unitOfWork.Rooms.Add(item, id);
 			return item;
 		}
 
-		public hotelRoomDTO Delete(hotelRoomDTO item)
+		public void Delete(hotelRoom item)
 		{
-			_unitOfWork.Rooms.Delete(_map.Map<hotelRoom>(item));
-			return item;
+			_unitOfWork.Rooms.Delete(item);
+		
 		}
 
-		public hotelRoomDTO Get(int id)
+		public hotelRoom  Get(int id)
 		{
-			return _map.Map<hotelRoomDTO>(_unitOfWork.Rooms.Get(id));
+			return _unitOfWork.Rooms.Get(id);
 
 		}
 
 
-		public IEnumerable<hotelRoomDTO> GetAll(int id, string searchString = "")
+		public IEnumerable<hotelRoom> GetAll(int id, string searchString = "")
 		{
 			if(!string.IsNullOrWhiteSpace(searchString)) 
 			{
-                return _map.Map<IEnumerable<hotelRoomDTO>>(_unitOfWork.Rooms.GetAll(id, searchString));
+                return _unitOfWork.Rooms.GetAll(id, searchString);
             }
-			return _map.Map<IEnumerable<hotelRoomDTO>>(_unitOfWork.Rooms.GetAll(id));
+			return _unitOfWork.Rooms.GetAll(id);
 		}
 
-		public hotelRoomDTO Update(hotelRoomDTO item)
+		public hotelRoom Update(hotelRoom item)
 		{
-			_unitOfWork.Rooms.Update(_map.Map<hotelRoom>(item));
+			_unitOfWork.Rooms.Update(item);
 			return item;
 		}
 	}

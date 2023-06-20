@@ -7,14 +7,14 @@ using BookingWizard.DAL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-using BookingWizard.BLL.DTO;
-using BookingWizard.ModelsVM;
 
+using BookingWizard.ModelsVM;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookingWizard.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+    [Route("identity")]
+    [Authorize]
     public class HotelsBaseController : ControllerBase
 	{
 
@@ -43,19 +43,19 @@ namespace BookingWizard.Controllers
 
 
 		[HttpPost]
-		public HotelDTO Add([FromBody] HotelVM hotelVM)
+		public Hotel Add([FromBody] HotelVM hotelVM)
 		{
 
-			var hotel = _map.Map<HotelDTO>(hotelVM);
+			var hotel = _map.Map<Hotel>(hotelVM);
 			return hotel;
 		}
 
 
 		[HttpPost]
-		public HotelDTO Edit([FromBody]HotelVM hotelVM)
+		public Hotel Edit([FromBody]HotelVM hotelVM)
 		{
 
-			var hotel = _map.Map<HotelDTO>(hotelVM);
+			var hotel = _map.Map<Hotel>(hotelVM);
 			return hotel;
 
 
@@ -66,7 +66,7 @@ namespace BookingWizard.Controllers
 
 			var hotel = _hotelService.Get(id);
 
-			hotel.roomList = _map.Map<IEnumerable<hotelRoomDTO>>(_hotelRoomService.GetAll(id));
+			hotel.roomList = _map.Map<IEnumerable<hotelRoom>>(_hotelRoomService.GetAll(id));
 
 			var hotelDTO = _map.Map<HotelVM>(hotel);
 			return hotelDTO;
@@ -82,7 +82,7 @@ namespace BookingWizard.Controllers
 		}
 
 		[HttpDelete("{id}")]
-		public HotelDTO Delete(int id)
+		public Hotel Delete(int id)
 		{
 			var hotel = _hotelService.Get(id);
 			

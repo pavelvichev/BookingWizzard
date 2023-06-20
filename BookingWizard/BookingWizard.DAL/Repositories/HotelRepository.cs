@@ -27,7 +27,7 @@ namespace BookingWizard.DAL.Repositories
 
 		public Hotel Delete(Hotel item)
 		{
-            _context.Entry(item).State = EntityState.Detached;
+       
             _context.hotels.Remove(item);
 			_context.SaveChanges();
 			return item;
@@ -35,8 +35,8 @@ namespace BookingWizard.DAL.Repositories
 
 		public Hotel Get(int id)
 		{ 
-			Hotel hotel = _context.hotels.FirstOrDefault(h => h.Id == id);
-			hotel.address = _context.Address.FirstOrDefault(x => hotel.addressId == x.Id);
+			Hotel hotel = _context.hotels.AsNoTracking().FirstOrDefault(h => h.Id == id);
+			hotel.address = _context.Address.AsNoTracking().FirstOrDefault(x => hotel.addressId == x.Id);
 			
 			return hotel;
 		}

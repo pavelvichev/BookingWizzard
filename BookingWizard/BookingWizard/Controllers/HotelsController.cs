@@ -7,7 +7,6 @@ using BookingWizard.DAL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-using BookingWizard.BLL.DTO;
 using BookingWizard.ModelsVM;
 
 namespace BookingWizard.Controllers
@@ -28,6 +27,7 @@ namespace BookingWizard.Controllers
 			_hotelRoomService = hotelRoomService;
 			_map = map;
 		}
+		
 		[HttpGet]
 		public IActionResult Hotels()
 		{
@@ -50,7 +50,7 @@ namespace BookingWizard.Controllers
 			if (ModelState.IsValid)
 			{
 
-				var hotel = _map.Map<HotelDTO>(hotelVM);
+				var hotel = _map.Map<Hotel>(hotelVM);
 				_hotelService.Add(hotel);
                 return RedirectToAction("Hotels");
 
@@ -72,7 +72,7 @@ namespace BookingWizard.Controllers
 
 			if (ModelState.IsValid)
 			{
-				var hotel = _map.Map<HotelDTO>(hotelVM);
+				var hotel = _map.Map<Hotel>(hotelVM);
 				_hotelService.Update(hotel);
 				return RedirectToAction("Hotels");
 			}
@@ -85,7 +85,7 @@ namespace BookingWizard.Controllers
 
 			var hotel = _hotelService.Get(id);
 
-			hotel.roomList = _map.Map<IEnumerable<hotelRoomDTO>>(_hotelRoomService.GetAll(id));
+			hotel.roomList = _map.Map<IEnumerable<hotelRoom>>(_hotelRoomService.GetAll(id));
 
 			var hotelDTO = _map.Map<HotelVM>(hotel);
 			return View(hotelDTO);
@@ -103,7 +103,7 @@ namespace BookingWizard.Controllers
 			if (ModelState.IsValid)
 			{
 
-				_hotelRoomService.Add(_map.Map<hotelRoomDTO>(hotelVM.room), hotelVM.Id);
+				_hotelRoomService.Add(_map.Map<hotelRoom>(hotelVM.room), hotelVM.Id);
 				return RedirectToAction("Hotel", new { id = hotel.Id });
 			}
 

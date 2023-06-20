@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using BookingWizard.BLL.DTO;
 using BookingWizard.BLL.Interfaces;
 using BookingWizard.DAL.Entities;
 using BookingWizard.DAL.Interfaces;
@@ -44,7 +43,7 @@ namespace BookingWizard.Controllers
 
 			if (ModelState.IsValid)
 			{
-				var room = _map.Map<hotelRoomDTO>(roomVM);
+				var room = _map.Map<hotelRoom>(roomVM);
 				_hotelRoomService.Update(room);
 				return RedirectToAction("Hotel", "Hotels", new { id = room.HotelId });
 			}
@@ -56,7 +55,7 @@ namespace BookingWizard.Controllers
 		[HttpPost]
 		public IActionResult Delete(int id)
 		{
-			var room = _map.Map<hotelRoomDTO>(_hotelRoomService.Get(id));
+			var room = _map.Map<hotelRoom>(_hotelRoomService.Get(id));
 			_hotelRoomService.Delete(room);
 
 			return RedirectToAction("Hotel", "Hotels", new { id = room.HotelId });
