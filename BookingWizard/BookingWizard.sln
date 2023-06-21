@@ -9,11 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookingWizard.BLL", "Bookin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookingWizard.DAL", "BookingWizard.DAL\BookingWizard.DAL.csproj", "{6BF61108-2987-464E-8980-DDB4C4DC8015}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookingWizard.Client", "..\..\source\repos\BookingWizard.Client\BookingWizard.Client\BookingWizard.Client.csproj", "{A2DDCE76-BF31-4CF2-A410-90AFB9AA39CF}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookingWizard.IdentityServer", "..\..\source\repos\BookingWizard.IdentityServer\BookingWizard.IdentityServer\BookingWizard.IdentityServer.csproj", "{646D2853-94F5-4D2C-B68E-1C474C763904}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookingWizard.MvcClient", "BookingWizard.MvcClient\BookingWizard.MvcClient.csproj", "{0D1A735B-9FFA-4838-AD9C-285008002605}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookingWizard.IdentityServer", "BookingWizard.IdentityServer1\BookingWizard.IdentityServer.csproj", "{E386FD19-7182-4815-B727-7EA854CE702C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookingWizard.Client", "BookingWizard.Client1\BookingWizard.Client.csproj", "{D4AA2ADE-5F78-41A3-97A2-6830A54A49D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,18 +33,18 @@ Global
 		{6BF61108-2987-464E-8980-DDB4C4DC8015}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BF61108-2987-464E-8980-DDB4C4DC8015}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BF61108-2987-464E-8980-DDB4C4DC8015}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A2DDCE76-BF31-4CF2-A410-90AFB9AA39CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A2DDCE76-BF31-4CF2-A410-90AFB9AA39CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A2DDCE76-BF31-4CF2-A410-90AFB9AA39CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A2DDCE76-BF31-4CF2-A410-90AFB9AA39CF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{646D2853-94F5-4D2C-B68E-1C474C763904}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{646D2853-94F5-4D2C-B68E-1C474C763904}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{646D2853-94F5-4D2C-B68E-1C474C763904}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{646D2853-94F5-4D2C-B68E-1C474C763904}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0D1A735B-9FFA-4838-AD9C-285008002605}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0D1A735B-9FFA-4838-AD9C-285008002605}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D1A735B-9FFA-4838-AD9C-285008002605}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D1A735B-9FFA-4838-AD9C-285008002605}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E386FD19-7182-4815-B727-7EA854CE702C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E386FD19-7182-4815-B727-7EA854CE702C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E386FD19-7182-4815-B727-7EA854CE702C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E386FD19-7182-4815-B727-7EA854CE702C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4AA2ADE-5F78-41A3-97A2-6830A54A49D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4AA2ADE-5F78-41A3-97A2-6830A54A49D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4AA2ADE-5F78-41A3-97A2-6830A54A49D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4AA2ADE-5F78-41A3-97A2-6830A54A49D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
