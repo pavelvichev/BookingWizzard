@@ -1,6 +1,16 @@
-﻿namespace BookingWizard.IdentityServer.Data
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+
+namespace BookingWizard.IdentityServer.Data
 {
-    public class AppDbContext
+    public class AppDbContext : IdentityDbContext 
     {
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        {
+
+        }
+
+       
     }
 }

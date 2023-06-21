@@ -42,7 +42,7 @@ namespace BookingWizard.IdentityServer.Configuration
                     ClientId="client_id_mvc",
                     ClientSecrets = {new Secret("client_secret_mvc".ToSha256())},
 
-                    AllowedGrantTypes =GrantTypes.ClientCredentials,
+                    AllowedGrantTypes =GrantTypes.Code,
 
                     AllowedScopes={ "BookingWizard","BookingWizard.Client", IdentityServerConstants.StandardScopes.OpenId,IdentityServerConstants.StandardScopes.Profile },
 
