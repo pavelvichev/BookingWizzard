@@ -1,6 +1,12 @@
 ﻿using BookingWizard.IdentityServer.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Rijndael256;
+using System.Data;
+using System.Security.Claims;
 
 namespace BookingWizard.IdentityServer.Controllers
 {
@@ -8,11 +14,13 @@ namespace BookingWizard.IdentityServer.Controllers
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
+        
 
         public AuthController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userInManager)
         {
             _signInManager = signInManager;
             _userManager = userInManager;
+          
         }
 
         //LOGIN
@@ -26,15 +34,17 @@ namespace BookingWizard.IdentityServer.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel vm)
         {
-            var result = await _signInManager.PasswordSignInAsync(vm.UserName, vm.Password, false, false);
-
-            if (result.Succeeded)
+            if (ModelState.IsValid)
             {
-                return Redirect(vm.ReturnUrl);
-            }
-            else if(result.IsLockedOut) 
-            {
+                IdentityUser user = await _userManager.FindByNameAsync(vm.UserName);
+                
+                if (user != null)
+                {
+                    await Authenticate(user);
 
+
+                    return Redirect(vm.ReturnUrl);
+                }
             }
             return View(vm);
         }
@@ -52,21 +62,51 @@ namespace BookingWizard.IdentityServer.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel vm)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(vm);
-            }
-
-            var user = new IdentityUser(vm.UserName);
-            var result =  await _userManager.CreateAsync(user, vm.Password);
-
-            if (result.Succeeded)
-            {
-                await _signInManager.SignInAsync(user, false);
-                return Redirect(vm.ReturnUrl);
-            }
             
+
+            if (ModelState.IsValid)
+            {
+                var user = new IdentityUser(vm.UserName);
+                
+                
+                    var result = await _userManager.CreateAsync(user, vm.Password);
+                        if (result.Succeeded) {
+                        await Authenticate(user); // аутентификация
+                        return Redirect(vm.ReturnUrl);
+                       }
+                
+     
+            }
             return View();
+        }
+
+        private async Task Authenticate(IdentityUser user)
+        {
+            var roles = await _userManager.GetRolesAsync(user);
+            // создаем один claim
+
+            string role = ""; 
+            if(roles.Count > 1)
+            {
+                 role = roles.FirstOrDefault();
+            }
+            else
+            {
+                
+                 role = "Guest";
+                 await _userManager.AddToRoleAsync(user, role);
+            }
+            var claims = new List<Claim>
+            {
+                new Claim("name", user.UserName),
+                
+                new Claim("role", role)
+            };
+          
+
+            
+            // установка аутентификационных куки
+            await _signInManager.SignInWithClaimsAsync(user, true ,claims);
         }
     }
 }

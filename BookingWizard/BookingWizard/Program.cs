@@ -33,16 +33,25 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
 });
-builder.Services.AddAuthentication("Bearer")
-            .AddJwtBearer("Bearer", options =>
-            {
-                options.Authority = "https://localhost:7037";
-                options.Audience = "BookingWizard";
-                options.TokenValidationParameters = new TokenValidationParameters()
-                {
-                    ValidateAudience = false
-                };
-            });
+
+builder.Services.AddAuthentication(config =>
+{
+    config.DefaultScheme = "Cookie";
+    config.DefaultChallengeScheme = "oidc";
+})
+    .AddCookie("Cookie")
+    .AddOpenIdConnect("oidc", config =>
+    {
+        config.Authority = "https://localhost:7037";
+        config.ClientId = "client_id_mvc";
+        config.ClientSecret = "client_secret_mvc";
+        config.SaveTokens = true;
+        config.ResponseType = "code";
+
+        config.Scope.Add("role.scope");
+    });
+
+
 
 
 builder.Services.AddControllers();
@@ -77,7 +86,7 @@ app.UseEndpoints(endpoints =>
     // определение маршрутов
     endpoints.MapControllerRoute(
         name: "default",
-        pattern: "{controller=Hotels}/{action=Hotels}/{id?}");
+        pattern: "{controller=Hotels}/{action=Hotels}/{id?}/{searchString?}");
 });
 
 

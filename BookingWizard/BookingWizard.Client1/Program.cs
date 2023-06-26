@@ -7,7 +7,7 @@ builder.Services.AddAuthentication("Bearer")
             .AddJwtBearer("Bearer", options =>
             {
                 options.Authority = "https://localhost:7037";
-                options.Audience = "BookingWizard.Client1";
+                options.Audience = "BookingWizard.Client";
 
             });
 

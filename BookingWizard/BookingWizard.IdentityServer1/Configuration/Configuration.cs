@@ -1,6 +1,8 @@
-﻿using IdentityModel;
+﻿﻿using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Models;
+using static IdentityServer4.IdentityServerConstants;
+
 namespace BookingWizard.IdentityServer.Configuration
 {
     public static class Configuration
@@ -11,6 +13,15 @@ namespace BookingWizard.IdentityServer.Configuration
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
+                new IdentityResource()
+                {
+                    Name = "role.scope",
+                    UserClaims =
+                    {
+                        "role"
+                    }
+                }
+
 
             };
         
@@ -20,9 +31,11 @@ namespace BookingWizard.IdentityServer.Configuration
         public static IEnumerable<ApiResource> GetApiResources() =>
             new List<ApiResource> {
                 new ApiResource("BookingWizard"),
-                new ApiResource("BookingWizard.Client")
-               
+                new ApiResource("BookingWizard.Client"),
+                
+                new ApiResource(LocalApi.ScopeName,new[] { JwtClaimTypes.Role })
             };
+
 
         public static IEnumerable<Client> GetClients() =>
             new List<Client>
@@ -34,7 +47,8 @@ namespace BookingWizard.IdentityServer.Configuration
 
                     AllowedGrantTypes =GrantTypes.ClientCredentials,
 
-                    AllowedScopes={ "BookingWizard" }
+                    AllowedScopes={ StandardScopes.OpenId,
+                    StandardScopes.Profile,"BookingWizard", }
                 },
 
                 new Client
@@ -44,10 +58,13 @@ namespace BookingWizard.IdentityServer.Configuration
 
                     AllowedGrantTypes =GrantTypes.Code,
 
-                    AllowedScopes={ "BookingWizard","BookingWizard.Client", IdentityServerConstants.StandardScopes.OpenId,IdentityServerConstants.StandardScopes.Profile },
+                    AllowedScopes={ "BookingWizard","BookingWizard.Client", StandardScopes.OpenId,StandardScopes.Profile, "role.scope" },
 
-                    RedirectUris = { "https://localhost:7081/signin-oidc" }
+                    RedirectUris = { "https://localhost:44328/signin-oidc" },
+                    
+                    AlwaysIncludeUserClaimsInIdToken = true
 
+                    
                    
                 },
 

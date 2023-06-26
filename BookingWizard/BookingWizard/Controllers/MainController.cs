@@ -3,6 +3,7 @@ using BookingWizard.BLL.Interfaces;
 using BookingWizard.DAL.Entities;
 using BookingWizard.DAL.Interfaces;
 using BookingWizard.ModelsVM;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingWizard.Controllers
@@ -54,28 +55,8 @@ namespace BookingWizard.Controllers
 			return View(hotelRoom);
 		}
 
+		
+		
 
-		public IActionResult Booking(BookingVM booking)
-		{
-			if (ModelState.IsValid)
-			{
-				try
-				{
-					_bookService.Add(_map.Map<Booking>(booking));
-                    uint sum = _bookService.CalcPrice(_map.Map<Booking>(booking));
-                    TempData["MessageFromBooking"] = "Booking correctly added";
-
-
-				}
-				catch (Exception ex)
-				{
-					TempData["ErrorMessageFromBooking"] = ex.Message;
-
-				}	
-
-			}
-			return RedirectToAction("Room", new { id = booking.roomId });
-		}
-
-	}
+    }
 }

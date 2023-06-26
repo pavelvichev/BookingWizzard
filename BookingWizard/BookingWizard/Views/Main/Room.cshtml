@@ -4,44 +4,9 @@
 <script src="~/lib/jquery/jquery.min.js"></script>
 <script src="~/lib/jquery/jquery.js"></script>
 
-@if (TempData["MessageFromBooking"] != null)
-{<div>
-    <span class="alert alert-primary">@TempData["MessageFromBooking"]</span>
-    </div>
-}
 
 <h1> Room Name: @Model.Number</h1>
 <p>Description: @Model.Description</p>
 <p>Price: @Model.roomPricePerNight.ToString("c")</p>
 
-
-<h2>Заказать комнату</h2>
-<form method="post"  action="/Main/Booking">
-    @if(Model.Id != 0){
-        Model.booking = new BookingVM();
-        Model.booking.roomId = Model.Id;
-    }
-
-   
-    <input type="hidden" asp-for="booking.roomId" />
-    <div class="mb-3">
-        <div class="input-group">
-            <span class="input-group-text" id="basic-addon3">З</span>
-            <input type="date" class="form-control" id="basic-url" asp-for="booking.arrival_date" min="@DateTime.Now.ToString("yyyy-MM-dd")">
-        </div>
-      
-    </div>
-    <div class="mb-3">
-        <div class="input-group">
-            <span class="input-group-text" id="basic-addon3">По</span>
-            <input type="date" class="form-control" id="basic-url" asp-for="booking.date_of_departure" min="@DateTime.Now.ToString("yyyy-MM-dd")">
-        </div>  
-    </div>
-
-    @if (TempData["ErrorMessageFromBooking"] != null)
-    {
-        <span class="alert alert-danger">@TempData["ErrorMessageFromBooking"]</span>
-    }
-    <button type="submit">Book</button>
-</form>
 

@@ -1,8 +1,11 @@
 ﻿@model List<BookingWizard.ModelsVM.HotelVM>
 
-<head>
-    <a class="alert alert-primary" href="@Url.Action("Add","Hotels")">Add</a>
-</head>
+@if(User.IsInRole("Admin")){
+    <head>
+        <a class="alert alert-primary" href="@Url.Action("Add","Hotels")">Add</a>
+    </head>
+}
+
 
 <div class="row">
     @foreach(var hotel in Model)
@@ -16,8 +19,9 @@
                 <div class="card-body">
                     <h5 class="card-title">@hotel.HotelName</h5>
                     <p class="card-text">@hotel.HotelShortDescription</p>
+                   @if(User.IsInRole("Admin")){
                    <a  href="@Url.Action("Edit","Hotels", new {id = hotel.Id})">Edit</a>
-                 
+                   }
                 </div>
                       
             </div>

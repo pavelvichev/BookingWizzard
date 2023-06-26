@@ -1,15 +1,20 @@
 using BookingWizard.IdentityServer.Configuration;
 using BookingWizard.IdentityServer.Data;
+using IdentityServer4.EntityFramework.DbContexts;
+using IdentityServer4.EntityFramework.Mappers;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations.Internal;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
+var connectionString = builder.Configuration.GetConnectionString("ConnectionString");
 
 builder.Services.AddDbContext<AppDbContext>(config =>
 {
-    config.UseInMemoryDatabase("Memory");
+    config.UseSqlServer(connectionString);
 });
 
 // AddIdentity registers the services
@@ -30,13 +35,22 @@ builder.Services.ConfigureApplicationCookie(config =>
     config.LogoutPath = "/Auth/Logout";
 });
 
-// Add services to the container.
+
+var assembly = typeof(AppDbContext).Assembly.GetName().Name;
+
+    
 builder.Services.AddIdentityServer()
                .AddAspNetIdentity<IdentityUser>()
-               .AddInMemoryIdentityResources(Configuration.GetIdentityResources())
-               .AddInMemoryApiScopes(Configuration.GetApiScopes())
-               .AddInMemoryApiResources(Configuration.GetApiResources())
-               .AddInMemoryClients(Configuration.GetClients())
+                .AddConfigurationStore(options =>
+                {
+                    options.ConfigureDbContext = b => b.UseSqlServer(connectionString,
+                        sql => sql.MigrationsAssembly(assembly));
+                })
+                .AddOperationalStore(options =>
+                {
+                    options.ConfigureDbContext = b => b.UseSqlServer(connectionString,
+                        sql => sql.MigrationsAssembly(assembly));
+                })               
                .AddDeveloperSigningCredential();
 
 builder.Services.AddControllersWithViews();
@@ -66,10 +80,71 @@ endpoints.MapDefaultControllerRoute());
 
 using(var scope = app.Services.CreateScope())
 {
+
+
+    var rolesManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+    var roles = new[] { "Admin", "Guest", "Owner" };
+
+    foreach (var role in roles)
+    {
+        if (!await rolesManager.RoleExistsAsync(role))
+            await rolesManager.CreateAsync(new IdentityRole(role));
+    }
+
     var userManager = scope.ServiceProvider
         .GetRequiredService<UserManager<IdentityUser>>();
 
-    var user = new IdentityUser("Pavel");
-    userManager.CreateAsync(user,"password").GetAwaiter().GetResult();
+    string name = "pavel";
+    string password ="password";
+    if(await userManager.FindByNameAsync(name) == null)
+    {
+        var user = new IdentityUser
+        {
+            UserName = name,
+
+        };
+      await userManager.CreateAsync(user, password);
+
+        await userManager.AddToRoleAsync(user, "Admin");
+    }
+
+    
+
+                
+
+
+    scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
+
+    var context = scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
+
+    context.Database.Migrate();
+    
+    if (!context.Clients.Any())
+    {
+        foreach (var client in Configuration.GetClients())
+        {
+            context.Clients.Add(client.ToEntity());
+        }
+        context.SaveChanges();
+    }
+
+    if (!context.IdentityResources.Any())
+    {
+        foreach (var resource in Configuration.GetIdentityResources())
+        {
+            context.IdentityResources.Add(resource.ToEntity());
+        }
+        context.SaveChanges();
+    }
+
+    if (!context.ApiScopes.Any())
+    {
+        foreach (var resource in Configuration.GetApiScopes())
+        {
+            context.ApiScopes.Add(resource.ToEntity());
+        }
+        context.SaveChanges();
+    }
 }
 app.Run();

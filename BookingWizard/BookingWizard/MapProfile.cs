@@ -12,6 +12,7 @@ namespace BookingWizard
 				CreateMap<Hotel, HotelVM>().ReverseMap();
 				CreateMap<Address, AddressVM>().ReverseMap();
 				CreateMap<hotelRoom, hotelRoomVM>().ReverseMap();
+				CreateMap<Booking, BookingVM>().ReverseMap();
 			
 			
 			}
