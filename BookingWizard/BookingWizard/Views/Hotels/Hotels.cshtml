@@ -1,34 +1,43 @@
-﻿@model List<BookingWizard.ModelsVM.HotelVM>
+﻿@model IEnumerable<BookingWizard.ModelsVM.HotelVM>
 
-@if(User.IsInRole("Admin")){
-    <head>
-        <a class="alert alert-primary" href="@Url.Action("Add","Hotels")">Add</a>
-    </head>
+@if (User.IsInRole("Admin"))
+{
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <a class="btn btn-primary" href="@Url.Action("Add","Hotels")">Add</a>
+            </div>
+        </div>
+    </div>
 }
 
-
-<div class="row">
-    @foreach(var hotel in Model)
-    {
-        <div class="col-md-4">
-            <div class="card" style="width: 18rem;">
-
-                <a href="@Url.Action("Hotel","Hotels", new {id = hotel.Id})">
-                    <img src="@hotel.imageUrl" alt="Hotel Image" class="img-fluid">
-                </a>
-                <div class="card-body">
-                    <h5 class="card-title">@hotel.HotelName</h5>
-                    <p class="card-text">@hotel.HotelShortDescription</p>
-                   @if(User.IsInRole("Admin")){
-                   <a  href="@Url.Action("Edit","Hotels", new {id = hotel.Id})">Edit</a>
-                   }
-                </div>
-                      
-            </div>
-           
+<div class="container">
+    <form method="post" asp-action="Hotels" asp-controller="Hotels">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" name="searchString" aria-label="Recipient's username" aria-describedby="button-addon2">
+            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
         </div>
-       
-    }
+    </form>
 
-    
+    <div class="row">
+        @foreach (var hotel in Model)
+        {
+            string photoPath = $"~/images/{hotel.Image ?? "https://www.interfax.ru/ftproot/photos/photostory/2022/04/29/week/week7_1100.jpg"}";
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <a href="@Url.Action("Hotel","Hotels", new {id = hotel.Id})">
+                        <img src="@Url.Content(@photoPath)" alt="Hotel Image" class="card-img-top imageTumbnail">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">@hotel.HotelName</h5>
+                        <p class="card-text">@hotel.HotelShortDescription</p>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a href="@Url.Action("Edit","Hotels", new {id = hotel.Id})" class="btn btn-primary">Edit</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>

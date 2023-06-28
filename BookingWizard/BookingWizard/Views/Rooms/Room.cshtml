@@ -1,52 +1,54 @@
 ﻿@model BookingWizard.ModelsVM.hotelRoomVM
 @if (User.IsInRole("Guest"))
 {
-    @if (TempData["MessageFromBooking"] != null)
-    {
-        <div>
-            <span class="alert alert-primary">@TempData["MessageFromBooking"]</span>
-        </div>
-    }
+	@if (TempData["MessageFromBooking"] != null)
+	{
+		<div>
+			<span class="alert alert-primary">@TempData["MessageFromBooking"]</span>
+		</div>
+	}
 }
 
-<h1>@Model.Number</h1>
-<p>Description: @Model.Description</p>
-<p>Price: @Model.roomPricePerNight.ToString("c")</p>
-@if(User.IsInRole("Admin")){
-<form method="post" action="/Rooms/Delete">
-	<input type="hidden" asp-for="Id" />
-	<button class="alert alert-danger" type="submit" id="toggleButton">Delete</button>
-</form>
+<h1>@Model.Name</h1>
+<p>@Model.Description</p>
+<p>@Model.roomPricePerNight.ToString("c")</p>
+@if (User.IsInRole("Admin"))
+{
+	<form method="post" action="/Rooms/Delete">
+		<input type="hidden" asp-for="Id" />
+		<button class="alert alert-danger" type="submit" id="toggleButton">Delete</button>
+	</form>
 }
-@if (User.IsInRole("Guest")){
-<h2>Заказать комнату</h2>
-<form method="post"  action="/Hotels/Booking">
-    @if (Model.Id != 0)
-    {
-        Model.booking = new BookingVM();
-        Model.booking.roomId = Model.Id;
-    }
+@if (User.IsInRole("Guest"))
+{
+	<h2>Заказать комнату</h2>
+	<form method="post" action="/Rooms/Booking">
+		@if (Model.Id != 0)
+		{
+			Model.booking = new BookingVM();
+			Model.booking.roomId = Model.Id;
+		}
 
 
-    <input type="hidden" asp-for="booking.roomId" />
-    <div class="mb-3">
-        <div class="input-group">
-            <span class="input-group-text" id="basic-addon3">З</span>
-            <input type="date" class="form-control" id="basic-url" asp-for="booking.arrival_date" min="@DateTime.Now.ToString("yyyy-MM-dd")">
-        </div>
+		<input type="hidden" asp-for="booking.roomId" />
+		<div class="mb-3">
+			<div class="input-group">
+				<span class="input-group-text" id="basic-addon3">З</span>
+				<input type="date" class="form-control" id="basic-url" asp-for="booking.arrival_date" min="@DateTime.Now.ToString("yyyy-MM-dd")">
+			</div>
 
-    </div>
-    <div class="mb-3">
-        <div class="input-group">
-            <span class="input-group-text" id="basic-addon3">По</span>
-            <input type="date" class="form-control" id="basic-url" asp-for="booking.date_of_departure" min="@DateTime.Now.ToString("yyyy-MM-dd")">
-        </div>  
-    </div>
+		</div>
+		<div class="mb-3">
+			<div class="input-group">
+				<span class="input-group-text" id="basic-addon3">По</span>
+				<input type="date" class="form-control" id="basic-url" asp-for="booking.date_of_departure" min="@DateTime.Now.ToString("yyyy-MM-dd")">
+			</div>
+		</div>
 
-    @if (TempData["ErrorMessageFromBooking"] != null)
-    {
-            <span class="alert alert-danger">@TempData["ErrorMessageFromBooking"]</span>
-    }
-    <button type="submit">Book</button>
-</form>
+		@if (TempData["ErrorMessageFromBooking"] != null)
+		{
+			<span class="alert alert-danger">@TempData["ErrorMessageFromBooking"]</span>
+		}
+		<button type="submit">Book</button>
+	</form>
 }

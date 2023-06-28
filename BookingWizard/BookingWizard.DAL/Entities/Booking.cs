@@ -16,6 +16,9 @@ namespace BookingWizard.DAL.Entities
 
 			public DateTime arrival_date { get; set; }
 			public DateTime date_of_departure { get; set; }
+			public uint allPrice { get; set; }
+
+
 		}
 	
 }

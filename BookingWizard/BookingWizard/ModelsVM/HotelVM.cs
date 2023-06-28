@@ -20,7 +20,8 @@ namespace BookingWizard.ModelsVM
 
 
 		public int addressId { get; set; } // айди адресса в таблице
-		public string imageUrl { get; set; } // фото
+		public ImageModelVM ImageModel { get; set; }
+		public string? Image { get; set; }
 
 		public hotelRoomVM? room { get; set; }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,10 +23,9 @@ namespace BookingWizard.DAL.Entities
 
 		public List<string> previlege; //привилегии
 		public Address address { get; set; } // Аддрес
-
-
-		public int addressId { get; set; } // айди адресса в таблице
-		public string imageUrl { get; set; } // фото
+		[NotMapped]
+		public ImageModel ImageModel { get; set; }
+		public string Image { get; set; } // фото
 
 
 		public IEnumerable<hotelRoom>? roomList { get; set; }

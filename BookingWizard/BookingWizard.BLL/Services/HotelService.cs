@@ -2,6 +2,7 @@
 using BookingWizard.BLL.Interfaces;
 using BookingWizard.DAL.Entities;
 using BookingWizard.DAL.Interfaces;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -53,5 +54,6 @@ namespace BookingWizard.BLL.Services
 			_unitOfWork.Hotels.Update(item);
 			return item;
 		}
+
 	}
 }

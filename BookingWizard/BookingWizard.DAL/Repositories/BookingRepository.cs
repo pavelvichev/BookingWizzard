@@ -13,9 +13,9 @@ namespace BookingWizard.DAL.Repositories
 
 	public class BookingRepository : IBookingRepository
 	{
-		readonly AppDbContext _context;
+		readonly BookingDbContext _context;
 
-		public BookingRepository(AppDbContext context)
+		public BookingRepository(BookingDbContext context)
 		{
 			_context = context;
 		}

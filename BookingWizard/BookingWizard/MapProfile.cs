@@ -9,10 +9,16 @@ namespace BookingWizard
 		{
 			public MapProfile()
 			{
-				CreateMap<Hotel, HotelVM>().ReverseMap();
-				CreateMap<Address, AddressVM>().ReverseMap();
-				CreateMap<hotelRoom, hotelRoomVM>().ReverseMap();
-				CreateMap<Booking, BookingVM>().ReverseMap();
+				CreateMap<Hotel, HotelVM>()
+				.ReverseMap();
+				CreateMap<Address, AddressVM>()
+                .ReverseMap();
+				CreateMap<hotelRoom, hotelRoomVM>()
+				.ReverseMap();
+				CreateMap<Booking, BookingVM>()
+				.ReverseMap();
+				CreateMap<ImageModel, ImageModelVM>()
+				.ReverseMap();
 			
 			
 			}

@@ -32,8 +32,7 @@ namespace BookingWizard.IdentityServer.Configuration
             new List<ApiResource> {
                 new ApiResource("BookingWizard"),
                 new ApiResource("BookingWizard.Client"),
-                
-                new ApiResource(LocalApi.ScopeName,new[] { JwtClaimTypes.Role })
+              
             };
 
 
@@ -61,7 +60,7 @@ namespace BookingWizard.IdentityServer.Configuration
                     AllowedScopes={ "BookingWizard","BookingWizard.Client", StandardScopes.OpenId,StandardScopes.Profile, "role.scope" },
 
                     RedirectUris = { "https://localhost:44328/signin-oidc" },
-                    
+                    PostLogoutRedirectUris = { "https://localhost:44328/signout-callback-oidc" },
                     AlwaysIncludeUserClaimsInIdToken = true
 
                     

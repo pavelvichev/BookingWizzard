@@ -1,29 +1,79 @@
-﻿@using BookingWizard.IdentityServer.Models;
+﻿@using BookingWizard.IdentityServer.Models
 @model RegisterViewModel
 
-<form asp-controller="Auth" asp-action="Register" method="post">
-	<input type="hidden" asp-for="ReturnUrl" />
-	<div>
-		<label>UserName</label>
-		<input asp-for="UserName"/>
-		<span asp-validation-for="UserName"></span>
-	</div>
-	<div>
-		<label>Password</label>
-		<input asp-for="Password"/>
-				<span asp-validation-for="Password"></span>
+<style>
+    .register-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
 
-	</div>
-	<div>
-		<label>Confirm Password</label>
-		<input asp-for="ConfirmPassword"/>
-		<span asp-validation-for="ConfirmPassword"></span>
+    .register-form {
+        max-width: 400px;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
-	</div>
+    .register-title {
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
 
-	<div>
-		<button type="submit">Sign In</button>
-	</div>
+    .form-group {
+        margin-bottom: 20px;
+    }
 
-	<a asp-asp-controller="Auth" asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl">Back To Login</a>
-</form>
+    .register-button {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .login-link {
+        display: block;
+        text-align: center;
+        margin-top: 10px;
+    }
+</style>
+
+<div class="register-container">
+    <div class="register-form">
+        <h2 class="register-title">Register</h2>
+
+        <form asp-controller="Auth" asp-action="Register" method="post">
+            <input type="hidden" asp-for="ReturnUrl" />
+
+            <div class="form-group">
+                <label for="UserName">Username</label>
+                <input id="UserName" asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="Password">Password</label>
+                <input id="Password" asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="ConfirmPassword">Confirm Password</label>
+                <input id="ConfirmPassword" asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <div class="register-button">
+                <button type="submit" class="btn btn-primary">Sign Up</button>
+            </div>
+        </form>
+
+        <div class="mt-4">
+            <a asp-controller="Auth" asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl" class="login-link">Back To Login</a>
+        </div>
+    </div>
+</div>

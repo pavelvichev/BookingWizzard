@@ -1,4 +1,5 @@
 ﻿using BookingWizard.DAL.Entities;
+using Microsoft.AspNetCore.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,8 @@ namespace BookingWizard.DAL.Interfaces
 		public T Update(T item);
 		public T Get(int id);
 		IEnumerable<T> GetAll(string name = "");
+		public void PhotoUpload(Hotel hotel);
+		
+		
 	}
 }

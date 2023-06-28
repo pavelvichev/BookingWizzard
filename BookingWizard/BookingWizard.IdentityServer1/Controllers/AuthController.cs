@@ -1,4 +1,6 @@
 ﻿using BookingWizard.IdentityServer.Models;
+using IdentityServer4;
+using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
@@ -12,14 +14,16 @@ namespace BookingWizard.IdentityServer.Controllers
 {
     public class AuthController : Controller
     {
+        private readonly IIdentityServerInteractionService _interactionService;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         
 
-        public AuthController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userInManager)
+        public AuthController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userInManager, IIdentityServerInteractionService  interactionService )
         {
             _signInManager = signInManager;
             _userManager = userInManager;
+            _interactionService = interactionService;
           
         }
 
@@ -46,6 +50,7 @@ namespace BookingWizard.IdentityServer.Controllers
                     return Redirect(vm.ReturnUrl);
                 }
             }
+            
             return View(vm);
         }
 
@@ -77,8 +82,22 @@ namespace BookingWizard.IdentityServer.Controllers
                 
      
             }
-            return View();
+            return View(vm);
         }
+
+        public async Task<IActionResult> LogOut(string logoutId)
+        {
+            await _signInManager.SignOutAsync();
+            var logoutResult =  await _interactionService.GetLogoutContextAsync(logoutId);
+
+            if(string.IsNullOrEmpty(logoutResult.PostLogoutRedirectUri))
+                return RedirectToAction("Index", "Home");
+
+            return Redirect(logoutResult.PostLogoutRedirectUri);
+
+        }
+        
+
 
         private async Task Authenticate(IdentityUser user)
         {
@@ -86,13 +105,12 @@ namespace BookingWizard.IdentityServer.Controllers
             // создаем один claim
 
             string role = ""; 
-            if(roles.Count > 1)
+            if(roles.FirstOrDefault() == "Admin")
             {
-                 role = roles.FirstOrDefault();
+                role = "Admin";
             }
             else
             {
-                
                  role = "Guest";
                  await _userManager.AddToRoleAsync(user, role);
             }

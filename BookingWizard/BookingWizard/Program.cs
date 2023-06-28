@@ -13,19 +13,24 @@ using BookingWizard.DAL.Data;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("HotelsDbConnection"), b => b.MigrationsAssembly("BookingWizard.DAL")));
-builder.Services.AddScoped<IHotelRepository<Hotel>,HotelRepository>();
-builder.Services.AddScoped<IHotelRoomRepository<hotelRoom>,hotelRoomsRepository>();
-builder.Services.AddScoped<IUnitOfWork,UnifOfWork>();
-builder.Services.AddScoped<IHotelService,HotelService>();
-builder.Services.AddScoped<IHotelRoomService,HotelRoomService>();
-builder.Services.AddScoped<IBookingService,BookingService>();
-builder.Services.AddScoped<IBookingRepository,BookingRepository>();
+
+builder.Services.AddDbContext<BookingDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("HotelsDbConnection")));
+
+builder.Services.AddScoped<IHotelRepository<Hotel>, HotelRepository>();
+builder.Services.AddScoped<IHotelRoomRepository<hotelRoom>, hotelRoomsRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnifOfWork>();
+builder.Services.AddScoped<IHotelService, HotelService>();
+builder.Services.AddScoped<IHotelRoomService, HotelRoomService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 
 builder.Services.AddAutoMapper(typeof(MapProfile));
 
@@ -36,11 +41,11 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddAuthentication(config =>
 {
-    config.DefaultScheme = "Cookie";
-    config.DefaultChallengeScheme = "oidc";
+    config.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    config.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
 })
-    .AddCookie("Cookie")
-    .AddOpenIdConnect("oidc", config =>
+    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, config =>
     {
         config.Authority = "https://localhost:7037";
         config.ClientId = "client_id_mvc";
@@ -49,6 +54,10 @@ builder.Services.AddAuthentication(config =>
         config.ResponseType = "code";
 
         config.Scope.Add("role.scope");
+        config.Scope.Add("openid");
+        config.Scope.Add("profile");
+      
+       
     });
 
 

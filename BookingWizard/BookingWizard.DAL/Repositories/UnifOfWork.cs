@@ -1,6 +1,7 @@
 ﻿using BookingWizard.DAL.Data;
 using BookingWizard.DAL.Entities;
 using BookingWizard.DAL.Interfaces;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
@@ -13,21 +14,23 @@ namespace BookingWizard.DAL.Repositories
 {
 	public class UnifOfWork : IUnitOfWork
 	{
-		AppDbContext _context;
+		BookingDbContext _context;
 		HotelRepository _hotelRepository;
 		hotelRoomsRepository _roomsRepository;
 		BookingRepository _bookingRepository;
+		IWebHostEnvironment _webHostEnvironment;
 
-		public UnifOfWork(AppDbContext context)
+		public UnifOfWork(BookingDbContext context, IWebHostEnvironment webHostEnvironment)
 		{
 			_context= context;
+			_webHostEnvironment= webHostEnvironment;
 		}
 		public IHotelRepository<Hotel> Hotels
 		{
 			get
 			{
 				if (_hotelRepository == null)
-					_hotelRepository = new HotelRepository(_context);
+					_hotelRepository = new HotelRepository(_context, _webHostEnvironment);
 				return _hotelRepository;
 			}
 		}
@@ -46,7 +49,7 @@ namespace BookingWizard.DAL.Repositories
 			get
 			{
 				if (_roomsRepository == null)
-					_roomsRepository = new hotelRoomsRepository(_context);
+					_roomsRepository = new hotelRoomsRepository(_context, _webHostEnvironment);
 				return _roomsRepository;
 			}
 		}
