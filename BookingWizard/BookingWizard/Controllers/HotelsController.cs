@@ -18,7 +18,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace BookingWizard.Controllers
 {
-
+	[Authorize]
 	public class HotelsController : Controller
 	{
 
@@ -49,6 +49,11 @@ namespace BookingWizard.Controllers
 			}
 
 			hotelVMList = _map.Map<IEnumerable<HotelVM>>(_hotelService.GetAll());
+
+			foreach(var item in hotelVMList)
+			{
+				item.Image = item.Images.FirstOrDefault();
+			}
 			return View(hotelVMList);
 		}
 
@@ -68,13 +73,14 @@ namespace BookingWizard.Controllers
 
 				var hotel = _map.Map<Hotel>(hotelVM);
 				_hotelService.Add(hotel);
-
+				
 
 				return RedirectToAction("Hotels");
 
 			}
 			return View();
 		}
+		
 
 		public IActionResult Edit(int id)
 		{

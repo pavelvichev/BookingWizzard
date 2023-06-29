@@ -3,45 +3,43 @@
 	var photoPath = "";
 	if (Model != null)
 	{
-		photoPath = $"~/images/{Model.Image ?? "https://www.interfax.ru/ftproot/photos/photostory/2022/04/29/week/week7_1100.jpg"}";
+		photoPath = $"~/images/{Model.Image.Name ?? "https://www.interfax.ru/ftproot/photos/photostory/2022/04/29/week/week7_1100.jpg"}";
 	}
 }
-<form method="post" enctype="multipart/form-data">
-	<div>
-	<div class="input-group mb-3">
-		<input type="text" class="form-control"  asp-for="HotelName" aria-describedby="basic-addon2">
-		<span class="input-group-text" id="basic-addon2">Name</span>
-	</div>
-	<span asp-validation-for="HotelName"></span>
-	<div class="input-group mb-3">
-		<input type="text" class="form-control"  asp-for="HotelShortDescription" aria-describedby="basic-addon2">
-		<span class="input-group-text" id="basic-addon2">Short Description</span>
-	</div>
-	<span asp-validation-for="HotelShortDescription"></span>
-	<div class="input-group mb-3">
-		<input type="text" class="form-control"  asp-for="HotelLongDescription" aria-describedby="basic-addon2">
-		<span class="input-group-text" id="basic-addon2">Long Description</span>
-	</div>
-	<span asp-validation-for="HotelLongDescription"></span>
-	 <div>
-      <img class=" card-img-top imageThumbnail border border-primary" src = "@photoPath" asp-append-version = "true" />
-		 <div class="custom-file">
-		 <input asp-for="ImageModel.Image" class="custom-file-input form-control" />
-		 <label class="custom-file-label text-left"></label>
-	     </div>
-     </div>
-	<div class="input-group mb-3">
+<form id="addHotelForm" method="post" enctype="multipart/form-data">
+	
+	<div id="main">
+		<div class="input-group mb-3">
+			<input type="text" class="form-control" asp-for="HotelName" aria-describedby="basic-addon2">
+			<span class="input-group-text" id="basic-addon2">Name</span>
+		</div>
+		<span asp-validation-for="HotelName"></span>
+		<div class="input-group mb-3">
+			<input type="text" class="form-control" asp-for="HotelShortDescription" aria-describedby="basic-addon2">
+			<span class="input-group-text" id="basic-addon2">Short Description</span>
+		</div>
+		<span asp-validation-for="HotelShortDescription"></span>
+		<div class="input-group mb-3">
+			<input type="text" class="form-control" asp-for="HotelLongDescription" aria-describedby="basic-addon2">
+			<span class="input-group-text" id="basic-addon2">Long Description</span>
+		</div>
+		<span asp-validation-for="HotelLongDescription"></span>
+		<div class="custom-file">
+			<input asp-for="ImageModelList" class="custom-file-input form-control" multiple />
+			<label class="custom-file-label text-left"></label>
+		</div>
+		<div class="input-group  mt-3">
 			<input type="text" id="autocomplete" class="form-control" asp-for="@Model.address.Addres" aria-describedby="basic-addon2">
-		<span class="input-group-text" id="basic-addon2">Country</span>
+			<span class="input-group-text" id="basic-addon2">Country</span>
+		</div>
+		<span asp-validation-for="address.Addres"></span>
 	</div>
-	<span asp-validation-for="address.Addres"></span>
-    </div>
-
 
 	<button type="submit">Add</button>
-
 </form>
 
+
+@*Google autocomplete*@
 <script>
 
 
@@ -58,3 +56,8 @@
 <script async
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC41-CXCuLxltWfEDjuVT4Kcc-K2Bd-gsk&libraries=places&callback=initAutocomplete">
 </script>
+
+
+
+
+

@@ -3,7 +3,7 @@
 	var photoPath = "";
 	if (Model != null)
 	{
-		photoPath = $"~/images/{Model.Image ?? "https://www.interfax.ru/ftproot/photos/photostory/2022/04/29/week/week7_1100.jpg"}";
+		photoPath = $"~/images/{Model.Image.Name ?? "https://www.interfax.ru/ftproot/photos/photostory/2022/04/29/week/week7_1100.jpg"}";
 	}
 }
 <form method="post" enctype="multipart/form-data">
@@ -26,14 +26,14 @@
 			<span class="input-group-text" id="basic-addon2">Long Description</span>
 		</div>
 		<span asp-validation-for="HotelShortDescription"></span>
-		<div style="width: 200px; height: 200px;">
+		@*<div style="width: 200px; height: 200px;">
 			<img class="card-img-top" alt="Hotel" imageThumbnail border border-primary" src="@Url.Content(photoPath)" asp-append-version="true">
 
 			<div class="custom-file">
 				<input asp-for="ImageModel.Image" class="custom-file-input form-control" />
 				<label class="custom-file-label text-left"></label>
 			</div>
-		</div>
+		</div>*@
 		<div class="input-group mb-3">
 			<input type="text" id="autocomplete" class="form-control" asp-for="@Model.address.Addres" aria-describedby="basic-addon2">
 			<span class="input-group-text" id="basic-addon2">Country</span>

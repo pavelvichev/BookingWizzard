@@ -9,6 +9,7 @@ using BookingWizard.DAL.Interfaces;
 using BookingWizard.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace BookingWizard.DAL.Repositories
 {
@@ -24,20 +25,21 @@ namespace BookingWizard.DAL.Repositories
 		}
 		public Hotel Add(Hotel item)
 		{
-			PhotoUpload(item);
+			
 			_context.hotels.Add(item);
-
 			_context.SaveChanges();
+			PhotoUpload(item);
+			
 			return item;
 		}
 
 		public Hotel Delete(Hotel item)
 		{
-			if (item.Image != null)
-			{
-				string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "images", item.Image);
-				System.IO.File.Delete(filePath);
-			}
+			//if (item.Images != null)
+			//{
+			//	string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "images", item.Images);
+			//	System.IO.File.Delete(filePath);
+			//}
 			_context.hotels.Remove(item);
 			_context.SaveChanges();
 			return item;
@@ -47,6 +49,7 @@ namespace BookingWizard.DAL.Repositories
 		{ 
 			Hotel hotel = _context.hotels.AsNoTracking().FirstOrDefault(h => h.Id == id);
 			hotel.address = _context.Address.AsNoTracking().FirstOrDefault(x => hotel.Id == x.HotelId);
+			hotel.Images = _context.HotelImages.AsNoTracking();
 			
 			return hotel;
 		}
@@ -60,6 +63,10 @@ namespace BookingWizard.DAL.Repositories
 			return allSearch;
 			}
 			var all = (from h in _context.hotels select h).ToList();
+			foreach (var item in all)
+			{
+				item.Images = _context.HotelImages.AsNoTracking();
+			}
 			return all;
 
 		}
@@ -72,40 +79,43 @@ namespace BookingWizard.DAL.Repositories
 			return item;
 		}
 
-		public void PhotoUpload(Hotel hotel)
-		{
-			if (hotel.ImageModel.Image != null)
-			{
-				if (hotel.Image != null)
-				{
-					string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "images", hotel.Image);
-					System.IO.File.Delete(filePath);
-				}
-			}
 
-			hotel.Image = ProcesUploadedHotelFile(hotel);
-		}
 
-		string ProcesUploadedHotelFile(Hotel hotel)
+		public void PhotoUpload(Hotel hotel, int id = 0)
 		{
 			string uniqueFileName = null;
 			string filePath = null;
-			if (hotel.ImageModel.Image != null)
+
+			if (hotel.ImageModelList.All(x => x != null))
 			{
 				string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
-				uniqueFileName = Guid.NewGuid().ToString() + "-" + hotel.ImageModel.Image.FileName;
-				filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-				using (var fs = new FileStream(filePath, FileMode.Create))
+				foreach (var item in hotel.ImageModelList)
 				{
-					hotel.ImageModel.Image.CopyTo(fs);
+					if (item != null)
+					{
+						uniqueFileName = Guid.NewGuid().ToString() + hotel.HotelName + "-" + item.FileName;
+						filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+						using (var fs = new FileStream(filePath, FileMode.Create))
+						{
+							item.CopyTo(fs);
+						}
+
+						var newImage = new HotelImages
+						{
+							Name = uniqueFileName,
+							HotelId = hotel.Id
+						};
+
+						_context.HotelImages.Add(newImage);
+						_context.SaveChanges(); // Сохранение каждого экземпляра отдельно
+					}
 				}
 			}
-
-
-			return uniqueFileName;
 		}
 
-		
+
+
 	}
 }

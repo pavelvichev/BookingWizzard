@@ -22,7 +22,7 @@
     <div class="row">
         @foreach (var hotel in Model)
         {
-            string photoPath = $"~/images/{hotel.Image ?? "https://www.interfax.ru/ftproot/photos/photostory/2022/04/29/week/week7_1100.jpg"}";
+            string photoPath = $"~/images/{hotel.Image.Name ?? "https://www.interfax.ru/ftproot/photos/photostory/2022/04/29/week/week7_1100.jpg"}";
             <div class="col-md-4">
                 <div class="card mb-3">
                     <a href="@Url.Action("Hotel","Hotels", new {id = hotel.Id})">

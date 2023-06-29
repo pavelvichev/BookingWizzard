@@ -17,12 +17,11 @@ namespace BookingWizard.ModelsVM
 
 		public List<string> previlege; //привилегии
 		public AddressVM address { get; set; } // Аддрес
-
-
 		public int addressId { get; set; } // айди адресса в таблице
-		public ImageModelVM ImageModel { get; set; }
-		public string? Image { get; set; }
-
+		public IEnumerable<IFormFile> ImageModelList { get; set; }
+		public HotelImagesVM? Image { get; set; }
+		public IEnumerable<HotelImagesVM>? Images { get; set; }
+		
 		public hotelRoomVM? room { get; set; }
 
 		public IEnumerable<hotelRoomVM>? roomList { get; set; }

@@ -95,16 +95,34 @@ namespace BookingWizard.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Image")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("isFavourite")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
 
                     b.ToTable("hotels");
+                });
+
+            modelBuilder.Entity("BookingWizard.DAL.Entities.HotelImages", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("HotelId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HotelId");
+
+                    b.ToTable("HotelImages");
                 });
 
             modelBuilder.Entity("BookingWizard.DAL.Entities.hotelRoom", b =>
@@ -165,6 +183,17 @@ namespace BookingWizard.DAL.Migrations
                     b.Navigation("Room");
                 });
 
+            modelBuilder.Entity("BookingWizard.DAL.Entities.HotelImages", b =>
+                {
+                    b.HasOne("BookingWizard.DAL.Entities.Hotel", "Hotel")
+                        .WithMany("Images")
+                        .HasForeignKey("HotelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Hotel");
+                });
+
             modelBuilder.Entity("BookingWizard.DAL.Entities.hotelRoom", b =>
                 {
                     b.HasOne("BookingWizard.DAL.Entities.Hotel", "Hotel")
@@ -177,6 +206,8 @@ namespace BookingWizard.DAL.Migrations
 
             modelBuilder.Entity("BookingWizard.DAL.Entities.Hotel", b =>
                 {
+                    b.Navigation("Images");
+
                     b.Navigation("address")
                         .IsRequired();
 

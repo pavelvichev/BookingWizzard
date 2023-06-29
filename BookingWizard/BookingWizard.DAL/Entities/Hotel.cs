@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -21,11 +22,11 @@ namespace BookingWizard.DAL.Entities
 		public ushort HotelMark { get; set; } // оценка
 		public bool isFavourite { get; set; } // добавить в избраное
 
-		public List<string> previlege; //привилегии
+		public IEnumerable<string> previlege; //привилегии
 		public Address address { get; set; } // Аддрес
 		[NotMapped]
-		public ImageModel ImageModel { get; set; }
-		public string Image { get; set; } // фото
+		public IEnumerable<IFormFile> ImageModelList { get; set; }
+		public IEnumerable<HotelImages> Images { get; set; }
 
 
 		public IEnumerable<hotelRoom>? roomList { get; set; }
