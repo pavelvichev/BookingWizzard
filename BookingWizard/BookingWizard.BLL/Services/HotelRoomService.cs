@@ -54,5 +54,15 @@ namespace BookingWizard.BLL.Services
 			_unitOfWork.Rooms.Update(item);
 			return item;
 		}
+
+		public void PhotoUpload(hotelRoom room)
+		{
+			_unitOfWork.Rooms.PhotoUpload(room);
+		}
+
+		public void DeletePhoto(string photoName)
+		{
+			_unitOfWork.Rooms.DeletePhoto(photoName);
+		}
 	}
 }

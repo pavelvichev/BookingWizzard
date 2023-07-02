@@ -1,54 +1,185 @@
 ﻿@model BookingWizard.ModelsVM.hotelRoomVM
+
 @if (User.IsInRole("Guest"))
 {
-	@if (TempData["MessageFromBooking"] != null)
-	{
-		<div>
-			<span class="alert alert-primary">@TempData["MessageFromBooking"]</span>
-		</div>
-	}
+    @if (TempData["MessageFromBooking"] != null)
+    {
+        <div>
+            <span class="alert alert-primary">@TempData["MessageFromBooking"]</span>
+        </div>
+    }
 }
 
-<h1>@Model.Name</h1>
-<p>@Model.Description</p>
-<p>@Model.roomPricePerNight.ToString("c")</p>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <div id="photoContainer">
+                <img src="@Url.Content("~/images/" + Model.Images.First().Name)" class="img-fluid" style="height: 400px;" />
+            </div>
+            <div style="text-align: center;">
+                <button type="button" id="prevButton" class="btn btn-primary"><i></i></button>
+                <button type="button" id="nextButton" class="btn btn-primary"><i></i></button>
+                @if (User.IsInRole("Admin"))
+                {
+                    <button type="button" id="deletePhotoButton" class="btn btn-danger"><i class="fas fa-chevron-right"></i></button>
+                    <button type="button" id="addButton" class="btn btn-success"><i class="fas fa-chevron-right"></i></button>
+                    <input type="file" id="photoInput" style="display: none;" accept="image/*" multiple>
+                }
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="text-center">
+                <h1 class="display-4">@Model.Name</h1>
+                <div class="lead">@Model.Description</div>
+                <p class="lead">@Model.roomPricePerNight.ToString("c")</p>
+            </div>
+        </div>
+    </div>
+</div>
+
 @if (User.IsInRole("Admin"))
 {
-	<form method="post" action="/Rooms/Delete">
-		<input type="hidden" asp-for="Id" />
-		<button class="alert alert-danger" type="submit" id="toggleButton">Delete</button>
-	</form>
+    <form method="post" action="/Rooms/Delete">
+        <input type="hidden" asp-for="Id" />
+        <button class="alert alert-danger" type="submit" id="deleteButton">Delete</button>
+    </form>
 }
 @if (User.IsInRole("Guest"))
 {
-	<h2>Заказать комнату</h2>
-	<form method="post" action="/Rooms/Booking">
-		@if (Model.Id != 0)
-		{
-			Model.booking = new BookingVM();
-			Model.booking.roomId = Model.Id;
-		}
+    <h2>Заказать комнату</h2>
+    <form method="post" action="/Rooms/Booking">
+        @if (Model.Id != 0)
+        {
+            Model.booking = new BookingVM();
+            Model.booking.roomId = Model.Id;
+        }
 
 
-		<input type="hidden" asp-for="booking.roomId" />
-		<div class="mb-3">
-			<div class="input-group">
-				<span class="input-group-text" id="basic-addon3">З</span>
-				<input type="date" class="form-control" id="basic-url" asp-for="booking.arrival_date" min="@DateTime.Now.ToString("yyyy-MM-dd")">
-			</div>
+        <input type="hidden" asp-for="booking.roomId" />
+        <div class="mb-3">
+            <label for="arrivalDate" class="form-label">Дата прибытия</label>
+            <input type="date" class="form-control" id="arrivalDate" asp-for="booking.arrival_date" min="@DateTime.Now.ToString("yyyy-MM-dd")">
+        </div>
+        <div class="mb-3">
+            <label for="departureDate" class="form-label">Дата отъезда</label>
+            <input type="date" class="form-control" id="departureDate" asp-for="booking.date_of_departure" min="@DateTime.Now.ToString("yyyy-MM-dd")">
+        </div>
 
-		</div>
-		<div class="mb-3">
-			<div class="input-group">
-				<span class="input-group-text" id="basic-addon3">По</span>
-				<input type="date" class="form-control" id="basic-url" asp-for="booking.date_of_departure" min="@DateTime.Now.ToString("yyyy-MM-dd")">
-			</div>
-		</div>
-
-		@if (TempData["ErrorMessageFromBooking"] != null)
-		{
-			<span class="alert alert-danger">@TempData["ErrorMessageFromBooking"]</span>
-		}
-		<button type="submit">Book</button>
-	</form>
+        @if (TempData["ErrorMessageFromBooking"] != null)
+        {
+            <span class="alert alert-danger">@TempData["ErrorMessageFromBooking"]</span>
+        }
+        <button type="submit" class="btn btn-primary">Book</button>
+    </form>
 }
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<script>
+    var currentPhotoIndex = 0;
+    var photos = @Html.Raw(Json.Serialize(Model.Images.Select(u => u.Name).ToArray()));
+
+    function showPhoto(index) {
+        var photoUrl = "/images/" + photos[index];
+        $("#photoContainer").html('<img src="' + photoUrl + '" class="img-fluid"  style="height: 400px;" />');
+    }
+
+    $(document).ready(function () {
+        $("#addButton").click(function () {
+            $("#photoInput").click();
+        });
+
+        $("#nextButton").click(function () {
+            currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
+            showPhoto(currentPhotoIndex);
+        });
+
+        $("#prevButton").click(function () {
+            currentPhotoIndex = (currentPhotoIndex - 1 + photos.length) % photos.length;
+            showPhoto(currentPhotoIndex);
+        });
+
+       $("#photoInput").change(function () {
+            var files = this.files;
+            var newList = @Html.Raw(Json.Serialize(Model.Images.Select(u => u.Name).ToList()));
+
+            var formData = new FormData();
+            for (var i = 0; i < files.length; i++) {
+                formData.append("files", files[i]);
+                newList.push(files[i].name);
+            }
+
+            var model = @Html.Raw(Json.Serialize(Model));
+            formData.append("model", JSON.stringify(model));
+
+            $.ajax({
+                url: "/Rooms/PhotoUpload",
+                type: "POST",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+
+                    window.location.href = "/Rooms/Room?id=" + @Model.Id;
+
+                },
+                error: function (xhr, status, error) {
+                    debugger;
+                    console.error("Error. Status:", status, "Error:", error);
+
+                }
+            });
+        });
+
+
+        $("#deletePhotoButton").click(function () {
+
+				var currentPhoto = photoContainer.querySelector("img");
+				var id = @Model.Id;
+
+				if (currentPhoto) {
+					var photoName = currentPhoto.getAttribute("src").split("/").pop();
+				}
+
+				$.post("/Rooms/DeletePhoto", { photoName: photoName, id: id })
+					.done(function () {
+						// Перенаправление на другой контроллер
+						window.location.href = "/Rooms/Room?id=" + @Model.Id;
+					})
+					.fail(function (xhr, status, error) {
+						// Обработка ошибки
+						console.error("Error. Status:", status, "Error:", error);
+					});
+			});
+    });
+</script>
+
+<script>
+    document.addEventListener("click", function (e) {
+        let addButton = document.getElementById('toggleButton');
+        let deleteButton = document.getElementById('deleteButton');
+        let content = document.getElementById('myContent');
+
+        if (e.target === addButton) {
+            content.style.display = content.style.display === 'none' ? 'block' : 'none';
+        }
+        else if (e.target === deleteButton) {
+            let confirmation = confirm("Are you sure you want to delete the room?");
+            if (!confirmation) {
+                e.preventDefault();
+            }
+        }
+    });
+</script>
+
+<style>
+    /* Add your custom styles here */
+    .btn-group {
+        margin-bottom: 10px;
+    }
+
+    .form-label {
+        font-weight: bold;
+    }
+</style>

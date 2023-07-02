@@ -6,6 +6,7 @@ using BookingWizard.DAL.Interfaces;
 using BookingWizard.ModelsVM;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace BookingWizard.Controllers
 {
@@ -29,10 +30,21 @@ namespace BookingWizard.Controllers
 		}
 		public IActionResult Room(int id)
 		{
-			var curUser = HttpContext.User;
+	
 			var hotelRoom = _map.Map<hotelRoomVM>(_hotelRoomService.Get(id));
-			return View(hotelRoom);
+            
+            return View(hotelRoom);
 		}
+		
+		public IActionResult Rooms(int id)
+		{
+	
+			var hotelRoom = _map.Map<hotelRoomVM>(_hotelRoomService.Get(id));
+            
+            return View(hotelRoom);
+		}
+		
+
 
 		[HttpGet]
 		public IActionResult Edit(int id)
@@ -97,7 +109,28 @@ namespace BookingWizard.Controllers
 
 		}
 
+        public IActionResult DeletePhoto(string photoName, int id)
+        {
+            _hotelRoomService.DeletePhoto(photoName);
 
-       
+            return RedirectToAction("Room", new { id = id });
+        }
+
+        public IActionResult PhotoUpload(List<IFormFile> files, string model)
+        {
+            var modelVM = JsonConvert.DeserializeObject<hotelRoomVM>(model);
+            var room = _hotelRoomService.Get(modelVM.Id);
+
+            room.ImageModelList = files;
+            _hotelRoomService.PhotoUpload(room);
+
+            // Обновляем блок с фотографиями в представлении Hotel
+            room = _hotelRoomService.Get(modelVM.Id); // Получаем обновленный объект hotel с актуальными данными
+
+            var json = JsonConvert.SerializeObject(room.Images);
+            return Content(json, "application/json");
+        }
+
+
     }
 }

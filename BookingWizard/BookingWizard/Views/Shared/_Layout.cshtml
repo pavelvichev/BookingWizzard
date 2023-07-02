@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/BookingWizard.styles.css" asp-append-version="true" />
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 </head>
 <body>
     
@@ -61,7 +62,7 @@
         </nav>
     </header>
 
-
+   
     <div class="container mt-4">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -70,8 +71,9 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script>
 
+
+    <script>
 
         function initAutocomplete() {
             const input = document.getElementById("autocomplete");
@@ -81,11 +83,22 @@
 
             let autocomplete = new google.maps.places.Autocomplete(input, options);
         };
+
+        
+        
+        
+
+        // Объединяем инициализацию функций
+        function initialize() {
+            initAutocomplete();
+            initMap();
+        }
+
+        window.initMap = initMap;
     </script>
 
-    <script async
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC41-CXCuLxltWfEDjuVT4Kcc-K2Bd-gsk&libraries=places&callback=initAutocomplete">
-    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC41-CXCuLxltWfEDjuVT4Kcc-K2Bd-gsk&callback=initialize&libraries=places&v=weekly" defer></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 
     

@@ -118,11 +118,38 @@ namespace BookingWizard.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("hotelRoomId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("HotelId");
 
+                    b.HasIndex("hotelRoomId");
+
                     b.ToTable("HotelImages");
+                });
+
+            modelBuilder.Entity("BookingWizard.DAL.Entities.RoomImages", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoomId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("RoomImages");
                 });
 
             modelBuilder.Entity("BookingWizard.DAL.Entities.hotelRoom", b =>
@@ -139,10 +166,6 @@ namespace BookingWizard.DAL.Migrations
 
                     b.Property<int>("HotelId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Image")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -191,7 +214,22 @@ namespace BookingWizard.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("BookingWizard.DAL.Entities.hotelRoom", null)
+                        .WithMany("Images")
+                        .HasForeignKey("hotelRoomId");
+
                     b.Navigation("Hotel");
+                });
+
+            modelBuilder.Entity("BookingWizard.DAL.Entities.RoomImages", b =>
+                {
+                    b.HasOne("BookingWizard.DAL.Entities.hotelRoom", "Room")
+                        .WithMany()
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Room");
                 });
 
             modelBuilder.Entity("BookingWizard.DAL.Entities.hotelRoom", b =>
@@ -217,6 +255,8 @@ namespace BookingWizard.DAL.Migrations
             modelBuilder.Entity("BookingWizard.DAL.Entities.hotelRoom", b =>
                 {
                     b.Navigation("Bookings");
+
+                    b.Navigation("Images");
                 });
 #pragma warning restore 612, 618
         }

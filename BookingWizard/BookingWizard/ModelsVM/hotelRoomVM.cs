@@ -17,9 +17,9 @@ namespace BookingWizard.ModelsVM
 		public ushort roomPricePerNight { get; set; } // цена за ночь
 
 		public uint? bookingId { get; set; } // номер бронирования
-		public string? Image { get; set; } // фото
-
-		public ImageModel ImageModel { get; set; }
-		public bool isBooking { get; set; } // занят ли уже номер
+        public IEnumerable<IFormFile>? ImageModelList { get; set; }
+        public RoomImagesVM? Image { get; set; }
+        public IEnumerable<RoomImagesVM>? Images { get; set; }
+        public bool isBooking { get; set; } // занят ли уже номер
 	}
 }

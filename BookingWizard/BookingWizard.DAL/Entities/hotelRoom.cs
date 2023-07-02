@@ -1,4 +1,5 @@
 ﻿using BookingWizard.DAL.Entities;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,11 +21,12 @@ namespace BookingWizard.DAL.Entities
 
 		public ushort roomPricePerNight { get; set; } // цена за ночь
 		public ICollection<Booking>? Bookings { get; set; } // информация про бронь
-		public string Image { get; set; } // фотоParalle
-		[NotMapped]
-		public ImageModel ImageModel { get; set; } // фото
+
+        [NotMapped]
+        public IEnumerable<IFormFile> ImageModelList { get; set; }
+        public ICollection<RoomImages> Images { get; set; }
 
 
-		public bool isBooking { get; set; } // занят ли уже номер
+        public bool isBooking { get; set; } // занят ли уже номер
 	}
 }

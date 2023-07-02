@@ -15,5 +15,7 @@ namespace BookingWizard.DAL.Interfaces
 		public T Update(T item);
 		public T Get(int Id);
 		IEnumerable<T> GetAll(int hotelId, string searchString = "");
-	}
+        public void PhotoUpload(hotelRoom room, int id = 0);
+        public void DeletePhoto(string photoName);
+    }
 }

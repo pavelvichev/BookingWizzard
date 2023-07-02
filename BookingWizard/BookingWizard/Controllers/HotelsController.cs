@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Hosting;
 using static System.Net.Mime.MediaTypeNames;
+using Newtonsoft.Json;
 
 namespace BookingWizard.Controllers
 {
@@ -85,8 +86,10 @@ namespace BookingWizard.Controllers
 		public IActionResult Edit(int id)
 		{
 			var hotel = _hotelService.Get(id);
-
+			
 			var hotelMod = _map.Map<HotelVM>(hotel);
+
+			hotelMod.Image = hotelMod.Images.FirstOrDefault();
 			return View(hotelMod);
 		}
 
@@ -102,7 +105,7 @@ namespace BookingWizard.Controllers
 			return View();
 
 		}
-		[HttpGet]
+
 		public IActionResult Hotel(int id, string searchString)
 		{
 
@@ -110,15 +113,20 @@ namespace BookingWizard.Controllers
 
 			hotel.roomList = _map.Map<IEnumerable<hotelRoom>>(_hotelRoomService.GetAll(id, searchString));
 
+			
 			var hotelDTO = _map.Map<HotelVM>(hotel);
-			return View(hotelDTO);
+            foreach (var item in hotelDTO.roomList)
+            {
+				item.Image = item.Images.FirstOrDefault();
+            }
+            return View(hotelDTO);
 
 		}
 
 		[HttpPost]
 		public IActionResult AddRoom(HotelVM hotelVM)
 		{
-
+			
 			var hotel = _hotelService.Get(hotelVM.Id);
 			_hotelRoomService.Add(_map.Map<hotelRoom>(hotelVM.room), hotelVM.Id);
 
@@ -134,7 +142,34 @@ namespace BookingWizard.Controllers
 
 			return RedirectToAction("Hotels");
 		}
+        public IActionResult DeletePhoto(string photoName, int id)
+		{
+			_hotelService.DeletePhoto(photoName);
 
-	}
+			return RedirectToAction("Hotel", new { id = id });
+		}
+
+        public IActionResult PhotoUpload(List<IFormFile> files, string model)
+        {
+            var modelVM = JsonConvert.DeserializeObject<HotelVM>(model);
+            var hotel = _hotelService.Get(modelVM.Id);
+
+            hotel.ImageModelList = files;
+            _hotelService.PhotoUpload(hotel);
+
+            // Обновляем блок с фотографиями в представлении Hotel
+            hotel = _hotelService.Get(modelVM.Id); // Получаем обновленный объект hotel с актуальными данными
+
+            var json = JsonConvert.SerializeObject(hotel.Images);
+            return Content(json, "application/json");
+        }
+
+
+
+
+
+
+
+    }
 }
 

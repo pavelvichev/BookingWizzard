@@ -10,6 +10,7 @@
 	<input type="hidden" asp-for="address.HotelId">
 	<input type="hidden" asp-for="addressId">
 	<input type="hidden" asp-for="Image">
+	<input type="hidden" asp-for="ImageModelList">
 	<div>
 		<div class="input-group mb-3">
 			<input type="text" class="form-control" asp-for="HotelName" aria-describedby="basic-addon2">
@@ -26,14 +27,7 @@
 			<span class="input-group-text" id="basic-addon2">Long Description</span>
 		</div>
 		<span asp-validation-for="HotelShortDescription"></span>
-		@*<div style="width: 200px; height: 200px;">
-			<img class="card-img-top" alt="Hotel" imageThumbnail border border-primary" src="@Url.Content(photoPath)" asp-append-version="true">
-
-			<div class="custom-file">
-				<input asp-for="ImageModel.Image" class="custom-file-input form-control" />
-				<label class="custom-file-label text-left"></label>
-			</div>
-		</div>*@
+		
 		<div class="input-group mb-3">
 			<input type="text" id="autocomplete" class="form-control" asp-for="@Model.address.Addres" aria-describedby="basic-addon2">
 			<span class="input-group-text" id="basic-addon2">Country</span>

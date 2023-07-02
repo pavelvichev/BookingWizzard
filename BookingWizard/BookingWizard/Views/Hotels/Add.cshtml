@@ -26,37 +26,17 @@
 		<span asp-validation-for="HotelLongDescription"></span>
 		<div class="custom-file">
 			<input asp-for="ImageModelList" class="custom-file-input form-control" multiple />
-			<label class="custom-file-label text-left"></label>
+			<label class="custom-file-label text-left">Add Photos</label>
 		</div>
 		<div class="input-group  mt-3">
 			<input type="text" id="autocomplete" class="form-control" asp-for="@Model.address.Addres" aria-describedby="basic-addon2">
-			<span class="input-group-text" id="basic-addon2">Country</span>
+			<span class="input-group-text" id="basic-addon2">Address</span>
 		</div>
 		<span asp-validation-for="address.Addres"></span>
 	</div>
 
 	<button type="submit">Add</button>
 </form>
-
-
-@*Google autocomplete*@
-<script>
-
-
-	function initAutocomplete() {
-		const input = document.getElementById("autocomplete");
-		const options = {
-			fields: ["place_id", "geometry", "name"],
-		};
-
-		let autocomplete = new google.maps.places.Autocomplete(input, options);
-	};
-</script>
-
-<script async
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC41-CXCuLxltWfEDjuVT4Kcc-K2Bd-gsk&libraries=places&callback=initAutocomplete">
-</script>
-
 
 
 

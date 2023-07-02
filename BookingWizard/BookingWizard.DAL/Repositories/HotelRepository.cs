@@ -35,12 +35,13 @@ namespace BookingWizard.DAL.Repositories
 
 		public Hotel Delete(Hotel item)
 		{
-			//if (item.Images != null)
-			//{
-			//	string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "images", item.Images);
-			//	System.IO.File.Delete(filePath);
-			//}
-			_context.hotels.Remove(item);
+            foreach (var model in item.Images)
+            {
+				string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "images", model.Name);
+				System.IO.File.Delete(filePath);
+					
+            }
+            _context.hotels.Remove(item);
 			_context.SaveChanges();
 			return item;
 		}
@@ -49,7 +50,8 @@ namespace BookingWizard.DAL.Repositories
 		{ 
 			Hotel hotel = _context.hotels.AsNoTracking().FirstOrDefault(h => h.Id == id);
 			hotel.address = _context.Address.AsNoTracking().FirstOrDefault(x => hotel.Id == x.HotelId);
-			hotel.Images = _context.HotelImages.AsNoTracking();
+			hotel.Images = _context.HotelImages.Where(U => U.HotelId == id).AsNoTracking().ToList();
+			
 			
 			return hotel;
 		}
@@ -57,15 +59,19 @@ namespace BookingWizard.DAL.Repositories
 
 		public IEnumerable<Hotel> GetAll(string name = "")
 		{
-			if(!string.IsNullOrWhiteSpace(name))
+			List<Hotel> all = null;
+			if (!string.IsNullOrWhiteSpace(name))
 			{
-				var allSearch = _context.hotels.Where(x => x.HotelName.Contains(name));
-			return allSearch;
+				all = _context.hotels.Where(x => x.HotelName.Contains(name)).ToList();
+
 			}
-			var all = (from h in _context.hotels select h).ToList();
+			else
+			{
+				all = (from h in _context.hotels select h).ToList();
+			}
 			foreach (var item in all)
 			{
-				item.Images = _context.HotelImages.AsNoTracking();
+				item.Images = _context.HotelImages.Where(u=> u.HotelId == item.Id).AsNoTracking().ToList();
 			}
 			return all;
 
@@ -73,7 +79,6 @@ namespace BookingWizard.DAL.Repositories
 
 		public Hotel Update(Hotel item)
 		{
-			PhotoUpload(item);
 			_context.Update(item);
 			_context.SaveChanges();
 			return item;
@@ -115,6 +120,15 @@ namespace BookingWizard.DAL.Repositories
 			}
 		}
 
+		public void DeletePhoto(string photoName)
+		{
+
+           
+            var item = _context.HotelImages.Select(u => u).Where(x => x.Name.Equals(photoName)).FirstOrDefault();
+
+			_context.HotelImages.Remove(item);
+			_context.SaveChanges();
+		}
 
 
 	}

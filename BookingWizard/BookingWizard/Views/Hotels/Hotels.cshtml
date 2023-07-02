@@ -26,11 +26,11 @@
             <div class="col-md-4">
                 <div class="card mb-3">
                     <a href="@Url.Action("Hotel","Hotels", new {id = hotel.Id})">
-                        <img src="@Url.Content(@photoPath)" alt="Hotel Image" class="card-img-top imageTumbnail">
+                        <img style="height: 300px;"src="@Url.Content(@photoPath)" alt="Hotel Image" class="card-img-top imageTumbnail">
                     </a>
                     <div class="card-body">
-                        <h5 class="card-title">@hotel.HotelName</h5>
-                        <p class="card-text">@hotel.HotelShortDescription</p>
+                        <h5 style="max-height: 80px;" class="card-title">@hotel.HotelName</h5>
+                        <p style="height: auto; max-height: 100px"class="card-text">@hotel.HotelShortDescription</p>
                         @if (User.IsInRole("Admin"))
                         {
                             <a href="@Url.Action("Edit","Hotels", new {id = hotel.Id})" class="btn btn-primary">Edit</a>

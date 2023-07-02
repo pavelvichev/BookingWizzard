@@ -27,15 +27,7 @@
 		<span class="input-group-text" id="basic-addon2"> Price per Night</span>
 	</div>
 	<span asp-validation-for="roomPricePerNight"></span>
-	<div style="width: 200px; height: 200px;">
-			<img class="card-img-top" alt="Hotel" imageThumbnail border border-primary" src="@Url.Content(photoPath)" asp-append-version="true">
-
-			<div class="custom-file">
-				<input asp-for="ImageModel.Image" class="custom-file-input form-control" />
-				<label class="custom-file-label text-left"></label>
-			</div>
-		</div>
-	</div>
+	
 
 	<button type="submit">Edit</button>
 </form>

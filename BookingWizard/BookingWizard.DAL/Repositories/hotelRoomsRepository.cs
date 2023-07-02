@@ -26,23 +26,25 @@ namespace BookingWizard.DAL.Repositories
 		}
 		public hotelRoom Add(hotelRoom item, int hotelId)
 		{
-			PhotoUpload(item);
+			
 			item.HotelId = hotelId;
 			_context.hotelRooms.Add(item);
 			_context.SaveChanges();
-			return item;
+            PhotoUpload(item);
+            return item;
 		}
 
 		public hotelRoom Delete(hotelRoom item)
 		{
-			if (item.Image != null)
-			{
-				string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "images", item.Image);
-				if (item.Image != "noimage.png")
-					System.IO.File.Delete(filePath);
-			}
+			
 			_context.hotelRooms.Remove(item);
-			_context.SaveChanges();
+            foreach (var model in item.Images)
+            {
+                string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "images", model.Name);
+                System.IO.File.Delete(filePath);
+            }
+           
+            _context.SaveChanges();
 			return item;
 		}
 
@@ -50,6 +52,7 @@ namespace BookingWizard.DAL.Repositories
 		{
 
 			hotelRoom room = _context.hotelRooms.FirstOrDefault(r => r.Id == id);
+			room.Images = _context.RoomImages.Where(u => u.RoomId == id).AsNoTracking().ToList();
 
 
 			return room;
@@ -58,56 +61,77 @@ namespace BookingWizard.DAL.Repositories
 
 		public IEnumerable<hotelRoom> GetAll(int hotelId, string searchString = "")
 		{
+			List<hotelRoom> all = null;
+
 			if (!string.IsNullOrWhiteSpace(searchString))
 			{
-                var allSearch = _context.hotelRooms.Where(x => x.Name.ToString().Contains(searchString));
-                return allSearch;
+				 all = _context.hotelRooms.Where(x => x.Name.Contains(searchString) && x.HotelId == hotelId).ToList();
+				
+			}
+			else
+			{
+				 all = (from h in _context.hotelRooms where h.HotelId == hotelId select h).ToList();
+			}
+            foreach (var item in all)
+            {
+                item.Images = _context.RoomImages.Where(u => u.RoomId == item.Id).AsNoTracking().ToList();
             }
-			var all = (from h in _context.hotelRooms where h.HotelId == hotelId select h).ToList();
-			return all;
-
-		}
+            return all;
+        }
 
 		public hotelRoom Update(hotelRoom item)
 		{
-			PhotoUpload(item);
+			
 			_context.Update(item);
 			_context.SaveChanges();
 			return item;
 		}
 
-		public void PhotoUpload(hotelRoom item)
-		{
-			if (item.ImageModel.Image != null)
-			{
-				if (item.Image != null)
-				{
-					string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "images", item.Image);
-					System.IO.File.Delete(filePath);
-				}
-			}
 
-			item.Image = ProcesUploadedRoomFile(item);
-		}
 
-		string ProcesUploadedRoomFile(hotelRoom item)
-		{
-			string uniqueFileName = null;
-			string filePath = null;
-			if (item.ImageModel.Image != null)
-			{
-				string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
-				uniqueFileName = Guid.NewGuid().ToString() + "-" + item.ImageModel.Image.FileName;
-				filePath = Path.Combine(uploadsFolder, uniqueFileName);
+        public void PhotoUpload(hotelRoom room, int id = 0)
+        {
+            string uniqueFileName = null;
+            string filePath = null;
 
-				using (var fs = new FileStream(filePath, FileMode.Create))
-				{
-					item.ImageModel.Image.CopyTo(fs);
-				}
-			}
+            if (room.ImageModelList.All(x => x != null))
+            {
+                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
 
-			return uniqueFileName;
-		}
-	}
+                foreach (var item in room.ImageModelList)
+                {
+                    if (item != null)
+                    {
+                        uniqueFileName = Guid.NewGuid().ToString() + room.Name + "-" + item.FileName;
+                        filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                        using (var fs = new FileStream(filePath, FileMode.Create))
+                        {
+                            item.CopyTo(fs);
+                        }
+
+                        var newImage = new RoomImages
+                        {
+                            Name = uniqueFileName,
+                            RoomId = room.Id
+                        };
+
+                        _context.RoomImages.Add(newImage);
+                        _context.SaveChanges(); // Сохранение каждого экземпляра отдельно
+                    }
+                }
+            }
+        }
+
+        public void DeletePhoto(string photoName)
+        {
+            var item = _context.RoomImages.Select(u => u).Where(x => x.Name.Equals(photoName)).FirstOrDefault();
+
+            _context.RoomImages.Remove(item);
+            _context.SaveChanges();
+        }
+
+
+    }
 }
 
