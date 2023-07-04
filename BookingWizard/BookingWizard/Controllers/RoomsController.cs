@@ -32,6 +32,7 @@ namespace BookingWizard.Controllers
 		{
 	
 			var hotelRoom = _map.Map<hotelRoomVM>(_hotelRoomService.Get(id));
+			hotelRoom.Image = hotelRoom.Images.FirstOrDefault();
             
             return View(hotelRoom);
 		}
@@ -109,11 +110,11 @@ namespace BookingWizard.Controllers
 
 		}
 
-        public IActionResult DeletePhoto(string photoName, int id)
+        public IActionResult DeletePhoto(int id, int RoomId)
         {
-            _hotelRoomService.DeletePhoto(photoName);
+            _hotelRoomService.DeletePhoto(id);
 
-            return RedirectToAction("Room", new { id = id });
+            return RedirectToAction("Room", new { id = RoomId });
         }
 
         public IActionResult PhotoUpload(List<IFormFile> files, string model)

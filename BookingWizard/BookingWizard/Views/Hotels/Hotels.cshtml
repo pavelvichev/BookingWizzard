@@ -22,11 +22,11 @@
     <div class="row">
         @foreach (var hotel in Model)
         {
-            string photoPath = $"~/images/{hotel.Image.Name ?? "https://www.interfax.ru/ftproot/photos/photostory/2022/04/29/week/week7_1100.jpg"}";
+            
             <div class="col-md-4">
                 <div class="card mb-3">
                     <a href="@Url.Action("Hotel","Hotels", new {id = hotel.Id})">
-                        <img style="height: 300px;"src="@Url.Content(@photoPath)" alt="Hotel Image" class="card-img-top imageTumbnail">
+                  <img style="height: 300px;" src=" @Url.Action("GetPhoto", "PhotoHotels", new { id = hotel.Image.Id })" alt="Hotel Image" class="card-img-top imageTumbnail">
                     </a>
                     <div class="card-body">
                         <h5 style="max-height: 80px;" class="card-title">@hotel.HotelName</h5>

@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace BookingWizard.DAL.Entities
 {
@@ -19,7 +20,11 @@ namespace BookingWizard.DAL.Entities
 		public Hotel? Hotel { get; set; }// инфо про отель
 		public int HotelId { get; set; }
 
-		public ushort roomPricePerNight { get; set; } // цена за ночь
+		public ushort RoomPricePerNight { get; set; } // цена за ночь
+
+		public int NumberOfPeople { get; set; }
+        
+
 		public ICollection<Booking>? Bookings { get; set; } // информация про бронь
 
         [NotMapped]

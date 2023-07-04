@@ -25,7 +25,7 @@ namespace BookingWizard.BLL.Services
 			hotelRoom hotelRoom = _unitOfWork.Rooms.Get(item.RoomId); ;
 			TimeSpan time = item.date_of_departure.Date - item.arrival_date.Date;
 			uint sum;
-			sum = hotelRoom.roomPricePerNight;
+			sum = hotelRoom.RoomPricePerNight;
 			 sum = sum * (uint)time.TotalDays;
 			return sum;
         }

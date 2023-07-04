@@ -28,6 +28,7 @@ namespace BookingWizard.DAL.Repositories
 		{
 			
 			item.HotelId = hotelId;
+			
 			_context.hotelRooms.Add(item);
 			_context.SaveChanges();
             PhotoUpload(item);
@@ -38,12 +39,6 @@ namespace BookingWizard.DAL.Repositories
 		{
 			
 			_context.hotelRooms.Remove(item);
-            foreach (var model in item.Images)
-            {
-                string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "images", model.Name);
-                System.IO.File.Delete(filePath);
-            }
-           
             _context.SaveChanges();
 			return item;
 		}
@@ -89,48 +84,50 @@ namespace BookingWizard.DAL.Repositories
 
 
 
-        public void PhotoUpload(hotelRoom room, int id = 0)
+        public void PhotoUpload(hotelRoom room)
         {
-            string uniqueFileName = null;
-            string filePath = null;
-
-            if (room.ImageModelList.All(x => x != null))
+            foreach (var file in room.ImageModelList)
             {
-                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
-
-                foreach (var item in room.ImageModelList)
+                if (file != null && file.Length > 0)
                 {
-                    if (item != null)
+                    byte[] imageData;
+                    using (var memoryStream = new MemoryStream())
                     {
-                        uniqueFileName = Guid.NewGuid().ToString() + room.Name + "-" + item.FileName;
-                        filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                        using (var fs = new FileStream(filePath, FileMode.Create))
-                        {
-                            item.CopyTo(fs);
-                        }
-
-                        var newImage = new RoomImages
-                        {
-                            Name = uniqueFileName,
-                            RoomId = room.Id
-                        };
-
-                        _context.RoomImages.Add(newImage);
-                        _context.SaveChanges(); // Сохранение каждого экземпляра отдельно
+                        file.CopyTo(memoryStream);
+                        imageData = memoryStream.ToArray();
                     }
+
+                    string uniqueFileName = Guid.NewGuid().ToString() + room.Name + "-" + file.FileName;
+                    var photo = new RoomImages
+                    {
+                        Name = uniqueFileName,
+                        ImageData = imageData,
+                        RoomId = room.Id
+                    };
+
+                    _context.RoomImages.Add(photo);
+                    _context.SaveChanges();
+
                 }
             }
+
         }
 
-        public void DeletePhoto(string photoName)
+        public void DeletePhoto(int id)
         {
-            var item = _context.RoomImages.Select(u => u).Where(x => x.Name.Equals(photoName)).FirstOrDefault();
+            var item = _context.RoomImages.Select(u => u).Where(x => x.Id == id).FirstOrDefault();
 
             _context.RoomImages.Remove(item);
             _context.SaveChanges();
         }
 
+		public RoomImages GetPhoto(int id)
+		{
+			var photo = _context.RoomImages.FirstOrDefault(p => p.Id == id);
+
+
+			return photo; // ил			
+		}
 
     }
 }

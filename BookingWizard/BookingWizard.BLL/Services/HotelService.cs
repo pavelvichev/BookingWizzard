@@ -55,14 +55,19 @@ namespace BookingWizard.BLL.Services
 			return item;
 		}
 
-		public void DeletePhoto(string photoName)
+		public void DeletePhoto(int id)
 		{
-			_unitOfWork.Hotels.DeletePhoto(photoName);
+			_unitOfWork.Hotels.DeletePhoto(id);
 		}
 
 		public void PhotoUpload(Hotel hotel)
 		{
 			_unitOfWork.Hotels.PhotoUpload(hotel);
+		}
+
+		public HotelImages GetPhoto(int id)
+		{
+			return _unitOfWork.Hotels.GetPhoto(id);
 		}
 
 	}

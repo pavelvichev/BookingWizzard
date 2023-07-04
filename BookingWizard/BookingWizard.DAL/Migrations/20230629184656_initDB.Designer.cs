@@ -154,7 +154,7 @@ namespace BookingWizard.DAL.Migrations
                     b.Property<bool>("isBooking")
                         .HasColumnType("bit");
 
-                    b.Property<int>("roomPricePerNight")
+                    b.Property<int>("RoomPricePerNight")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

@@ -16,7 +16,9 @@ namespace BookingWizard.ModelsVM
 		public uint HotelId { get; set; }
 		public ushort roomPricePerNight { get; set; } // цена за ночь
 
+		public List<int> NumbersOfPeople { get; set; } = new List<int>() { 1,2,3,4,5};
 		public uint? bookingId { get; set; } // номер бронирования
+		public uint NumberOfPeople { get; set; } // номер бронирования
         public IEnumerable<IFormFile>? ImageModelList { get; set; }
         public RoomImagesVM? Image { get; set; }
         public IEnumerable<RoomImagesVM>? Images { get; set; }

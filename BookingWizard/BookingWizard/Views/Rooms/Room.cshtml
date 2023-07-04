@@ -15,7 +15,7 @@
     <div class="row">
         <div class="col-md-6 mb-3">
             <div id="photoContainer">
-                <img src="@Url.Content("~/images/" + Model.Images.First().Name)" class="img-fluid" style="height: 400px;" />
+                <img src="@Url.Action("GetPhoto", "PhotoRooms")?id=@Model.Image.Id" class="img-fluid" style="height: 400px;" />
             </div>
             <div style="text-align: center;">
                 <button type="button" id="prevButton" class="btn btn-primary"><i></i></button>
@@ -78,11 +78,14 @@
 
 <script>
     var currentPhotoIndex = 0;
-    var photos = @Html.Raw(Json.Serialize(Model.Images.Select(u => u.Name).ToArray()));
+    var photos = @Html.Raw(Json.Serialize(Model.Images.Select(u => u).ToArray()));
 
     function showPhoto(index) {
-        var photoUrl = "/images/" + photos[index];
-        $("#photoContainer").html('<img src="' + photoUrl + '" class="img-fluid"  style="height: 400px;" />');
+        var photoId = photos[index].id;
+
+        var photoUrl = '@Url.Action("GetPhoto", "PhotoRooms")' + '?id=' + photoId;
+
+        $("#photoContainer").html('<img src="' + photoUrl + '" class="img-fluid" style="height: 400px;" />');
     }
 
     $(document).ready(function () {
@@ -136,15 +139,19 @@
         $("#deletePhotoButton").click(function () {
 
 				var currentPhoto = photoContainer.querySelector("img");
-				var id = @Model.Id;
-
+				var RoomId = @Model.Id;
+                
 				if (currentPhoto) {
-					var photoName = currentPhoto.getAttribute("src").split("/").pop();
+                var photoName = currentPhoto.getAttribute("src").split("/").pop();
+                var photoUrl = currentPhoto.getAttribute("src");
+                var regex = /id=(\d+)/;
+                var match = regex.exec(photoUrl);
+                var id = match[1];
 				}
-
-				$.post("/Rooms/DeletePhoto", { photoName: photoName, id: id })
+      
+				$.post("/PhotoRooms/DeletePhoto", { id: id, RoomId: RoomId })
 					.done(function () {
-						// Перенаправление на другой контроллер
+						
 						window.location.href = "/Rooms/Room?id=" + @Model.Id;
 					})
 					.fail(function (xhr, status, error) {

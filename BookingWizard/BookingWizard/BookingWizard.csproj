@@ -34,7 +34,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\lib\jquery\dist\" />
-    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
   <ItemGroup>

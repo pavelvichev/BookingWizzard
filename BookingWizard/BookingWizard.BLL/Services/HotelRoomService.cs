@@ -60,9 +60,13 @@ namespace BookingWizard.BLL.Services
 			_unitOfWork.Rooms.PhotoUpload(room);
 		}
 
-		public void DeletePhoto(string photoName)
+		public void DeletePhoto(int id)
 		{
-			_unitOfWork.Rooms.DeletePhoto(photoName);
+			_unitOfWork.Rooms.DeletePhoto(id);
+		}
+		public RoomImages GetPhoto(int id)
+		{
+			return _unitOfWork.Rooms.GetPhoto(id);
 		}
 	}
 }

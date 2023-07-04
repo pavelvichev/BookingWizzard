@@ -15,7 +15,8 @@ namespace BookingWizard.BLL.Interfaces
 		public Hotel Update(Hotel item);
 		public Hotel Get(int id);
 		IEnumerable<Hotel> GetAll(string name = "");
-		public void  DeletePhoto(string photoName);
+		public void  DeletePhoto(int id);
 		public void  PhotoUpload(Hotel hotel);
+		public HotelImages GetPhoto(int id);
 	}
 }

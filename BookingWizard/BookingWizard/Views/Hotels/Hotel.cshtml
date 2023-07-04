@@ -9,14 +9,10 @@
 
 	<style>
 
-
-
 		#map {
 			height: 200px;
 			width: 200px;
 		}
-
-
 
 		.controls {
 			background-color: #fff;
@@ -36,9 +32,9 @@
 			width: 400px;
 		}
 
-			.controls:focus {
-				border-color: #4d90fe;
-			}
+		.controls:focus {
+			border-color: #4d90fe;
+		}
 
 	</style>
 
@@ -55,7 +51,7 @@
 			<div class="row">
 				<div class="col-md-6 mb-3">
 					<div id="photoContainer">
-						<img src="@Url.Content("~/images/" + Model.Images.First().Name)" class="img-fluid" style="height: 400px;" />
+						<img src="@Url.Action("GetPhoto", "PhotoHotels")?id=@Model.Image.Id" class="img-fluid" style="height: 300px;" />
 					</div>
 					<div style="text-align: center;">
 					<button type="button" id="prevButton" class="btn btn-primary"><i></i></button>
@@ -86,16 +82,15 @@
 			{
 				@foreach (var room in Model.roomList)
 				{
-					string photoPath = $"~/images/{room.Images.FirstOrDefault().Name}";
+					
 
-					<div class="col-md-4 mb-4">
-						<div class="card">
+					<div class="col-md-4 mb-4" >
+						<div class="card" style="max-height: 700px;"> 
 							<a href="@Url.Action("Room", "Rooms", new { id = room.Id })">
-								<img style="height: 200px;" src="@Url.Content(photoPath)" alt="Hotel Image" class="img-fluid w-100">
+
+								<img src="@Url.Action("GetPhoto", "PhotoRooms")?id=@room.Image.Id" class="img-fluid" style="height: 300px;" />
 							</a>
-							<h4 style="height: 100px;" class="text-center mt-2">@room.Name</h4>
-							<hr>
-							<p class="text-center">@room.Description</p>
+							<h4 class="text-center m-3">@room.Name</h4>
 							<hr>
 							<p class="text-center">Price: @room.roomPricePerNight.ToString("c")</p>
 
@@ -130,6 +125,9 @@
 					<div class="mb-3">
 						<label for="roomPrice" class="form-label">Price</label>
 						<input type="text" class="form-control" id="roomPrice" asp-for="@Model.room.roomPricePerNight">
+					</div>
+					<div>
+						@Html.DropDownListFor(x => x.room.NumberOfPeople, ViewBag.NumberList as SelectList, new { @class = "form-control" })
 					</div>
 					<div class="custom-file">
 						<input asp-for="@Model.room.ImageModelList" class="custom-file-input form-control" multiple />
@@ -172,10 +170,14 @@
 	<!-- Ваш скрипт -->
 	<script>
 		var currentPhotoIndex = 0;
-		var photos = @Html.Raw(Json.Serialize(Model.Images.Select( u => u.Name).ToArray()));
+		var photos = @Html.Raw(Json.Serialize(Model.Images.Select( u => u).ToArray()));
+
 
 		function showPhoto(index) {
-			var photoUrl = "/images/" + photos[index];
+			var photoId = photos[index].id;
+
+			var photoUrl = '@Url.Action("GetPhoto", "PhotoHotels")' + '?id=' + photoId;
+			
 			$("#photoContainer").html('<img src="' + photoUrl + '" class="img-fluid" style="height: 400px;" />');
 		}
 
@@ -209,7 +211,7 @@
 				formData.append("model", JSON.stringify(model));
 
 				$.ajax({
-					url: "/Hotels/PhotoUpload",
+					url: "/PhotoHotels/PhotoUpload",
 					type: "POST",
 					data: formData,
 					contentType: false,
@@ -233,13 +235,17 @@
 			$("#deletePhotoButton").click(function () {
 
 				var currentPhoto = photoContainer.querySelector("img");
-				var id = @Model.Id;
+				var HotelId = @Model.Id;
 
 				if (currentPhoto) {
 					var photoName = currentPhoto.getAttribute("src").split("/").pop();
+					var photoUrl = currentPhoto.getAttribute("src");
+					var regex = /id=(\d+)/;
+					var match = regex.exec(photoUrl);
+					var id = match[1];
 				}
 
-				$.post("/Hotels/DeletePhoto", { photoName: photoName, id: id })
+				$.post("/PhotoHotels/DeletePhoto", { id: id, HotelId: HotelId })
 					.done(function () {
 						// Перенаправление на другой контроллер
 						window.location.href = "/Hotels/Hotel?id=" + @Model.Id;
@@ -291,6 +297,8 @@
 				}
 			});
 		}
+
+		window.initMap = initMap;
 
 	</script>
 

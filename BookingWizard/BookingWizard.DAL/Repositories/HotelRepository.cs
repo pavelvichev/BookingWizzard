@@ -10,6 +10,7 @@ using BookingWizard.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BookingWizard.DAL.Repositories
 {
@@ -84,52 +85,50 @@ namespace BookingWizard.DAL.Repositories
 			return item;
 		}
 
+        public  void  PhotoUpload(Hotel hotel)
+        {
+			foreach(var file in hotel.ImageModelList) {
+                if (file != null && file.Length > 0)
+                {
+                    byte[] imageData;
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        file.CopyTo(memoryStream);
+                        imageData = memoryStream.ToArray();
+                    }
 
-
-		public void PhotoUpload(Hotel hotel, int id = 0)
-		{
-			string uniqueFileName = null;
-			string filePath = null;
-
-			if (hotel.ImageModelList.All(x => x != null))
-			{
-				string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
-
-				foreach (var item in hotel.ImageModelList)
-				{
-					if (item != null)
+                   string  uniqueFileName = Guid.NewGuid().ToString() + hotel.HotelName + "-" + file.FileName;
+					var photo = new HotelImages
 					{
-						uniqueFileName = Guid.NewGuid().ToString() + hotel.HotelName + "-" + item.FileName;
-						filePath = Path.Combine(uploadsFolder, uniqueFileName);
+						Name = uniqueFileName,
+						ImageData = imageData,
+						HotelId = hotel.Id
+                    };
 
-						using (var fs = new FileStream(filePath, FileMode.Create))
-						{
-							item.CopyTo(fs);
-						}
+                    _context.HotelImages.Add(photo);
+                    _context.SaveChanges();
 
-						var newImage = new HotelImages
-						{
-							Name = uniqueFileName,
-							HotelId = hotel.Id
-						};
+                }
+            }
 
-						_context.HotelImages.Add(newImage);
-						_context.SaveChanges(); // Сохранение каждого экземпляра отдельно
-					}
-				}
-			}
-		}
+        }
 
-		public void DeletePhoto(string photoName)
+        public void DeletePhoto(int id)
 		{
 
            
-            var item = _context.HotelImages.Select(u => u).Where(x => x.Name.Equals(photoName)).FirstOrDefault();
+            var item = _context.HotelImages.Select(u => u).Where(x => x.Id == id).FirstOrDefault();
 
 			_context.HotelImages.Remove(item);
 			_context.SaveChanges();
 		}
 
+		public HotelImages GetPhoto(int id)
+		{
+			 var photo = _context.HotelImages.FirstOrDefault(p => p.Id == id);
+		
+            return photo;
+        }
 
 	}
 }

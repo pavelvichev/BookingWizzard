@@ -27,8 +27,6 @@ namespace BookingWizard.DAL.Entities
 		[NotMapped]
 		public IEnumerable<IFormFile> ImageModelList { get; set; }
 		public ICollection<HotelImages> Images { get; set; }
-
-
 		public IEnumerable<hotelRoom>? roomList { get; set; }
 
 

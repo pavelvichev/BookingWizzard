@@ -14,6 +14,8 @@ namespace BookingWizard.DAL.Repositories
 	public class BookingRepository : IBookingRepository
 	{
 		readonly BookingDbContext _context;
+	
+
 
 		public BookingRepository(BookingDbContext context)
 		{
@@ -22,6 +24,8 @@ namespace BookingWizard.DAL.Repositories
 
 		public Entities.Booking Add(Entities.Booking item)
 		{
+			var room = _context.hotelRooms.FirstOrDefault(room => room.Id == item.RoomId);
+			room.isBooking = true;
 			_context.Booking.Add(item);
 			_context.SaveChanges();
 			return item;

@@ -114,18 +114,17 @@ namespace BookingWizard.DAL.Migrations
                     b.Property<int>("HotelId")
                         .HasColumnType("int");
 
+                    b.Property<byte[]>("ImageData")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("hotelRoomId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("HotelId");
-
-                    b.HasIndex("hotelRoomId");
 
                     b.ToTable("HotelImages");
                 });
@@ -137,6 +136,10 @@ namespace BookingWizard.DAL.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<byte[]>("ImageData")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -171,11 +174,14 @@ namespace BookingWizard.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("NumbersOfPeople")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoomPricePerNight")
+                        .HasColumnType("int");
+
                     b.Property<bool>("isBooking")
                         .HasColumnType("bit");
-
-                    b.Property<int>("roomPricePerNight")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -214,17 +220,13 @@ namespace BookingWizard.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BookingWizard.DAL.Entities.hotelRoom", null)
-                        .WithMany("Images")
-                        .HasForeignKey("hotelRoomId");
-
                     b.Navigation("Hotel");
                 });
 
             modelBuilder.Entity("BookingWizard.DAL.Entities.RoomImages", b =>
                 {
                     b.HasOne("BookingWizard.DAL.Entities.hotelRoom", "Room")
-                        .WithMany()
+                        .WithMany("Images")
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
