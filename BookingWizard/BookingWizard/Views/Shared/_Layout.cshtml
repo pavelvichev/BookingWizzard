@@ -41,6 +41,11 @@
 
                                         <ul class="dropdown-menu">
                                             <li>
+                                                <form  asp-controller="Booking" asp-action="AllOrdersByUser" method="Get">
+                                                    <button type="submit" class="dropdown-item">My orders</button>
+                                                </form>
+                                            </li>
+                                            <li>
                                                 <form id="logoutForm" asp-controller="Auth" asp-action="LogOut" method="post">
                                                     <button type="submit" class="dropdown-item">Log Out</button>
                                                 </form>
@@ -78,26 +83,41 @@
         function initAutocomplete() {
             const input = document.getElementById("autocomplete");
             const options = {
-                fields: ["place_id", "geometry", "name"],
+                fields: ["place_id", "geometry", "name", "formatted_address"],
             };
 
             let autocomplete = new google.maps.places.Autocomplete(input, options);
-        };
 
+            autocomplete.addListener("place_changed", function () {
+                const place = autocomplete.getPlace();
+
+                if (place.geometry && place.geometry.location) {
+                    const lat = parseFloat(place.geometry.location.lat());
+                    const lng = parseFloat(place.geometry.location.lng());
+
+                    document.getElementById("Lat").setAttribute("value", lat);
+                    document.getElementById("Lng").setAttribute("value", lng);
+             
+                }
+            });
+            
+        }
         
         
-        
+       
 
         // Объединяем инициализацию функций
         function initialize() {
             initAutocomplete();
             initMap();
+            findNearestAddress();
+            geocodeAddresses();
         }
 
         
     </script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC41-CXCuLxltWfEDjuVT4Kcc-K2Bd-gsk&callback=initialize&libraries=places&v=weekly" defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC41-CXCuLxltWfEDjuVT4Kcc-K2Bd-gsk&callback=initialize&libraries=places,geometry&v=weekly" defer></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 

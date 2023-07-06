@@ -23,7 +23,7 @@ namespace BookingWizard.BLL.Services
         public uint CalcPrice(Booking item)
         {
 			hotelRoom hotelRoom = _unitOfWork.Rooms.Get(item.RoomId); ;
-			TimeSpan time = item.date_of_departure.Date - item.arrival_date.Date;
+			TimeSpan time = item.DateOfDeparture.Date - item.ArrivalDate.Date;
 			uint sum;
 			sum = hotelRoom.RoomPricePerNight;
 			 sum = sum * (uint)time.TotalDays;
@@ -32,30 +32,30 @@ namespace BookingWizard.BLL.Services
 
 		 public Booking Add(Booking item)
 		{
-			if (item.arrival_date > item.date_of_departure)
+			if (item.ArrivalDate > item.DateOfDeparture)
 			{
-				throw new ValidationException("Arrival date can`t be less the date of deaprture","");
+				throw new Exception("Arrival date can`t be less the date of deaprture");
 			}
-			else if (item.arrival_date.Date < DateTime.Now.Date)
+			else if (item.ArrivalDate.Date < DateTime.Now.Date)
 			{
-				throw new ValidationException("Arrival date can`t be less the today`s date","");
+				throw new Exception("Arrival date can`t be less the today`s date");
 			}
-			else if (item.date_of_departure.Date < DateTime.Now.Date)
+			else if (item.DateOfDeparture.Date < DateTime.Now.Date)
 			{
-				throw new ValidationException("Date o departure can`t be less the today`s date", "");
+				throw new Exception("Date o departure can`t be less the today`s date");
 			}
-			else if(item.date_of_departure == item.arrival_date)
+			else if(item.DateOfDeparture == item.ArrivalDate)
 			{
-                throw new ValidationException("Date of departure can`t be equals the arrival date", "");
+                throw new Exception("Date of departure can`t be equals the arrival date");
             }
-
+			
 			_unitOfWork.Booking.Add(_map.Map<Booking>(item));
 			return item;
 		}
 
-		public void Delete(Booking item)
+		public void Delete(int id)
 		{
-			_unitOfWork.Booking.Delete(_map.Map<Booking>(item));
+			_unitOfWork.Booking.Delete(id);
 		}
 
 		public Booking  Get(int id)
@@ -64,9 +64,9 @@ namespace BookingWizard.BLL.Services
 
 		}
 
-		public IEnumerable<Booking> GetAll()
+		public IEnumerable<Booking> GetAll(string currentUserId)
 		{
-			return _unitOfWork.Booking.GetAll();
+			return _unitOfWork.Booking.GetAll(currentUserId);
 		}
 
 		public Booking Update(Booking item)

@@ -12,13 +12,16 @@ namespace BookingWizard.DAL.Entities
 			public int Id { get; set; }
 
 			public hotelRoom Room { get; set; }
-			public int RoomId { get; set; }
-
-			public DateTime arrival_date { get; set; }
-			public DateTime date_of_departure { get; set; }
+			public int RoomId { get; set; }	
+			public string RoomName { get; set; }
+			public string HotelName { get; set; }
+			public DateTime ArrivalDate { get; set; }
+			public DateTime DateOfDeparture { get; set; }
 			public uint allPrice { get; set; }
-
-
+			public string FirstNameBuyer { get; set; }
+			public string LastNameBuyer { get; set; }
+			public string Email { get; set; }
+			public string IdentityUserId { get; set; }	
 		}
 	
 }

@@ -1,11 +1,5 @@
 ﻿@model BookingWizard.ModelsVM.HotelVM
-@{
-	var photoPath = "";
-	if (Model != null)
-	{
-		photoPath = $"~/images/{Model.Image.Name ?? "https://www.interfax.ru/ftproot/photos/photostory/2022/04/29/week/week7_1100.jpg"}";
-	}
-}
+
 <form id="addHotelForm" method="post" enctype="multipart/form-data">
 	
 	<div id="main">
@@ -29,15 +23,43 @@
 			<label class="custom-file-label text-left">Add Photos</label>
 		</div>
 		<div class="input-group  mt-3">
-			<input type="text" id="autocomplete" class="form-control" asp-for="@Model.address.Addres" aria-describedby="basic-addon2">
+			<input type="text" id="autocomplete" class="form-control" asp-for="@Model.Address.AddressName" aria-describedby="basic-addon2">
+			<input type="hidden" id="Lat" asp-for="@Model.Address.Lat" name="Lat"/>
+			<input type="hidden" id="Lng" asp-for="@Model.Address.Lng" name="Lng"/>
 			<span class="input-group-text" id="basic-addon2">Address</span>
 		</div>
-		<span asp-validation-for="address.Addres"></span>
+		<span asp-validation-for="Address.AddressName"></span>
+		
 	</div>
 
 	<button type="submit">Add</button>
 </form>
 
 
+<script>
+  function logModel(event) {
+	event.preventDefault(); // Отменяем отправку формы
 
+	const form = document.getElementById("addHotelForm");
 
+	// Создаем объект FormData для сбора данных формы
+	const formData = new FormData(form);
+
+	// Создаем объект модели, используя данные из formData
+	const model = {
+	  HotelName: formData.get("HotelName"),
+	  HotelShortDescription: formData.get("HotelShortDescription"),
+	  HotelLongDescription: formData.get("HotelLongDescription"),
+	  // Продолжайте добавлять остальные свойства модели по аналогии
+	  Address: {
+		AddressName: formData.get("Address.AddressName"),
+		Lat: parseFloat(formData.get("Address.Lat")),
+		Lng: parseFloat(formData.get("Address.Lng")),
+	  },
+	};
+
+	console.log(model); // Вывод модели в консоль
+
+	// Здесь вы можете выполнить дополнительные операции, например, отправить модель на сервер
+  }
+</script>

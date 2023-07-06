@@ -2,7 +2,6 @@ using BookingWizard.DAL.Entities;
 using BookingWizard.DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-using BookingWizard;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using BookingWizard.DAL.Interfaces;
 using BookingWizard.DAL.Entities;
@@ -16,11 +15,25 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Options;
+using BookingWizard.Infrastructure;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
+using System.Globalization;
+using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
+var loggerFactory = LoggerFactory.Create(builder =>
+{
+	builder.AddConsole(); // Пример конфигурации для записи в консоль
+						  // Здесь вы можете добавить другие провайдеры логгирования, если необходимо
+});
+
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.ModelBinderProviders.Insert(0, new CustomDateTimeModelBinderProvider());
+});
+
 
 builder.Services.AddDbContext<BookingDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("HotelsDbConnection")));
 
@@ -31,6 +44,7 @@ builder.Services.AddScoped<IHotelService, HotelService>();
 builder.Services.AddScoped<IHotelRoomService, HotelRoomService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+builder.Services.AddSingleton(loggerFactory);
 
 builder.Services.AddAutoMapper(typeof(MapProfile));
 
@@ -59,7 +73,6 @@ builder.Services.AddAuthentication(config =>
       
        
     });
-
 
 
 

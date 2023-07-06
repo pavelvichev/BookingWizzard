@@ -23,7 +23,7 @@ namespace BookingWizard.DAL.Entities
 		public bool isFavourite { get; set; } // добавить в избраное
 
 		public IEnumerable<string> previlege; //привилегии
-		public Address address { get; set; } // Аддрес
+		public Address Address { get; set; } // Аддрес
 		[NotMapped]
 		public IEnumerable<IFormFile> ImageModelList { get; set; }
 		public ICollection<HotelImages> Images { get; set; }

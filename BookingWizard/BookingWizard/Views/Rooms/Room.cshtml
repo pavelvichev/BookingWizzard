@@ -1,15 +1,5 @@
 ﻿@model BookingWizard.ModelsVM.hotelRoomVM
 
-@if (User.IsInRole("Guest"))
-{
-    @if (TempData["MessageFromBooking"] != null)
-    {
-        <div>
-            <span class="alert alert-primary">@TempData["MessageFromBooking"]</span>
-        </div>
-    }
-}
-
 
 <div class="container">
     <div class="row">
@@ -45,34 +35,15 @@
         <button class="alert alert-danger" type="submit" id="deleteButton">Delete</button>
     </form>
 }
-@if (User.IsInRole("Guest"))
-{
-    <h2>Заказать комнату</h2>
-    <form method="post" action="/Rooms/Booking">
-        @if (Model.Id != 0)
-        {
-            Model.booking = new BookingVM();
-            Model.booking.roomId = Model.Id;
-        }
 
+<a href="@Url.Action("Booking", "Booking", new { id = Model.Id })" class="btn btn-primary m-3">Book</a>
 
-        <input type="hidden" asp-for="booking.roomId" />
-        <div class="mb-3">
-            <label for="arrivalDate" class="form-label">Дата прибытия</label>
-            <input type="date" class="form-control" id="arrivalDate" asp-for="booking.arrival_date" min="@DateTime.Now.ToString("yyyy-MM-dd")">
+    @if (TempData["MessageFromBooking"] != null)
+    {
+        <div>
+            <span class="alert alert-primary">@TempData["MessageFromBooking"]</span>
         </div>
-        <div class="mb-3">
-            <label for="departureDate" class="form-label">Дата отъезда</label>
-            <input type="date" class="form-control" id="departureDate" asp-for="booking.date_of_departure" min="@DateTime.Now.ToString("yyyy-MM-dd")">
-        </div>
-
-        @if (TempData["ErrorMessageFromBooking"] != null)
-        {
-            <span class="alert alert-danger">@TempData["ErrorMessageFromBooking"]</span>
-        }
-        <button type="submit" class="btn btn-primary">Book</button>
-    </form>
-}
+    }
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
@@ -164,14 +135,8 @@
 
 <script>
     document.addEventListener("click", function (e) {
-        let addButton = document.getElementById('toggleButton');
         let deleteButton = document.getElementById('deleteButton');
-        let content = document.getElementById('myContent');
-
-        if (e.target === addButton) {
-            content.style.display = content.style.display === 'none' ? 'block' : 'none';
-        }
-        else if (e.target === deleteButton) {
+         if (e.target === deleteButton) {
             let confirmation = confirm("Are you sure you want to delete the room?");
             if (!confirmation) {
                 e.preventDefault();

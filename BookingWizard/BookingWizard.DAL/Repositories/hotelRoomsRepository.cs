@@ -48,6 +48,8 @@ namespace BookingWizard.DAL.Repositories
 
 			hotelRoom room = _context.hotelRooms.FirstOrDefault(r => r.Id == id);
 			room.Images = _context.RoomImages.Where(u => u.RoomId == id).AsNoTracking().ToList();
+			Hotel hotel = _context.hotels.FirstOrDefault(x => x.Id == room.HotelId);
+			room.Hotel = hotel;
 
 
 			return room;

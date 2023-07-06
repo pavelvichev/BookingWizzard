@@ -70,5 +70,10 @@ namespace BookingWizard.BLL.Services
 			return _unitOfWork.Hotels.GetPhoto(id);
 		}
 
+		public IEnumerable<Hotel> Search(string Address, float Lat, float Lng)
+		{
+			return	_unitOfWork.Hotels.Search(Address, Lat, Lng);
+		}
+
 	}
 }

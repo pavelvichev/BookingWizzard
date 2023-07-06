@@ -1,4 +1,5 @@
 ﻿using BookingWizard.DAL.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookingWizard.DAL.Data
@@ -6,7 +7,10 @@ namespace BookingWizard.DAL.Data
 	public class BookingDbContext : DbContext
 	{
 
-		public BookingDbContext(DbContextOptions<BookingDbContext> options) : base(options) { }
+        public BookingDbContext(DbContextOptions<BookingDbContext> options) : base(options)
+		{
+            
+        }
 
 
 

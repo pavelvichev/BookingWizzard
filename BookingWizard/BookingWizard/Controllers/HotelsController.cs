@@ -1,26 +1,15 @@
 ﻿using AutoMapper;
 using BookingWizard.BLL.Interfaces;
 using BookingWizard.DAL.Entities;
-using BookingWizard.DAL.Interfaces;
-using BookingWizard.DAL.Entities;
-using BookingWizard.DAL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using BookingWizard.ModelsVM;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using System.Net.Http;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Hosting;
-using static System.Net.Mime.MediaTypeNames;
-using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using GoogleMaps.LocationServices;
+using Xamarin.Forms.Maps;
 
 namespace BookingWizard.Controllers
 {
-	[Authorize]
+
 	public class HotelsController : Controller
 	{
 
@@ -40,19 +29,12 @@ namespace BookingWizard.Controllers
 		}
 
 
-		public IActionResult Hotels(string searchString)
+		public IActionResult Hotels(string Address, float Lat, float Lng)
 		{
 
-			IEnumerable<HotelVM> hotelVMList;
-			if (!string.IsNullOrEmpty(searchString))
-			{
-				hotelVMList = _map.Map<IEnumerable<HotelVM>>(_hotelService.GetAll(searchString));
-				return View(hotelVMList);
-			}
+            IEnumerable<HotelVM> hotelVMList = _map.Map<IEnumerable<HotelVM>>(_hotelService.Search(Address, Lat, Lng));
 
-			hotelVMList = _map.Map<IEnumerable<HotelVM>>(_hotelService.GetAll());
-
-			foreach(var item in hotelVMList)
+            foreach (var item in hotelVMList)
 			{
 				item.Image = item.Images.FirstOrDefault();
 			}
@@ -69,16 +51,12 @@ namespace BookingWizard.Controllers
 		[HttpPost]
 		public IActionResult Add(HotelVM hotelVM)
 		{
-
 			if (ModelState.IsValid)
 			{
-
 				var hotel = _map.Map<Hotel>(hotelVM);
 				_hotelService.Add(hotel);
 				
-
 				return RedirectToAction("Hotels");
-
 			}
 			return View();
 		}
@@ -116,6 +94,7 @@ namespace BookingWizard.Controllers
 			
 			var hotel = _map.Map<HotelVM>(hotelDTO);
 			hotel.Image = hotel.Images.FirstOrDefault();
+
             foreach (var item in hotel.roomList)
             {
 				item.Image = item.Images.FirstOrDefault();
@@ -137,7 +116,7 @@ namespace BookingWizard.Controllers
 			var hotel = _hotelService.Get(hotelVM.Id);
 			
 
-			_hotelRoomService.Add(_map.Map<hotelRoom>(hotelVM.room), hotelVM.Id);
+			_hotelRoomService.Add(_map.Map<hotelRoom>(hotelVM.Room), hotelVM.Id);
 
 			return RedirectToAction("Hotel", new { id = hotel.Id });
 
@@ -152,6 +131,7 @@ namespace BookingWizard.Controllers
 			return RedirectToAction("Hotels");
 		}
 
-    }
+		
+	}
 }
 

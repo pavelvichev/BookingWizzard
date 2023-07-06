@@ -1,1 +1,54 @@
-﻿
+﻿@using System.Security.Claims;
+@model BookingWizard.ModelsVM.BookingVM
+
+
+
+
+<form action="@Url.Action("Booking", "Booking")" method="post" class="form-horizontal">
+    @{
+        Model.IdentityUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    }
+
+    <input type="hidden" asp-for="roomId" />
+    <input type="hidden" asp-for="IdentityUserId" />
+    <input type="hidden" asp-for="RoomName" />
+    <input type="hidden" asp-for="HotelName" />
+   
+    <div class="form-group">
+        <label  class="col-md-2 control-label">First Name</label>
+        <div class="col-md-10">
+            <input type="text" asp-for="FirstNameBuyer" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label  class="col-md-2 control-label">Last Name</label>
+        <div class="col-md-10">
+            <input type="text" asp-for="LastNameBuyer" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email" class="col-md-2 control-label">Email</label>
+        <div class="col-md-10">
+            <input type="email" asp-for="Email" class="form-control" />
+        </div>
+    </div>
+
+
+    <div class="mb-3">
+        <label for="arrivalDate" class="form-label">Дата прибытия</label>
+        <input type="date" class="form-control" id="arrivalDate" asp-for="ArrivalDate" min="@DateTime.Now.ToString("yyyy-MM-dd")">
+    </div>
+    <div class="mb-3">
+        <label for="departureDate" class="form-label">Дата отъезда</label>
+        <input type="date" class="form-control" id="departureDate" asp-for="DateOfDeparture" min="@DateTime.Now.ToString("yyyy-MM-dd")">
+    </div>
+
+    @if (TempData["ErrorMessageFromBooking"] != null)
+    {
+        <span class="alert alert-danger">@TempData["ErrorMessageFromBooking"]</span>
+    }
+    <button type="submit" class="btn btn-primary">Book</button>
+
+</form>

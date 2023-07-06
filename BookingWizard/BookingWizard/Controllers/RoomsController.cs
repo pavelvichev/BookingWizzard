@@ -76,39 +76,10 @@ namespace BookingWizard.Controllers
 		{
 			var room = _map.Map<hotelRoom>(_hotelRoomService.Get(id));
 
-
-			
-
             _hotelRoomService.Delete(room);
             return RedirectToAction("Hotel", "Hotels", new { id = room.HotelId });
 		}
 
-		public IActionResult Booking(BookingVM booking)
-		{
-			if (User.Identity.IsAuthenticated)
-			{
-				if (ModelState.IsValid)
-				{
-					try
-					{
-						booking.allPrice = _bookingService.CalcPrice(_map.Map<Booking>(booking));
-						_bookingService.Add(_map.Map<Booking>(booking));
-						TempData["MessageFromBooking"] = "Booking correctly added";
-					}
-					catch (Exception ex)
-					{
-						TempData["ErrorMessageFromBooking"] = ex.Message;
-
-					}
-				}
-			}
-			else
-			{
-				TempData["ErrorMessageFromBooking"] = "User do not authenticated";
-			}
-			return RedirectToAction("Room", "Rooms", new { id = booking.roomId });
-
-		}
 
         public IActionResult DeletePhoto(int id, int RoomId)
         {

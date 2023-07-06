@@ -10,6 +10,7 @@
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="ChatGPT.Net" Version="2.0.0" />
+    <PackageReference Include="GoogleMaps.LocationServices" Version="1.2.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.8">
@@ -25,6 +26,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.5.0" />
+    <PackageReference Include="Xamarin.Forms.Maps" Version="5.0.0.2578" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,6 +42,7 @@
     <None Include="wwwroot\lib\jquery\jquery.js" />
     <None Include="wwwroot\lib\jquery\jquery.min.js" />
     <None Include="wwwroot\lib\jquery\jquery.min.map" />
+    <None Include="wwwroot\Scripts\FindNearestAddress.js" />
   </ItemGroup>
 
 </Project>

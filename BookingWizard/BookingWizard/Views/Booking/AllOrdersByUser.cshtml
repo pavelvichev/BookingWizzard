@@ -1,0 +1,61 @@
+﻿@model IEnumerable<BookingWizard.ModelsVM.BookingVM>
+
+<h1>Список заказов</h1>
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Идентификатор</th>
+                <th>Имя</th>
+                <th>Фамилия</th>
+                <th>Email</th>
+                <th>Дата прибытия</th>
+                <th>Дата отъезда</th>
+                <th>Номер</th>
+                <th>Отель</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var booking in Model)
+            {
+                <tr>
+                    <td>@booking.Id</td>
+                    <td>@booking.FirstNameBuyer</td>
+                    <td>@booking.LastNameBuyer</td>
+                    <td>@booking.Email</td>
+                    <td>@booking.ArrivalDate.ToString("dd.MM.yyyy")</td>
+                    <td>@booking.DateOfDeparture.ToString("dd.MM.yyyy")</td>
+                    <td>@booking.RoomName</td>
+                    <td>@booking.HotelName</td>
+                    <td>
+                    <form method="post" action="/Booking/Delete">
+                        <input type="hidden" value="@booking.Id"  name="id"/>
+                        <div class="mb-3">
+                            <button class="btn btn-danger" type="submit" id="deleteButton">Delete</button>
+                        </div>
+                    </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Нет доступных заказов.</p>
+}
+
+<script>
+    document.addEventListener("click", function (e) {
+        let deleteButton = document.getElementById('deleteButton');
+         if (e.target === deleteButton) {
+            let confirmation = confirm("Are you sure you want to delete the order?");
+            if (!confirmation) {
+                e.preventDefault();
+            }
+        }
+    });
+</script>

@@ -19,7 +19,8 @@ namespace BookingWizard.DAL.Interfaces
 		public  void PhotoUpload(Hotel hotel);
 		public void DeletePhoto(int id);
 		public HotelImages GetPhoto(int id);
-		
+
+		public IEnumerable<Hotel> Search(string Address, float Lat, float Lng);
 		
 	}
 }

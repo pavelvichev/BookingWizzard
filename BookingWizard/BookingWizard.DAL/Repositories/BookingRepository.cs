@@ -22,17 +22,35 @@ namespace BookingWizard.DAL.Repositories
 			_context = context;
 		}
 
-		public Entities.Booking Add(Entities.Booking item)
+		public Entities.Booking Add(Entities.Booking order)
 		{
-			var room = _context.hotelRooms.FirstOrDefault(room => room.Id == item.RoomId);
+			foreach (var item in _context.Booking.Where(x => x.RoomId == order.RoomId))
+			{
+                // Проверка вложенного бронирования
+                if (order.ArrivalDate <= item.ArrivalDate && order.DateOfDeparture >= item.DateOfDeparture)
+                {
+
+                    throw new Exception("Выбранный период полностью или частично перекрывает существующее бронирование");
+                }
+                if ((order.ArrivalDate >= item.ArrivalDate && order.ArrivalDate < item.DateOfDeparture) ||
+					 (order.DateOfDeparture > item.ArrivalDate && order.DateOfDeparture <= item.DateOfDeparture))
+                {
+                  throw new Exception("Комната уже забронирована в выбранный период");
+                }
+
+
+            }
+			var room = _context.hotelRooms.FirstOrDefault(room => room.Id == order.RoomId);
 			room.isBooking = true;
-			_context.Booking.Add(item);
+			order.Room = null;
+			_context.Booking.Add(order);
 			_context.SaveChanges();
-			return item;
+			return order;
 		}
 
-		public Entities.Booking Delete(Entities.Booking item)
+		public Entities.Booking Delete(int id)
 		{
+			var item = _context.Booking.FirstOrDefault(x => x.Id == id);
 			_context.Booking.Remove(item);
 			_context.SaveChanges();
 			return item;
@@ -44,9 +62,9 @@ namespace BookingWizard.DAL.Repositories
 			return item;
 		}
 
-		public IEnumerable<Entities.Booking> GetAll()
+		public IEnumerable<Entities.Booking> GetAll(string currentUserId)
 		{
-			var items = _context.Booking.ToList();
+			var items = _context.Booking.Where(x => x.IdentityUserId == currentUserId).ToList();
 			return items;
 		}
 

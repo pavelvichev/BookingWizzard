@@ -14,7 +14,7 @@ namespace BookingWizard.DAL.Data.EntityTypeConfiguration
         public void Configure(EntityTypeBuilder<Address> builder)
         {
             builder.HasOne(x => x.Hotel)
-                .WithOne(x => x.address)
+                .WithOne(x => x.Address)
                 .HasForeignKey<Address>(x => x.HotelId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);

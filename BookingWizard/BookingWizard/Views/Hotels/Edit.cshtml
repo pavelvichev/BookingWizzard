@@ -7,8 +7,8 @@
 	}
 }
 <form method="post" enctype="multipart/form-data">
-	<input type="hidden" asp-for="address.HotelId">
-	<input type="hidden" asp-for="addressId">
+	<input type="hidden" asp-for="Address.HotelId">
+	<input type="hidden" asp-for="AddressId">
 	<input type="hidden" asp-for="Image">
 	<input type="hidden" asp-for="ImageModelList">
 	<div>
@@ -29,10 +29,10 @@
 		<span asp-validation-for="HotelShortDescription"></span>
 		
 		<div class="input-group mb-3">
-			<input type="text" id="autocomplete" class="form-control" asp-for="@Model.address.Addres" aria-describedby="basic-addon2">
+			<input type="text" id="autocomplete" class="form-control" asp-for="@Model.Address.AddressName" aria-describedby="basic-addon2">
 			<span class="input-group-text" id="basic-addon2">Country</span>
 		</div>
-		<span asp-validation-for="address.Addres"></span>
+		<span asp-validation-for="Address.AddressName"></span>
 
 	</div>
 	<button type="submit">Edit</button>

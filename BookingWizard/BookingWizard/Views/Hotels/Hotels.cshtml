@@ -14,11 +14,17 @@
 <div class="container">
     <form method="post" asp-action="Hotels" asp-controller="Hotels">
         <div class="input-group mb-3">
-            <input type="text" class="form-control" name="searchString" aria-label="Recipient's username" aria-describedby="button-addon2">
+           <input type="text" id="autocomplete"  placeholder="Куда вы хотите поехать?" class="form-control" name="Address" aria-describedby="basic-addon2">
             <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
         </div>
+        <input type="hidden" id="Lat" name="Lat" />
+        <input type="hidden" id="Lng" name="Lng" />
     </form>
 
+    @if (TempData["NoHotels"] != null)
+    {
+        <h2>@TempData["NoHotels"].ToString()</h2>
+    }
     <div class="row">
         @foreach (var hotel in Model)
         {
@@ -31,6 +37,7 @@
                     <div class="card-body">
                         <h5 style="max-height: 80px;" class="card-title">@hotel.HotelName</h5>
                         <p style="height: auto; max-height: 100px"class="card-text">@hotel.HotelShortDescription</p>
+                        <p style="height: auto; max-height: 100px"class="card-text">@hotel.Address.AddressName</p>
                         @if (User.IsInRole("Admin"))
                         {
                             <a href="@Url.Action("Edit","Hotels", new {id = hotel.Id})" class="btn btn-primary">Edit</a>

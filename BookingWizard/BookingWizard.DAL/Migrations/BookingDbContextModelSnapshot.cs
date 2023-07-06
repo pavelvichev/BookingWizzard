@@ -30,12 +30,18 @@ namespace BookingWizard.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Addres")
+                    b.Property<string>("AddressName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("HotelId")
                         .HasColumnType("int");
+
+                    b.Property<float>("Lat")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Lng")
+                        .HasColumnType("real");
 
                     b.HasKey("Id");
 
@@ -53,17 +59,41 @@ namespace BookingWizard.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("ArrivalDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateOfDeparture")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstNameBuyer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HotelName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdentityUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastNameBuyer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("RoomId")
                         .HasColumnType("int");
 
+                    b.Property<string>("RoomName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<long>("allPrice")
                         .HasColumnType("bigint");
-
-                    b.Property<DateTime>("arrival_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("date_of_departure")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -174,7 +204,7 @@ namespace BookingWizard.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NumbersOfPeople")
+                    b.Property<int>("NumberOfPeople")
                         .HasColumnType("int");
 
                     b.Property<int>("RoomPricePerNight")
@@ -193,7 +223,7 @@ namespace BookingWizard.DAL.Migrations
             modelBuilder.Entity("BookingWizard.DAL.Entities.Address", b =>
                 {
                     b.HasOne("BookingWizard.DAL.Entities.Hotel", "Hotel")
-                        .WithOne("address")
+                        .WithOne("Address")
                         .HasForeignKey("BookingWizard.DAL.Entities.Address", "HotelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -246,10 +276,10 @@ namespace BookingWizard.DAL.Migrations
 
             modelBuilder.Entity("BookingWizard.DAL.Entities.Hotel", b =>
                 {
-                    b.Navigation("Images");
-
-                    b.Navigation("address")
+                    b.Navigation("Address")
                         .IsRequired();
+
+                    b.Navigation("Images");
 
                     b.Navigation("roomList");
                 });

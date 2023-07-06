@@ -11,11 +11,11 @@ namespace BookingWizard.BLL.Interfaces
 	public interface IBookingService
 	{
 		public Booking Add(Booking item);
-		public void Delete(Booking item);
+		public void Delete(int id);
 		public Booking Update(Booking item);
 		public Booking Get(int id);
 
 		public uint CalcPrice(Booking item);
-		IEnumerable<Booking> GetAll();
+		IEnumerable<Booking> GetAll(string currentUserId);
 	}
 }
