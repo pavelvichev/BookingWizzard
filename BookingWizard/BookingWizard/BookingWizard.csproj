@@ -42,7 +42,6 @@
     <None Include="wwwroot\lib\jquery\jquery.js" />
     <None Include="wwwroot\lib\jquery\jquery.min.js" />
     <None Include="wwwroot\lib\jquery\jquery.min.map" />
-    <None Include="wwwroot\Scripts\FindNearestAddress.js" />
   </ItemGroup>
 
 </Project>

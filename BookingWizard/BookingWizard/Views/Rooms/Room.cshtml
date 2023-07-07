@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-6 mb-3">
             <div id="photoContainer">
-                <img src="@Url.Action("GetPhoto", "PhotoRooms")?id=@Model.Image.Id" class="img-fluid" style="height: 400px;" />
+                <img src="/PhotoRooms/GetPhoto/@Model.Image.Id" class="img-fluid" style="height: 400px;" />
             </div>
             <div style="text-align: center;">
                 <button type="button" id="prevButton" class="btn btn-primary"><i></i></button>
@@ -48,102 +48,11 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
 <script>
-    var currentPhotoIndex = 0;
     var photos = @Html.Raw(Json.Serialize(Model.Images.Select(u => u).ToArray()));
-
-    function showPhoto(index) {
-        var photoId = photos[index].id;
-
-        var photoUrl = '@Url.Action("GetPhoto", "PhotoRooms")' + '?id=' + photoId;
-
-        $("#photoContainer").html('<img src="' + photoUrl + '" class="img-fluid" style="height: 400px;" />');
-    }
-
-    $(document).ready(function () {
-        $("#addButton").click(function () {
-            $("#photoInput").click();
-        });
-
-        $("#nextButton").click(function () {
-            currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
-            showPhoto(currentPhotoIndex);
-        });
-
-        $("#prevButton").click(function () {
-            currentPhotoIndex = (currentPhotoIndex - 1 + photos.length) % photos.length;
-            showPhoto(currentPhotoIndex);
-        });
-
-       $("#photoInput").change(function () {
-            var files = this.files;
-            var newList = @Html.Raw(Json.Serialize(Model.Images.Select(u => u.Name).ToList()));
-
-            var formData = new FormData();
-            for (var i = 0; i < files.length; i++) {
-                formData.append("files", files[i]);
-                newList.push(files[i].name);
-            }
-
-            var model = @Html.Raw(Json.Serialize(Model));
-            formData.append("model", JSON.stringify(model));
-
-            $.ajax({
-                url: "/Rooms/PhotoUpload",
-                type: "POST",
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function (response) {
-
-                    window.location.href = "/Rooms/Room?id=" + @Model.Id;
-
-                },
-                error: function (xhr, status, error) {
-                    debugger;
-                    console.error("Error. Status:", status, "Error:", error);
-
-                }
-            });
-        });
-
-
-        $("#deletePhotoButton").click(function () {
-
-				var currentPhoto = photoContainer.querySelector("img");
-				var RoomId = @Model.Id;
-                
-				if (currentPhoto) {
-                var photoName = currentPhoto.getAttribute("src").split("/").pop();
-                var photoUrl = currentPhoto.getAttribute("src");
-                var regex = /id=(\d+)/;
-                var match = regex.exec(photoUrl);
-                var id = match[1];
-				}
-      
-				$.post("/PhotoRooms/DeletePhoto", { id: id, RoomId: RoomId })
-					.done(function () {
-						
-						window.location.href = "/Rooms/Room?id=" + @Model.Id;
-					})
-					.fail(function (xhr, status, error) {
-						// Обработка ошибки
-						console.error("Error. Status:", status, "Error:", error);
-					});
-			});
-    });
+    var model = @Html.Raw(Json.Serialize(Model));
 </script>
 
-<script>
-    document.addEventListener("click", function (e) {
-        let deleteButton = document.getElementById('deleteButton');
-         if (e.target === deleteButton) {
-            let confirmation = confirm("Are you sure you want to delete the room?");
-            if (!confirmation) {
-                e.preventDefault();
-            }
-        }
-    });
-</script>
+<script src="~/Scripts/PhotoRooms.js"></script>
 
 <style>
     /* Add your custom styles here */

@@ -21,10 +21,6 @@
         <input type="hidden" id="Lng" name="Lng" />
     </form>
 
-    @if (TempData["NoHotels"] != null)
-    {
-        <h2>@TempData["NoHotels"].ToString()</h2>
-    }
     <div class="row">
         @foreach (var hotel in Model)
         {

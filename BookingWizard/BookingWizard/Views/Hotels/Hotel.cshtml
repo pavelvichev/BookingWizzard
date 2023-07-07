@@ -44,8 +44,8 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-6 mb-3">
-					<div id="photoContainer">
-						<img src="@Url.Action("GetPhoto", "PhotoHotels")?id=@Model.Image.Id" class="img-fluid" style="height: 300px;" />
+				<div id="photoContainer">
+					<img src="/PhotoHotels/GetPhoto/@Model.Image.Id" class="img-fluid" style="height: 300px;" />
 					</div>
 					<div style="text-align: center;">
 					<button type="button" id="prevButton" class="btn btn-primary"><i></i></button>
@@ -67,7 +67,7 @@
 				</div>
 			</div>
 		</div>
-		<div id="map" style="height: 400px; width: 100%;"></div>
+	<div id="map" data-map="@Model.Address.AddressName" style="height: 400px; width: 100%;"></div>
 
 
 
@@ -81,8 +81,7 @@
 					<div class="col-md-4 mb-4" >
 						<div class="card" style="max-height: 700px;"> 
 							<a href="@Url.Action("Room", "Rooms", new { id = room.Id })">
-
-								<img src="@Url.Action("GetPhoto", "PhotoRooms")?id=@room.Image.Id" class="img-fluid" style="height: 300px;" />
+							<img src="/PhotoRooms/GetPhoto/@room.Image.Id" class="img-fluid" style="height: 300px;" />
 							</a>
 							<h4 class="text-center m-3">@room.Name</h4>
 							<hr>
@@ -141,160 +140,16 @@
 		}
 	</div>
 
-	<script>
-		document.addEventListener("click", function (e) {
-			let addButton = document.getElementById('toggleButton');
-			let deleteButton = document.getElementById('deleteButton');
-			let content = document.getElementById('myContent');
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-			if (e.target === addButton) {
-				content.style.display = content.style.display === 'none' ? 'block' : 'none';
-			}
-			else if (e.target === deleteButton) {
-				let confirmation = confirm("Are you sure you want to delete the hotel?");
-				if (!confirmation) {
-					e.preventDefault();
-				}
-			}
-		});
-	</script>
+		
+<script>
+	var photos = @Html.Raw(Json.Serialize(Model.Images));
+	var model = @Html.Raw(Json.Serialize(Model));
+</script>
 
-	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="~/Scripts/PhotoHotels.js"></script>
+	
 
-	<!-- Ваш скрипт -->
-	<script>
-		var currentPhotoIndex = 0;
-		var photos = @Html.Raw(Json.Serialize(Model.Images.Select( u => u).ToArray()));
-
-
-		function showPhoto(index) {
-			var photoId = photos[index].id;
-
-			var photoUrl = '@Url.Action("GetPhoto", "PhotoHotels")' + '?id=' + photoId;
-			
-			$("#photoContainer").html('<img src="' + photoUrl + '" class="img-fluid" style="height: 300px;" />');
-		}
-
-		$(document).ready(function () {
-
-			$("#addButton").click(function () {
-				$("#photoInput").click();
-			});
-
-			$("#nextButton").click(function () {
-				currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
-				showPhoto(currentPhotoIndex);
-			});
-
-			$("#prevButton").click(function () {
-				currentPhotoIndex = (currentPhotoIndex - 1 + photos.length) % photos.length;
-				showPhoto(currentPhotoIndex);
-			});
-
-			$("#photoInput").change(function () {
-				var files = this.files;
-				var newList = @Html.Raw(Json.Serialize(Model.Images.Select(u => u.Name).ToList()));
-
-				var formData = new FormData();
-				for (var i = 0; i < files.length; i++) {
-					formData.append("files", files[i]);
-					newList.push(files[i].name);
-				}
-
-				var model = @Html.Raw(Json.Serialize(Model));
-				formData.append("model", JSON.stringify(model));
-
-				$.ajax({
-					url: "/PhotoHotels/PhotoUpload",
-					type: "POST",
-					data: formData,
-					contentType: false,
-					processData: false,
-					success: function (response) {
-
-						window.location.href = "/Hotels/Hotel?id=" + @Model.Id;
-
-					},
-					error: function (xhr, status, error) {
-						debugger;
-						console.error("Error. Status:", status, "Error:", error);
-
-					}
-				});
-			});
-
-
-
-
-			$("#deletePhotoButton").click(function () {
-
-				var currentPhoto = photoContainer.querySelector("img");
-				var HotelId = @Model.Id;
-
-				if (currentPhoto) {
-					var photoName = currentPhoto.getAttribute("src").split("/").pop();
-					var photoUrl = currentPhoto.getAttribute("src");
-					var regex = /id=(\d+)/;
-					var match = regex.exec(photoUrl);
-					var id = match[1];
-				}
-
-				$.post("/PhotoHotels/DeletePhoto", { id: id, HotelId: HotelId })
-					.done(function () {
-						// Перенаправление на другой контроллер
-						window.location.href = "/Hotels/Hotel?id=" + @Model.Id;
-					})
-					.fail(function (xhr, status, error) {
-						// Обработка ошибки
-						console.error("Error. Status:", status, "Error:", error);
-					});
-			});
-
-
-		});
-
-
-
-
-	</script>
-
-	<script>
-		function initMap() {
-			const map = new google.maps.Map(document.getElementById("map"), {
-				center: { lat: -33.8688, lng: 151.2195 },
-				zoom: 13,
-			});
-
-			const address = @Html.Raw(Json.Serialize(Model.Address.AddressName)); // Ваш адрес
-
-			const geocoder = new google.maps.Geocoder();
-			geocoder.geocode({ address }, (results, status) => {
-				if (status === google.maps.GeocoderStatus.OK) {
-					const place = results[0];
-
-					map.setCenter(place.geometry.location);
-
-					const marker = new google.maps.Marker({
-						map: map,
-						position: place.geometry.location,
-					});
-
-					const infowindow = new google.maps.InfoWindow({
-						content: `<div><strong>${place.formatted_address}</strong></div>`,
-					});
-
-					marker.addListener("click", () => {
-						infowindow.open(map, marker);
-					});
-				} else {
-					alert("Geocode was not successful for the following reason: " + status);
-				}
-			});
-		}
-
-		window.initMap = initMap;
-
-	</script>
-
-
+	
 

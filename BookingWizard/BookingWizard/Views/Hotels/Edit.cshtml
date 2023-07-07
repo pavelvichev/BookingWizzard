@@ -1,11 +1,5 @@
 ﻿@model BookingWizard.ModelsVM.HotelVM
-@{
-	var photoPath = "";
-	if (Model != null)
-	{
-		photoPath = $"~/images/{Model.Image.Name ?? "https://www.interfax.ru/ftproot/photos/photostory/2022/04/29/week/week7_1100.jpg"}";
-	}
-}
+
 <form method="post" enctype="multipart/form-data">
 	<input type="hidden" asp-for="Address.HotelId">
 	<input type="hidden" asp-for="AddressId">

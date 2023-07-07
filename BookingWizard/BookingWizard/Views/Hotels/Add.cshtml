@@ -35,31 +35,3 @@
 	<button type="submit">Add</button>
 </form>
 
-
-<script>
-  function logModel(event) {
-	event.preventDefault(); // Отменяем отправку формы
-
-	const form = document.getElementById("addHotelForm");
-
-	// Создаем объект FormData для сбора данных формы
-	const formData = new FormData(form);
-
-	// Создаем объект модели, используя данные из formData
-	const model = {
-	  HotelName: formData.get("HotelName"),
-	  HotelShortDescription: formData.get("HotelShortDescription"),
-	  HotelLongDescription: formData.get("HotelLongDescription"),
-	  // Продолжайте добавлять остальные свойства модели по аналогии
-	  Address: {
-		AddressName: formData.get("Address.AddressName"),
-		Lat: parseFloat(formData.get("Address.Lat")),
-		Lng: parseFloat(formData.get("Address.Lng")),
-	  },
-	};
-
-	console.log(model); // Вывод модели в консоль
-
-	// Здесь вы можете выполнить дополнительные операции, например, отправить модель на сервер
-  }
-</script>
