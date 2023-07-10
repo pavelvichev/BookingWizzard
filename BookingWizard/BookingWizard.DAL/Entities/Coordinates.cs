@@ -1,4 +1,4 @@
-﻿namespace BookingWizard.DAL
+﻿namespace BookingWizard.DAL.Entities
 {
     public class Coordinates
     {

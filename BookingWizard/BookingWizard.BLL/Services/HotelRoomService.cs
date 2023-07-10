@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BookingWizard.BLL.Services
 {
-	public  class HotelRoomService : IHotelRoomService
+    public  class HotelRoomService : IHotelRoomService
 	{
 		IUnitOfWork _unitOfWork;
 		IMapper _map;

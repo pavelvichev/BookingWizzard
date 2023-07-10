@@ -14,7 +14,6 @@ namespace BookingWizard.Controllers
 		IBookingService _bookingService;
 		IWebHostEnvironment _webHostEnvironment;
 
-
 		public PhotoRoomsController(IHotelService hotelService, IHotelRoomService hotelRoomService, IBookingService bookingService, IWebHostEnvironment webHostEnvironment)
 		{
 
@@ -22,9 +21,8 @@ namespace BookingWizard.Controllers
 			_hotelRoomService = hotelRoomService;
 			_bookingService = bookingService;
 			_webHostEnvironment = webHostEnvironment;
-			
-		}
 
+		}
 
 		public ActionResult GetPhoto(int id)
 		{
@@ -36,12 +34,15 @@ namespace BookingWizard.Controllers
 
 			return null; // или верните другой результат, если фотография не найдена
 		}
-		
+
 		public IActionResult DeletePhoto(int id, int RoomId)
 		{
 			_hotelRoomService.DeletePhoto(id);
 
-			return RedirectToAction("Room","Rooms", new { id = RoomId });
+			return RedirectToAction("Room", "Rooms", new
+			{
+				id = RoomId
+			});
 		}
 
 		public IActionResult PhotoUpload(List<IFormFile> files, string model)

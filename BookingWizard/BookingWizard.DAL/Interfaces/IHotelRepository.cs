@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BookingWizard.DAL.Interfaces
 {
-	public interface IHotelRepository<T>
+    public interface IHotelRepository<T>
 	{
 		
 		public T Add(T item);

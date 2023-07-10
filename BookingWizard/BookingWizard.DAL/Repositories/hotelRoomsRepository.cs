@@ -1,6 +1,4 @@
 ﻿using BookingWizard.DAL.Interfaces;
-using BookingWizard.DAL.Entities;
-using BookingWizard.DAL.Entities;
 using BookingWizard.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,19 +8,19 @@ using System.Threading.Tasks;
 using BookingWizard.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
+using BookingWizard.DAL.Entities;
 
 namespace BookingWizard.DAL.Repositories
 {
-	public class hotelRoomsRepository : IHotelRoomRepository<hotelRoom>
+    public class hotelRoomsRepository : IHotelRoomRepository<hotelRoom>
 	{
 
 		readonly BookingDbContext _context;
-		private readonly IWebHostEnvironment _webHostEnvironment;
+	
 
-		public hotelRoomsRepository(BookingDbContext context, IWebHostEnvironment webHostEnvironment)
+		public hotelRoomsRepository(BookingDbContext context)
 		{
 			_context = context;
-			_webHostEnvironment = webHostEnvironment;
 		}
 		public hotelRoom Add(hotelRoom item, int hotelId)
 		{

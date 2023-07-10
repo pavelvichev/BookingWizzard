@@ -1,5 +1,4 @@
-﻿
-using BookingWizard.DAL.Entities;
+﻿using BookingWizard.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BookingWizard.BLL.Interfaces
 {
-	public interface IBookingService
+    public interface IBookingService
 	{
 		public Booking Add(Booking item);
 		public void Delete(int id);

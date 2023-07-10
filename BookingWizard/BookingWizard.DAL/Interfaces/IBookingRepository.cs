@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BookingWizard.DAL.Interfaces
 {
-	public interface IBookingRepository
+    public interface IBookingRepository
 	{
 		public Booking Add(Booking item);
 		public Booking Delete(int id);

@@ -21,6 +21,11 @@ namespace BookingWizard.Infrastructure
             .ReverseMap();
             CreateMap<RoomImages, RoomImagesVM>()
             .ReverseMap();
+            CreateMap<Culture, CultureVM>()
+            .ReverseMap();
+            CreateMap<Resource, ResourceVM>()
+            .ReverseMap();
+
 
 
 

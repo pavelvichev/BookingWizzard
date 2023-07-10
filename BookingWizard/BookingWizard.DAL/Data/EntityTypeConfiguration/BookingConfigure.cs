@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BookingWizard.DAL.Data.EntityTypeConfiguration
 {
-	internal class BookingConfigure : IEntityTypeConfiguration<Booking>
+    internal class BookingConfigure : IEntityTypeConfiguration<Booking>
 	{
 		public void Configure(EntityTypeBuilder<Booking> builder)
 		{

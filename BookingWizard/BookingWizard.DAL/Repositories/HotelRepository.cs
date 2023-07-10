@@ -1,5 +1,4 @@
-﻿using BookingWizard.DAL.Entities;
-using BookingWizard.DAL.Interfaces;
+﻿using BookingWizard.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,18 +10,20 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using BookingWizard.DAL.Entities;
+using Microsoft.Extensions.Localization;
 
 namespace BookingWizard.DAL.Repositories
 {
-	public class HotelRepository : IHotelRepository<Hotel>
+    public class HotelRepository : IHotelRepository<Hotel>
 	{
 		readonly BookingDbContext _context;
-		private readonly IWebHostEnvironment _webHostEnvironment;
-
-		public HotelRepository(BookingDbContext context, IWebHostEnvironment webHostEnvironment)
+		private readonly IStringLocalizer<HotelRepository> _localizer;
+		public HotelRepository(BookingDbContext context, IStringLocalizer<HotelRepository> localizer)
 		{
 			_context = context;
-			_webHostEnvironment = webHostEnvironment;
+			_localizer= localizer;
+	
 		}
 		public Hotel Add(Hotel item)
 		{
@@ -111,8 +112,6 @@ namespace BookingWizard.DAL.Repositories
 
         public void DeletePhoto(int id)
 		{
-
-           
             var item = _context.HotelImages.Select(u => u).Where(x => x.Id == id).FirstOrDefault();
 
 			_context.HotelImages.Remove(item);
@@ -136,22 +135,31 @@ namespace BookingWizard.DAL.Repositories
 			  
             // Создание списка для хранения отелей в пределах 1000 км
             var hotelsWithinRadius = new List<Hotel>();
+			if (Lat == 0 && Lng == 0)
+			{
+				hotelsWithinRadius = GetAll().ToList();
+			}
+			else
+			{
+				foreach (var hotel in hotels)
+				{
+					// Вычисление расстояния между заданными координатами и координатами отеля
+					var destinationCoordinates = new Coordinates(hotel.Address.Lat, hotel.Address.Lng);
+					var distance = CalculateDistance(sourceCoordinates, destinationCoordinates);
 
-            foreach (var hotel in hotels)
-            {
-                // Вычисление расстояния между заданными координатами и координатами отеля
-                var destinationCoordinates = new Coordinates(hotel.Address.Lat, hotel.Address.Lng);
-                var distance = CalculateDistance(sourceCoordinates, destinationCoordinates);
+					// Если расстояние меньше 1000 км, добавить отель в список
+					if (distance < 700)
+					{
+						hotelsWithinRadius.Add(hotel);
+					}
 
-                // Если расстояние меньше 1000 км, добавить отель в список
-                if (distance < 100)
-                {
-                    hotelsWithinRadius.Add(hotel);
-                }
-            }
+				}
+			}
 			if (hotelsWithinRadius.Count() == 0)
             {
                 hotelsWithinRadius = GetAll().ToList();
+
+				throw new Exception(_localizer["noHotels"]);
             }
             
 

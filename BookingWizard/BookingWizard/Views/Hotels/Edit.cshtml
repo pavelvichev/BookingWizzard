@@ -1,6 +1,6 @@
 ﻿@model BookingWizard.ModelsVM.HotelVM
 
-<form method="post" enctype="multipart/form-data">
+<form method="post">
 	<input type="hidden" asp-for="Address.HotelId">
 	<input type="hidden" asp-for="AddressId">
 	<input type="hidden" asp-for="Image">
@@ -8,27 +8,29 @@
 	<div>
 		<div class="input-group mb-3">
 			<input type="text" class="form-control" asp-for="HotelName" aria-describedby="basic-addon2">
-			<span class="input-group-text" id="basic-addon2">Name</span>
+			<span class="input-group-text" id="basic-addon2">@Localizer["HotelName"]</span>
 		</div>
 		<span asp-validation-for="HotelName"></span>
 		<div class="input-group mb-3">
 			<input type="text" class="form-control" asp-for="HotelShortDescription" aria-describedby="basic-addon2">
-			<span class="input-group-text" id="basic-addon2">Short Description</span>
+			<span class="input-group-text" id="basic-addon2">@Localizer["ShortDesc"]</span>
 		</div>
 		<span asp-validation-for="HotelShortDescription"></span>
 		<div class="input-group mb-3">
 			<input type="text" class="form-control" asp-for="HotelLongDescription" aria-describedby="basic-addon2">
-			<span class="input-group-text" id="basic-addon2">Long Description</span>
+			<span class="input-group-text" id="basic-addon2">@Localizer["LongDesc"]</span>
 		</div>
 		<span asp-validation-for="HotelShortDescription"></span>
 		
 		<div class="input-group mb-3">
 			<input type="text" id="autocomplete" class="form-control" asp-for="@Model.Address.AddressName" aria-describedby="basic-addon2">
-			<span class="input-group-text" id="basic-addon2">Country</span>
+			<input type="hidden" id="Lat" asp-for="@Model.Address.Lat" name="Lat"/>
+			<input type="hidden" id="Lng" asp-for="@Model.Address.Lng" name="Lng"/>
+			<span class="input-group-text" id="basic-addon2">@Localizer["Address"]</span>
 		</div>
 		<span asp-validation-for="Address.AddressName"></span>
 
 	</div>
-	<button type="submit">Edit</button>
+	<button type="submit" class="alert alert-primary">@Localizer["EditHotel"]</button>
 </form>
 

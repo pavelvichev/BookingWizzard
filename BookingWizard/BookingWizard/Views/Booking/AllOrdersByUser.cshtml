@@ -1,20 +1,20 @@
 ﻿@model IEnumerable<BookingWizard.ModelsVM.BookingVM>
 
-<h1>Список заказов</h1>
+<h1>@Localizer["List"]</h1>
 
 @if (Model.Any())
 {
     <table class="table">
         <thead>
             <tr>
-                <th>Идентификатор</th>
-                <th>Имя</th>
-                <th>Фамилия</th>
-                <th>Email</th>
-                <th>Дата прибытия</th>
-                <th>Дата отъезда</th>
-                <th>Номер</th>
-                <th>Отель</th>
+                <th>@Localizer["Id"]</th>
+                <th>@Localizer["Name"]</th>
+                <th>@Localizer["Surname"]</th>
+                <th>@Localizer["Email"]</th>
+                <th>@Localizer["ArrivalDate"]</th>
+                <th>@Localizer["DateOfDeparture"]</th>
+                <th>@Localizer["Room"]</th>
+                <th>@Localizer["Hotel"]</th>
                 
             </tr>
         </thead>
@@ -34,7 +34,7 @@
                     <form method="post" action="/Booking/Delete">
                         <input type="hidden" value="@booking.Id"  name="id"/>
                         <div class="mb-3">
-                            <button class="btn btn-danger" type="submit" id="deleteButton">Delete</button>
+                            <button class="btn btn-danger" type="submit" id="deleteButton">@Localizer["DeleteBook"]</button>
                         </div>
                     </form>
                     </td>
@@ -45,17 +45,5 @@
 }
 else
 {
-    <p>Нет доступных заказов.</p>
+    <p>@Localizer["NoOrders"]</p>
 }
-
-<script>
-    document.addEventListener("click", function (e) {
-        let deleteButton = document.getElementById('deleteButton');
-         if (e.target === deleteButton) {
-            let confirmation = confirm("Are you sure you want to delete the order?");
-            if (!confirmation) {
-                e.preventDefault();
-            }
-        }
-    });
-</script>

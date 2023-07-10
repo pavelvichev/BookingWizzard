@@ -15,21 +15,21 @@
     <input type="hidden" asp-for="HotelName" />
    
     <div class="form-group">
-        <label  class="col-md-2 control-label">First Name</label>
+        <label  class="col-md-2 control-label">@Localizer["FirstName"]</label>
         <div class="col-md-10">
             <input type="text" asp-for="FirstNameBuyer" class="form-control" />
         </div>
     </div>
 
     <div class="form-group">
-        <label  class="col-md-2 control-label">Last Name</label>
+        <label class="col-md-2 control-label">@Localizer["LastName"]</label>
         <div class="col-md-10">
             <input type="text" asp-for="LastNameBuyer" class="form-control" />
         </div>
     </div>
 
     <div class="form-group">
-        <label asp-for="Email" class="col-md-2 control-label">Email</label>
+        <label asp-for="Email" class="col-md-2 control-label">@Localizer["Email"]</label>
         <div class="col-md-10">
             <input type="email" asp-for="Email" class="form-control" />
         </div>
@@ -37,11 +37,11 @@
 
 
     <div class="mb-3">
-        <label for="arrivalDate" class="form-label">Дата прибытия</label>
+        <label for="arrivalDate" class="form-label">@Localizer["ArrivalDate"]</label>
         <input type="date" class="form-control" id="arrivalDate" asp-for="ArrivalDate" min="@DateTime.Now.ToString("yyyy-MM-dd")">
     </div>
     <div class="mb-3">
-        <label for="departureDate" class="form-label">Дата отъезда</label>
+        <label for="departureDate" class="form-label">@Localizer["DateOfDeparture"]</label>
         <input type="date" class="form-control" id="departureDate" asp-for="DateOfDeparture" min="@DateTime.Now.ToString("yyyy-MM-dd")">
     </div>
 
@@ -49,6 +49,6 @@
     {
         <span class="alert alert-danger">@TempData["ErrorMessageFromBooking"]</span>
     }
-    <button type="submit" class="btn btn-primary">Book</button>
+    <button type="submit" class="btn btn-primary">@Localizer["Book"]</button>
 
 </form>

@@ -1,66 +1,66 @@
-﻿@model BookingWizard.ModelsVM.hotelRoomVM
-
+﻿@using Microsoft.Extensions.Localization;
+@model BookingWizard.ModelsVM.hotelRoomVM
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-6 mb-3">
-            <div id="photoContainer">
-                <img src="/PhotoRooms/GetPhoto/@Model.Image.Id" class="img-fluid" style="height: 400px;" />
-            </div>
-            <div style="text-align: center;">
-                <button type="button" id="prevButton" class="btn btn-primary"><i></i></button>
-                <button type="button" id="nextButton" class="btn btn-primary"><i></i></button>
-                @if (User.IsInRole("Admin"))
-                {
-                    <button type="button" id="deletePhotoButton" class="btn btn-danger"><i class="fas fa-chevron-right"></i></button>
-                    <button type="button" id="addButton" class="btn btn-success"><i class="fas fa-chevron-right"></i></button>
-                    <input type="file" id="photoInput" style="display: none;" accept="image/*" multiple>
-                }
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="text-center">
-                <h1 class="display-4">@Model.Name</h1>
-                <div class="lead">@Model.Description</div>
-                <p class="lead">@Model.roomPricePerNight.ToString("c")</p>
-            </div>
-        </div>
-    </div>
-</div>
+	<div class="row">
+		<div class="col-md-6 mb-3">
+			<div id="photoContainer"> 
+				
+			<img src="/PhotoRooms/GetPhoto/@Model.Image.Id" class="img-fluid" style="height: 400px;" /> 
+			</div>
+			<div style="text-align: center;"> 
+				<button type="button" id="prevButton" class="btn btn-primary"><i></i></button> 
+				<button type="button" id="nextButton" class="btn btn-primary"><i></i></button> 
+				@if (User.IsInRole("Admin"))
+				{
+					<button type="button" id="deletePhotoButton" class="btn btn-danger"><i></i></button> 
+					<button type="button" id="addButton" class="btn btn-success"><i></i></button> 
+					<input type="file" id="photoInput" style="display: none;" accept="image/*" multiple>
+				} 
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="text-center">
+				<h1 class="display-4">@Model.Name</h1>
+				<div class="lead">@Model.Description</div>
+				<p class="lead">@Model.roomPricePerNight.ToString("c")</p>
+			</div>
+		</div>
+	</div>
+</div> 
 
 @if (User.IsInRole("Admin"))
 {
-    <form method="post" action="/Rooms/Delete">
-        <input type="hidden" asp-for="Id" />
-        <button class="alert alert-danger" type="submit" id="deleteButton">Delete</button>
-    </form>
+	<form method="post" action="/Rooms/Delete"> <input type="hidden" asp-for="Id" /> 
+		<button class="alert alert-danger" type="submit" id="deleteButton">@Localizer["DeleteRoom"]</button> </form>
 }
+@if (User.IsInRole("Guest"))
+{
+	<a href="@Url.Action("Booking", "Booking", new { id = Model.Id })" class="btn btn-primary m-3">@Localizer["Book"]</a>
 
-<a href="@Url.Action("Booking", "Booking", new { id = Model.Id })" class="btn btn-primary m-3">Book</a>
 
-    @if (TempData["MessageFromBooking"] != null)
-    {
-        <div>
-            <span class="alert alert-primary">@TempData["MessageFromBooking"]</span>
-        </div>
-    }
-
+	@if (TempData["MessageFromBooking"] != null)
+	{
+		var serializedString = TempData["MessageFromBooking"] as string;
+		var localizedString = new LocalizedString("MessageFromBooking", serializedString); // Восстановление из строки
+		<div> <span class="alert alert-primary">@localizedString</span> </div>
+	}
+}
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
 <script>
-    var photos = @Html.Raw(Json.Serialize(Model.Images.Select(u => u).ToArray()));
-    var model = @Html.Raw(Json.Serialize(Model));
+	var photos = @Html.Raw(Json.Serialize(Model.Images.Select(u => u).ToArray()));
+	var model = @Html.Raw(Json.Serialize(Model));
 </script>
 
 <script src="~/Scripts/PhotoRooms.js"></script>
 
 <style>
-    /* Add your custom styles here */
-    .btn-group {
-        margin-bottom: 10px;
-    }
+	/* Add your custom styles here */
+	.btn-group {
+		margin-bottom: 10px;
+	}
 
-    .form-label {
-        font-weight: bold;
-    }
+	.form-label {
+		font-weight: bold;
+	}
 </style>

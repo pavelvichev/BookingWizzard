@@ -21,4 +21,19 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Resources\Repositories\HotelRepository.uk.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>HotelRepository.uk.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Repositories\HotelRepository.uk.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>HotelRepository.uk.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>

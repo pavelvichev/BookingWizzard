@@ -1,5 +1,4 @@
-﻿
-using BookingWizard.DAL.Entities;
+﻿using BookingWizard.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BookingWizard.BLL.Interfaces
 {
-	public interface IHotelService
+    public interface IHotelService
 	{
 		public Hotel Add(Hotel item);
 		public void Delete(Hotel item);

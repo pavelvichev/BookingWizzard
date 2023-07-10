@@ -2,6 +2,7 @@
 using BookingWizard.BLL.Interfaces;
 using BookingWizard.DAL.Entities;
 using BookingWizard.DAL.Interfaces;
+using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +11,17 @@ using System.Threading.Tasks;
 
 namespace BookingWizard.BLL.Services
 {
-	public class BookingService : IBookingService
+    public class BookingService : IBookingService
 	{
 		IUnitOfWork _unitOfWork;
 		IMapper _map;
-		public BookingService(IUnitOfWork unitOfWork, IMapper mapper) 
+        private readonly IStringLocalizer<BookingService> _localizer;
+        public BookingService(IUnitOfWork unitOfWork, IMapper mapper, IStringLocalizer<BookingService> localizer) 
 		{
 			_unitOfWork = unitOfWork;
 			_map = mapper;
+			_localizer = localizer;
+
 		}
 
         public uint CalcPrice(Booking item)
@@ -34,19 +38,19 @@ namespace BookingWizard.BLL.Services
 		{
 			if (item.ArrivalDate > item.DateOfDeparture)
 			{
-				throw new Exception("Arrival date can`t be less the date of deaprture");
+				throw new Exception(_localizer["ArrivalLessDeparture"]);
 			}
 			else if (item.ArrivalDate.Date < DateTime.Now.Date)
 			{
-				throw new Exception("Arrival date can`t be less the today`s date");
+				throw new Exception(_localizer["ArrivalLessToday"]);
 			}
 			else if (item.DateOfDeparture.Date < DateTime.Now.Date)
 			{
-				throw new Exception("Date o departure can`t be less the today`s date");
+				throw new Exception(_localizer["DepartureLessToday"]);
 			}
 			else if(item.DateOfDeparture == item.ArrivalDate)
 			{
-                throw new Exception("Date of departure can`t be equals the arrival date");
+                throw new Exception(_localizer["DepartureEqualsArrival"]);
             }
 			
 			_unitOfWork.Booking.Add(_map.Map<Booking>(item));

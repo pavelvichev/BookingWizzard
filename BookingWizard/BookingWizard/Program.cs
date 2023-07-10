@@ -1,24 +1,25 @@
-using BookingWizard.DAL.Entities;
 using BookingWizard.DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-using BookingWizard.DAL.Interfaces;
-using BookingWizard.DAL.Entities;
 using BookingWizard.DAL.Repositories;
 using BookingWizard.BLL.Interfaces;
 using BookingWizard.BLL.Services;
 using BookingWizard.DAL.Data;
 using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.Extensions.Options;
 using BookingWizard.Infrastructure;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
+using Knoema.Localization;
+using Knoema.Localization.EFProvider;
+using System.Web.Mvc;
+using Knoema.Localization.Web;
+using Microsoft.AspNetCore.Mvc.Razor;
+using Knoema.Localization.Mvc;
+using Microsoft.AspNetCore.Localization;
 using System.Globalization;
-using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Localization.Routing;
+using BookingWizard.DAL.Entities;
+using Microsoft.Extensions.Localization;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 var loggerFactory = LoggerFactory.Create(builder =>
@@ -44,6 +45,7 @@ builder.Services.AddScoped<IHotelService, HotelService>();
 builder.Services.AddScoped<IHotelRoomService, HotelRoomService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+
 builder.Services.AddSingleton(loggerFactory);
 
 builder.Services.AddAutoMapper(typeof(MapProfile));
@@ -75,8 +77,28 @@ builder.Services.AddAuthentication(config =>
     });
 
 
-
 builder.Services.AddControllers();
+
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+builder.Services.AddControllersWithViews()
+    .AddViewLocalization();// добавляем локализацию представлений;
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supportedCultures = new[]
+    {
+                    new CultureInfo("en"),
+                    new CultureInfo("uk"),
+                   
+                };
+
+    options.DefaultRequestCulture = new RequestCulture("uk");
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+});
+
+
+// Configure route options
 
 var app = builder.Build();
 
@@ -89,27 +111,36 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
 
+
+var supportedCultures = new[]
+           {
+              new CultureInfo("en"),
+              new CultureInfo("uk"),
+           };
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture("uk"),
+    SupportedCultures = supportedCultures,
+    SupportedUICultures = supportedCultures
+});
 
 app.UseRouting();
 
-app.UseAuthentication();
-app.UseAuthorization();
+app.UseStaticFiles();
 
-app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-});
+app.UseAuthentication();
+
+app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
-    // определение маршрутов
+
     endpoints.MapControllerRoute(
         name: "default",
         pattern: "{controller=Hotels}/{action=Hotels}/{id?}/{searchString?}");
 });
+
 
 
 

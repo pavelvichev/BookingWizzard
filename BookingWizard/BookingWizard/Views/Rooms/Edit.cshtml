@@ -1,33 +1,26 @@
 ﻿@model BookingWizard.ModelsVM.hotelRoomVM
 
-@{
-	string photoPath ="";
-	if (Model != null)
-	{
-		 photoPath = $"~/images/{Model.Image}";
-	}
-}
 <form method="post" action="/Rooms/Edit" enctype="multipart/form-data">
-	</div>
+	<div>
 	<input type="hidden" asp-for="Id" />
 	<input type="hidden" asp-for="HotelId" />
 	<input type="hidden" asp-for="Image" />
 	<div class="input-group mb-3">
 		<input type="text" class="form-control" placeholder="@Model.Name" asp-for="Name" aria-describedby="basic-addon2">
-		<span class="input-group-text" id="basic-addon2">Number</span>
+		<span class="input-group-text" id="basic-addon2">@Localizer["RoomName"]</span>
 	</div>
 	<span asp-validation-for="Name"></span>
 	<div class="input-group mb-3">
 		<input type="text" class="form-control" placeholder="@Model.Description" asp-for="Description" aria-describedby="basic-addon2">
-		<span class="input-group-text" id="basic-addon2"> Description</span>
+		<span class="input-group-text" id="basic-addon2">@Localizer["Desc"]</span>
 	</div>
 	<span asp-validation-for="Description"></span>
 	<div class="input-group mb-3">
 		<input type="text" class="form-control" placeholder="@Model.roomPricePerNight" asp-for="roomPricePerNight" aria-describedby="basic-addon2">
-		<span class="input-group-text" id="basic-addon2"> Price per Night</span>
+		<span class="input-group-text" id="basic-addon2">@Localizer["Price"]</span>
 	</div>
 	<span asp-validation-for="roomPricePerNight"></span>
-	
 
-	<button type="submit">Edit</button>
+	</div>
+	<button type="submit" class="alert alert-primary">@Localizer["EditRoom"]</button>
 </form>

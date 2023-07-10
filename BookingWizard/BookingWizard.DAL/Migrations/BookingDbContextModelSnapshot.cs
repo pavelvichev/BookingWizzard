@@ -102,6 +102,23 @@ namespace BookingWizard.DAL.Migrations
                     b.ToTable("Booking");
                 });
 
+            modelBuilder.Entity("BookingWizard.DAL.Entities.Culture", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cultures");
+                });
+
             modelBuilder.Entity("BookingWizard.DAL.Entities.Hotel", b =>
                 {
                     b.Property<int>("Id")
@@ -157,6 +174,32 @@ namespace BookingWizard.DAL.Migrations
                     b.HasIndex("HotelId");
 
                     b.ToTable("HotelImages");
+                });
+
+            modelBuilder.Entity("BookingWizard.DAL.Entities.Resource", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CultureId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CultureId");
+
+                    b.ToTable("Resources");
                 });
 
             modelBuilder.Entity("BookingWizard.DAL.Entities.RoomImages", b =>
@@ -253,6 +296,17 @@ namespace BookingWizard.DAL.Migrations
                     b.Navigation("Hotel");
                 });
 
+            modelBuilder.Entity("BookingWizard.DAL.Entities.Resource", b =>
+                {
+                    b.HasOne("BookingWizard.DAL.Entities.Culture", "Culture")
+                        .WithMany("Resources")
+                        .HasForeignKey("CultureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Culture");
+                });
+
             modelBuilder.Entity("BookingWizard.DAL.Entities.RoomImages", b =>
                 {
                     b.HasOne("BookingWizard.DAL.Entities.hotelRoom", "Room")
@@ -272,6 +326,11 @@ namespace BookingWizard.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Hotel");
+                });
+
+            modelBuilder.Entity("BookingWizard.DAL.Entities.Culture", b =>
+                {
+                    b.Navigation("Resources");
                 });
 
             modelBuilder.Entity("BookingWizard.DAL.Entities.Hotel", b =>
