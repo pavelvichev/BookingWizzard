@@ -1,6 +1,10 @@
 ﻿using AutoMapper;
 using BookingWizard.DAL.Entities;
+using BookingWizard.DAL.Entities.HotelRooms;
+using BookingWizard.DAL.Entities.Hotels;
 using BookingWizard.ModelsVM;
+using BookingWizard.ModelsVM.HotelRooms;
+using BookingWizard.ModelsVM.Hotels;
 
 namespace BookingWizard.Infrastructure
 {
@@ -13,7 +17,7 @@ namespace BookingWizard.Infrastructure
             .ReverseMap();
             CreateMap<Address, AddressVM>()
             .ReverseMap();
-            CreateMap<hotelRoom, hotelRoomVM>()
+            CreateMap<HotelRoom, HotelRoomVM>()
             .ReverseMap();
             CreateMap<Booking, BookingVM>()
             .ReverseMap();
@@ -21,10 +25,7 @@ namespace BookingWizard.Infrastructure
             .ReverseMap();
             CreateMap<RoomImages, RoomImagesVM>()
             .ReverseMap();
-            CreateMap<Culture, CultureVM>()
-            .ReverseMap();
-            CreateMap<Resource, ResourceVM>()
-            .ReverseMap();
+      
 
 
 

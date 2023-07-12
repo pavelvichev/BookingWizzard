@@ -7,7 +7,7 @@
 		content.style.display = content.style.display === 'none' ? 'block' : 'none';
 	}
 	else if (e.target === deleteButton) {
-		let confirmation = confirm(greeting);
+		var confirmation = confirm(sureDelete);
 		if (!confirmation) {
 			e.preventDefault();
 		}

@@ -1,28 +1,25 @@
-﻿@model IEnumerable<BookingWizard.ModelsVM.HotelVM>
+﻿@using System.Security.Claims;
+@using BookingWizard.ModelsVM.Hotels;
+@model IEnumerable<HotelVM>
 
+
+@{
+    var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+}
 
 
 <div class="container">
     <form method="post" asp-action="Hotels" asp-controller="Hotels">
         <div class="input-group mb-3">
            <input type="text" id="autocomplete"  placeholder="@Localizer["WhereWay"]" class="form-control" name="Address" aria-describedby="basic-addon2">
-            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">@Localizer["Search"]</button>
+            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">@Localizer["Search"]</button>         
         </div>
         <input type="hidden" id="Lat" name="Lat" />
         <input type="hidden" id="Lng" name="Lng" />
     </form>
-    @if(TempData["noHotels"] != null){
-    <p>@TempData["noHotels"]</p>
-    }
-    @if (User.IsInRole("Admin"))
+    @if(TempData["noHotels"] != null)
     {
-        <div class="container mb-3">
-            <div class="row">
-                <div class="col">
-                    <a class="btn btn-primary" href="@Url.Action("Add","Hotels")">@Localizer["AddHotel"]</a>
-                </div>
-            </div>
-        </div>
+        <p>@TempData["noHotels"]</p>
     }
     <div class="row">
         @foreach (var hotel in Model)
@@ -37,10 +34,6 @@
                         <h5 style="max-height: 80px;" class="card-title">@hotel.HotelName</h5>
                         <p style="height: auto; max-height: 100px"class="card-text">@hotel.HotelShortDescription</p>
                         <p style="height: auto; max-height: 100px"class="card-text">@hotel.Address.AddressName</p>
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <a href="@Url.Action("Edit","Hotels", new {id = hotel.Id})" class="btn btn-primary">@Localizer["EditHotel"]</a>
-                        }
                     </div>
                 </div>
             </div>

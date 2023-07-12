@@ -76,7 +76,7 @@ namespace BookingWizard.IdentityServer.Controllers
                 
                     var result = await _userManager.CreateAsync(user, vm.Password);
                         if (result.Succeeded) {
-                        await Authenticate(user); // аутентификация
+                        await Authenticate(user);
                         return Redirect(vm.ReturnUrl);
                        }
                 
@@ -122,8 +122,6 @@ namespace BookingWizard.IdentityServer.Controllers
             };
           
 
-            
-            // установка аутентификационных куки
             await _signInManager.SignInWithClaimsAsync(user, true ,claims);
         }
     }

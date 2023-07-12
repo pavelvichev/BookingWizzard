@@ -39,15 +39,13 @@ $(document).ready(function () {
         formData.append("model", JSON.stringify(model));
 
         $.ajax({
-            url: "/Rooms/PhotoUpload",
+            url: "/PhotoRooms/PhotoUpload",
             type: "POST",
             data: formData,
             contentType: false,
             processData: false,
             success: function (response) {
-
-                window.location.href = "/Rooms/Room?id=" + model.id;
-
+                window.location.href = "/Rooms/Room/" + model.id;
             },
             error: function (xhr, status, error) {
                 debugger;
@@ -67,9 +65,8 @@ $(document).ready(function () {
             var id = currentPhoto.getAttribute("src").split("/").pop();
         }
 
-        $.post("/PhotoRooms/DeletePhoto", { id: id, RoomId: RoomId })
+        $.post("/PhotoRooms/DeletePhoto", { id: id, roomId: RoomId })
             .done(function () {
-
                 window.location.href = "/Rooms/Room/" + model.id;
             })
             .fail(function (xhr, status, error) {

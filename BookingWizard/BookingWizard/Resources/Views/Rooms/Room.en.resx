@@ -123,4 +123,7 @@
   <data name="DeleteRoom" xml:space="preserve">
     <value>Delete the room</value>
   </data>
+  <data name="SureDelete" xml:space="preserve">
+    <value>Are you sure you want to delete the item?</value>
+  </data>
 </root>

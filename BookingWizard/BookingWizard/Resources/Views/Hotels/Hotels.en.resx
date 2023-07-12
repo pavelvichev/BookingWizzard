@@ -123,6 +123,9 @@
   <data name="EditHotel" xml:space="preserve">
     <value>Edit hotel</value>
   </data>
+  <data name="HowManyPeople" xml:space="preserve">
+    <value>How many people does the room hold?</value>
+  </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
   </data>

@@ -5,14 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BookingWizard.DAL.Entities;
+using BookingWizard.DAL.Entities.HotelRooms;
 
 namespace BookingWizard.DAL.Data.EntityTypeConfiguration
 {
 
-    internal class hotelRoomConfigure : IEntityTypeConfiguration<hotelRoom>
+    internal class hotelRoomConfigure : IEntityTypeConfiguration<HotelRoom>
     {
-        public void Configure(EntityTypeBuilder<hotelRoom> builder)
+        public void Configure(EntityTypeBuilder<HotelRoom> builder)
         {
             builder
              .HasOne(h => h.Hotel)

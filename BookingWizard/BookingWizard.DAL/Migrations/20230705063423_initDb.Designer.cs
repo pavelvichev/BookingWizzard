@@ -164,7 +164,7 @@ namespace BookingWizard.DAL.Migrations
                     b.ToTable("RoomImages");
                 });
 
-            modelBuilder.Entity("BookingWizard.DAL.Entities.hotelRoom", b =>
+            modelBuilder.Entity("BookingWizard.DAL.Entities.HotelRoom", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -212,7 +212,7 @@ namespace BookingWizard.DAL.Migrations
 
             modelBuilder.Entity("BookingWizard.DAL.Entities.Booking", b =>
                 {
-                    b.HasOne("BookingWizard.DAL.Entities.hotelRoom", "Room")
+                    b.HasOne("BookingWizard.DAL.Entities.HotelRoom", "Room")
                         .WithMany("Bookings")
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -234,7 +234,7 @@ namespace BookingWizard.DAL.Migrations
 
             modelBuilder.Entity("BookingWizard.DAL.Entities.RoomImages", b =>
                 {
-                    b.HasOne("BookingWizard.DAL.Entities.hotelRoom", "Room")
+                    b.HasOne("BookingWizard.DAL.Entities.HotelRoom", "Room")
                         .WithMany("Images")
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -243,7 +243,7 @@ namespace BookingWizard.DAL.Migrations
                     b.Navigation("Room");
                 });
 
-            modelBuilder.Entity("BookingWizard.DAL.Entities.hotelRoom", b =>
+            modelBuilder.Entity("BookingWizard.DAL.Entities.HotelRoom", b =>
                 {
                     b.HasOne("BookingWizard.DAL.Entities.Hotel", "Hotel")
                         .WithMany("roomList")
@@ -263,7 +263,7 @@ namespace BookingWizard.DAL.Migrations
                     b.Navigation("roomList");
                 });
 
-            modelBuilder.Entity("BookingWizard.DAL.Entities.hotelRoom", b =>
+            modelBuilder.Entity("BookingWizard.DAL.Entities.HotelRoom", b =>
                 {
                     b.Navigation("Bookings");
 

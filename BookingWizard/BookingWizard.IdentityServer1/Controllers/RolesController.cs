@@ -5,19 +5,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookingWizard.IdentityServer.Controllers
 {
-    public class RolesController: Controller
+    public class RolesController : Controller
     {
         RoleManager<IdentityRole> _roleManager;
         UserManager<IdentityUser> _userManager;
-       
+
         public RolesController(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager, AppDbContext appDbContext)
         {
             _roleManager = roleManager;
             _userManager = userManager;
-            
+
         }
         public IActionResult Index() => View(_roleManager.Roles.ToList());
-       
 
         public IActionResult Create() => View();
         [HttpPost]
@@ -52,15 +51,15 @@ namespace BookingWizard.IdentityServer.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult UserList() => View(_userManager.Users.ToList());
+        public IActionResult UserList(string name = "") => View(string.IsNullOrWhiteSpace(name) ? _userManager.Users.ToList() : _userManager.Users.Where(x => x.NormalizedUserName == name.ToUpper()).ToList());
 
         public async Task<IActionResult> Edit(string userId)
         {
-            // получаем пользователя
+
             IdentityUser user = await _userManager.FindByIdAsync(userId);
             if (user != null)
             {
-                // получем список ролей пользователя
+
                 var userRoles = await _userManager.GetRolesAsync(user);
                 var allRoles = _roleManager.Roles.ToList();
                 ChangeRoleViewModel model = new ChangeRoleViewModel
@@ -78,17 +77,17 @@ namespace BookingWizard.IdentityServer.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(string userId, List<string> roles)
         {
-            // получаем пользователя
+
             IdentityUser user = await _userManager.FindByIdAsync(userId);
             if (user != null)
             {
-                // получем список ролей пользователя
+
                 var userRoles = await _userManager.GetRolesAsync(user);
-                // получаем все роли
+
                 var allRoles = _roleManager.Roles.ToList();
-                // получаем список ролей, которые были добавлены
+
                 var addedRoles = roles.Except(userRoles);
-                // получаем роли, которые были удалены
+
                 var removedRoles = userRoles.Except(roles);
 
                 await _userManager.AddToRolesAsync(user, addedRoles);

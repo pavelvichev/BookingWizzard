@@ -123,6 +123,9 @@
   <data name="Logout" xml:space="preserve">
     <value>Вийти</value>
   </data>
+  <data name="MyHotels" xml:space="preserve">
+    <value>Мої готелі</value>
+  </data>
   <data name="MyOrders" xml:space="preserve">
     <value>Мої Замовлення</value>
   </data>

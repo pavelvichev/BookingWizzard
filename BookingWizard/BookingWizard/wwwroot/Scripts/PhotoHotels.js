@@ -43,7 +43,7 @@ $(document).ready(function () {
 			processData: false,
 			success: function (response) {
 
-				window.location.href = "/Hotels/Hotel?id=" + model.id;
+				window.location.href = "/Hotels/Hotel/" + model.id;
 
 			},
 			error: function (xhr, status, error) {

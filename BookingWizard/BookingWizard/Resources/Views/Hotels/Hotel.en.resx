@@ -129,6 +129,12 @@
   <data name="NumberOfPeople" xml:space="preserve">
     <value>Number of people</value>
   </data>
+  <data name="People" xml:space="preserve">
+    <value>Peoples</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Ціна</value>
+  </data>
   <data name="RoomName" xml:space="preserve">
     <value>Room Name</value>
   </data>
@@ -139,7 +145,7 @@
     <value>Short Description</value>
   </data>
   <data name="SureDelete" xml:space="preserve">
-    <value>Are you sure you want to delete the item</value>
+    <value>Are you sure you want to delete the item?</value>
   </data>
   <data name="WhereWay" xml:space="preserve">
     <value>Where do you want to go?</value>

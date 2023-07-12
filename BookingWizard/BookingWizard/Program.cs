@@ -1,13 +1,10 @@
 using BookingWizard.DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using BookingWizard.DAL.Repositories;
-using BookingWizard.BLL.Interfaces;
-using BookingWizard.BLL.Services;
 using BookingWizard.DAL.Data;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using BookingWizard.Infrastructure;
 using Knoema.Localization;
 using Knoema.Localization.EFProvider;
 using System.Web.Mvc;
@@ -17,15 +14,27 @@ using Knoema.Localization.Mvc;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization.Routing;
-using BookingWizard.DAL.Entities;
 using Microsoft.Extensions.Localization;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using BookingWizard.Infrastructure;
+using BookingWizard.BLL.Interfaces.IBooking;
+using BookingWizard.BLL.Interfaces.IRooms;
+using BookingWizard.BLL.Services.HotelsImpls;
+using BookingWizard.BLL.Services.BookingImpls;
+using BookingWizard.BLL.Services.RoomsImpls;
+using BookingWizard.BLL.Interfaces.IHotels;
+using BookingWizard.DAL.Interfaces.IBookingRepo;
+using BookingWizard.DAL.Interfaces.IHotelRepo;
+using BookingWizard.DAL.Repositories.BookingRepo;
+using BookingWizard.DAL.Repositories.HotelRepo;
+using BookingWizard.DAL.Repositories.HotelRoomsRepo;
+using BookingWizard.DAL.Interfaces.IHotelRoomsRepo;
+using BookingWizard.DAL.Entities.Hotels;
 
 var builder = WebApplication.CreateBuilder(args);
 var loggerFactory = LoggerFactory.Create(builder =>
 {
-	builder.AddConsole(); // Пример конфигурации для записи в консоль
-						  // Здесь вы можете добавить другие провайдеры логгирования, если необходимо
+	builder.AddConsole(); 
 });
 
 
@@ -38,13 +47,19 @@ builder.Services.AddControllersWithViews(options =>
 
 builder.Services.AddDbContext<BookingDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("HotelsDbConnection")));
 
+builder.Services.AddScoped<IPhotoRoomsService, PhotoRoomsService>();
+builder.Services.AddScoped<IPhotoRoomsRepository, PhotoRoomsRepository>();
+builder.Services.AddScoped<IPhotoHotelsRepository, PhotoHotelsRepository>();
+builder.Services.AddScoped<IPhotoHotelsService, PhotoHotelsService>();
 builder.Services.AddScoped<IHotelRepository<Hotel>, HotelRepository>();
-builder.Services.AddScoped<IHotelRoomRepository<hotelRoom>, hotelRoomsRepository>();
+builder.Services.AddScoped<IHotelRoomsRepository, HotelRoomsRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnifOfWork>();
 builder.Services.AddScoped<IHotelService, HotelService>();
 builder.Services.AddScoped<IHotelRoomService, HotelRoomService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+
+
 
 builder.Services.AddSingleton(loggerFactory);
 
@@ -133,16 +148,23 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
+
+
 app.UseEndpoints(endpoints =>
 {
+    endpoints.MapControllerRoute(
+    name: "MyRoute",
+    pattern: "Admin/MyHotels/{userId?}",
+    defaults: new { controller = "Admin", action = "MyHotels" }
+);
+});
 
+app.UseEndpoints(endpoints =>
+{
     endpoints.MapControllerRoute(
         name: "default",
         pattern: "{controller=Hotels}/{action=Hotels}/{id?}/{searchString?}");
 });
-
-
-
 
 
 app.Run();

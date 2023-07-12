@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
-using BookingWizard.DAL.Entities;
+using BookingWizard.DAL.Entities.HotelRooms;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

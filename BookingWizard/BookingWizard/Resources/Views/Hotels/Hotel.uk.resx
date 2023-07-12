@@ -129,8 +129,17 @@
   <data name="EditHotel" xml:space="preserve">
     <value>Редагувати кімнату</value>
   </data>
+  <data name="HowManyPeople" xml:space="preserve">
+    <value>На скількох людей кімната?</value>
+  </data>
   <data name="NumberOfPeople" xml:space="preserve">
     <value>Кількість людей</value>
+  </data>
+  <data name="People" xml:space="preserve">
+    <value>Людей</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Ціна</value>
   </data>
   <data name="RoomName" xml:space="preserve">
     <value>Назва кімнати</value>

@@ -2,6 +2,7 @@ using BookingWizard.IdentityServer.Configuration;
 using BookingWizard.IdentityServer.Data;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -30,7 +31,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(config =>
 
 builder.Services.ConfigureApplicationCookie(config =>
 {
-    config.Cookie.Name = "IdentityServer.Cookie";
+    config.Cookie.Name = CookieAuthenticationDefaults.AuthenticationScheme;
     config.LoginPath = "/Auth/Login";
     config.LogoutPath = "/Auth/Logout";
 });
@@ -108,11 +109,6 @@ using(var scope = app.Services.CreateScope())
 
         await userManager.AddToRoleAsync(user, "Admin");
     }
-
-    
-
-                
-
 
     scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
 

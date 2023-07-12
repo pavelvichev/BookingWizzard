@@ -45,5 +45,16 @@
 }
 else
 {
-    <p>@Localizer["NoOrders"]</p>
+    <p>@Localizer["NoBook"]</p>
 }
+
+@{
+    var sureDeleteLocalize = Localizer["SureDelete"];
+}
+
+<script>
+    var sureDelete = @Html.Raw(Json.Serialize(sureDeleteLocalize.Value));
+</script>
+
+
+<script src="~/Scripts/PhotoHotels.js"></script>

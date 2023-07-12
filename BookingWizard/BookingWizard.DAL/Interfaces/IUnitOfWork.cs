@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BookingWizard.DAL.Entities;
+using BookingWizard.DAL.Entities.Hotels;
+using BookingWizard.DAL.Interfaces.IBookingRepo;
+using BookingWizard.DAL.Interfaces.IHotelRepo;
+using BookingWizard.DAL.Interfaces.IHotelRoomsRepo;
 using Microsoft.Extensions.Localization;
 
 
@@ -12,8 +15,10 @@ namespace BookingWizard.DAL.Interfaces
     public interface IUnitOfWork
 	{
 		IHotelRepository<Hotel> Hotels { get; }
-		IHotelRoomRepository<hotelRoom> Rooms { get; }
+		IHotelRoomsRepository Rooms { get; }
 		IBookingRepository Booking { get; }
+		IPhotoHotelsRepository PhotoHotels { get; }
+		IPhotoRoomsRepository PhotoRooms { get; }
 	
 		
 	}

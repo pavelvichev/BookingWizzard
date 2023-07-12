@@ -1,4 +1,4 @@
-﻿using BookingWizard.DAL.Entities;
+﻿using BookingWizard.DAL.Entities.Hotels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;

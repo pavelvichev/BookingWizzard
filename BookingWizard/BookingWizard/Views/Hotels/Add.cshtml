@@ -1,7 +1,13 @@
-﻿@model BookingWizard.ModelsVM.HotelVM
-
+﻿@model HotelVM
+@using System.Security.Claims;
+@using BookingWizard.ModelsVM.Hotels;
 <form id="addHotelForm" method="post" enctype="multipart/form-data">
-	
+	@{
+		
+		Model.IdentityUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+	}
+
+	<input type="hidden" asp-for="IdentityUserId" />
 	<div id="main">
 		<div class="input-group mb-3">
 			<input type="text" class="form-control" asp-for="HotelName" aria-describedby="basic-addon2">

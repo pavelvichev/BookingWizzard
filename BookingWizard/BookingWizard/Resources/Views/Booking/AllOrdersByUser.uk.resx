@@ -141,8 +141,14 @@
   <data name="Name" xml:space="preserve">
     <value>Ім'я</value>
   </data>
+  <data name="NoBook" xml:space="preserve">
+    <value>Немає бронювань</value>
+  </data>
   <data name="Room" xml:space="preserve">
     <value>Кімната</value>
+  </data>
+  <data name="SureDelete" xml:space="preserve">
+    <value>Ви впевнені ,що бажаєте видалити об'єкт?</value>
   </data>
   <data name="Surname" xml:space="preserve">
     <value>Фамілія</value>

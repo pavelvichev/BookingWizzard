@@ -142,6 +142,10 @@ namespace BookingWizard.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("IdentityUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("isFavourite")
                         .HasColumnType("bit");
 
@@ -176,59 +180,7 @@ namespace BookingWizard.DAL.Migrations
                     b.ToTable("HotelImages");
                 });
 
-            modelBuilder.Entity("BookingWizard.DAL.Entities.Resource", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CultureId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Key")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CultureId");
-
-                    b.ToTable("Resources");
-                });
-
-            modelBuilder.Entity("BookingWizard.DAL.Entities.RoomImages", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<byte[]>("ImageData")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RoomId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoomId");
-
-                    b.ToTable("RoomImages");
-                });
-
-            modelBuilder.Entity("BookingWizard.DAL.Entities.hotelRoom", b =>
+            modelBuilder.Entity("BookingWizard.DAL.Entities.HotelRoom", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -263,6 +215,58 @@ namespace BookingWizard.DAL.Migrations
                     b.ToTable("hotelRooms");
                 });
 
+            modelBuilder.Entity("BookingWizard.DAL.Entities.Resource", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CultureId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CultureId");
+
+                    b.ToTable("Resource");
+                });
+
+            modelBuilder.Entity("BookingWizard.DAL.Entities.RoomImages", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<byte[]>("ImageData")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoomId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("RoomImages");
+                });
+
             modelBuilder.Entity("BookingWizard.DAL.Entities.Address", b =>
                 {
                     b.HasOne("BookingWizard.DAL.Entities.Hotel", "Hotel")
@@ -276,7 +280,7 @@ namespace BookingWizard.DAL.Migrations
 
             modelBuilder.Entity("BookingWizard.DAL.Entities.Booking", b =>
                 {
-                    b.HasOne("BookingWizard.DAL.Entities.hotelRoom", "Room")
+                    b.HasOne("BookingWizard.DAL.Entities.HotelRoom", "Room")
                         .WithMany("Bookings")
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -296,6 +300,16 @@ namespace BookingWizard.DAL.Migrations
                     b.Navigation("Hotel");
                 });
 
+            modelBuilder.Entity("BookingWizard.DAL.Entities.HotelRoom", b =>
+                {
+                    b.HasOne("BookingWizard.DAL.Entities.Hotel", "Hotel")
+                        .WithMany("roomList")
+                        .HasForeignKey("HotelId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Hotel");
+                });
+
             modelBuilder.Entity("BookingWizard.DAL.Entities.Resource", b =>
                 {
                     b.HasOne("BookingWizard.DAL.Entities.Culture", "Culture")
@@ -309,23 +323,13 @@ namespace BookingWizard.DAL.Migrations
 
             modelBuilder.Entity("BookingWizard.DAL.Entities.RoomImages", b =>
                 {
-                    b.HasOne("BookingWizard.DAL.Entities.hotelRoom", "Room")
+                    b.HasOne("BookingWizard.DAL.Entities.HotelRoom", "Room")
                         .WithMany("Images")
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Room");
-                });
-
-            modelBuilder.Entity("BookingWizard.DAL.Entities.hotelRoom", b =>
-                {
-                    b.HasOne("BookingWizard.DAL.Entities.Hotel", "Hotel")
-                        .WithMany("roomList")
-                        .HasForeignKey("HotelId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("Hotel");
                 });
 
             modelBuilder.Entity("BookingWizard.DAL.Entities.Culture", b =>
@@ -343,7 +347,7 @@ namespace BookingWizard.DAL.Migrations
                     b.Navigation("roomList");
                 });
 
-            modelBuilder.Entity("BookingWizard.DAL.Entities.hotelRoom", b =>
+            modelBuilder.Entity("BookingWizard.DAL.Entities.HotelRoom", b =>
                 {
                     b.Navigation("Bookings");
 
