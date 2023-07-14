@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BookingWizard.BLL.Interfaces.IRooms;
+using BookingWizard.BLL.Interfaces.IHotelRoomsServices;
 using BookingWizard.ModelsVM.HotelRooms;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;

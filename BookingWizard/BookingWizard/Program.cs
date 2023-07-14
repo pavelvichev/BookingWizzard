@@ -17,12 +17,6 @@ using Microsoft.AspNetCore.Localization.Routing;
 using Microsoft.Extensions.Localization;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using BookingWizard.Infrastructure;
-using BookingWizard.BLL.Interfaces.IBooking;
-using BookingWizard.BLL.Interfaces.IRooms;
-using BookingWizard.BLL.Services.HotelsImpls;
-using BookingWizard.BLL.Services.BookingImpls;
-using BookingWizard.BLL.Services.RoomsImpls;
-using BookingWizard.BLL.Interfaces.IHotels;
 using BookingWizard.DAL.Interfaces.IBookingRepo;
 using BookingWizard.DAL.Interfaces.IHotelRepo;
 using BookingWizard.DAL.Repositories.BookingRepo;
@@ -30,6 +24,16 @@ using BookingWizard.DAL.Repositories.HotelRepo;
 using BookingWizard.DAL.Repositories.HotelRoomsRepo;
 using BookingWizard.DAL.Interfaces.IHotelRoomsRepo;
 using BookingWizard.DAL.Entities.Hotels;
+using BookingWizard.DAL.Interfaces.IUsersRepo;
+using BookingWizard.DAL.Repositories.UsersRepo;
+using BookingWizard.BLL.Interfaces.IUsersServices;
+using BookingWizard.BLL.Services.UsersServiceImpls;
+using BookingWizard.BLL.Interfaces.IHotelsServices;
+using BookingWizard.BLL.Services.HotelsServiceImpls;
+using BookingWizard.BLL.Services.RoomsServiceImpls;
+using BookingWizard.BLL.Services.BookingServiceImpls;
+using BookingWizard.BLL.Interfaces.IBookingServices;
+using BookingWizard.BLL.Interfaces.IHotelRoomsServices;
 
 var builder = WebApplication.CreateBuilder(args);
 var loggerFactory = LoggerFactory.Create(builder =>
@@ -46,6 +50,7 @@ builder.Services.AddControllersWithViews(options =>
 
 
 builder.Services.AddDbContext<BookingDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("HotelsDbConnection")));
+builder.Services.AddDbContext<IdentityServerContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityString")));
 
 builder.Services.AddScoped<IPhotoRoomsService, PhotoRoomsService>();
 builder.Services.AddScoped<IPhotoRoomsRepository, PhotoRoomsRepository>();
@@ -58,6 +63,11 @@ builder.Services.AddScoped<IHotelService, HotelService>();
 builder.Services.AddScoped<IHotelRoomService, HotelRoomService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+builder.Services.AddScoped<IUsersRepository, UsersRepository>();
+builder.Services.AddScoped<IUsersService, UsersService>();
+builder.Services.AddScoped<IReviewsRepository, ReviewsRepository>();
+builder.Services.AddScoped<IReviewsService, ReviewsService>();
+
 
 
 

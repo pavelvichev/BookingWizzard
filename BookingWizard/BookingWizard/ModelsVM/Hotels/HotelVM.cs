@@ -25,6 +25,10 @@ namespace BookingWizard.ModelsVM.Hotels
 
         public string IdentityUserId { get; set; }
 
+        public ReviewVM? ReviewVM { get; set; }
+
+        public IEnumerable<ReviewVM>? AllReviews { get; set; }
+
 
 
     }

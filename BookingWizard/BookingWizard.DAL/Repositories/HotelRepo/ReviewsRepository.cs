@@ -2,6 +2,7 @@
 using BookingWizard.DAL.Entities.Hotels;
 using BookingWizard.DAL.Interfaces.IHotelRepo;
 using BookingWizard.DAL.Interfaces.IUsersRepo;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -37,10 +38,14 @@ namespace BookingWizard.DAL.Repositories.HotelRepo
 		
 		public IEnumerable<Review> GetAll(int hotelId)
 		{
-			var all = _context.Reviews.Where(x => x.HotelId == hotelId).ToList();
+			var all = _context.Reviews
+				.Where(x => x.HotelId == hotelId)
+				.ToList();
 
-			foreach(var item in all)
+
+			foreach (var item in all)
 			{
+				item.User = new IdentityUser();
 				item.User = _usersRepository.Get(item.IdentityUserId);
 			}
 			return all;

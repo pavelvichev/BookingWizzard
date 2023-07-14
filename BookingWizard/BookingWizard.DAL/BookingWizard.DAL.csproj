@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
       <PrivateAssets>all</PrivateAssets>
@@ -19,48 +20,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.5.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Resources\Repositories\HotelRepository.uk.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>HotelRepository.uk.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Resources\Repositories\PhotoHotelsRepository.en.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>PhotoHotelsRepository.en.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Resources\Repositories\PhotoRooms.uk.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>PhotoRooms.uk.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Resources\Repositories\PhotoRooms.en.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>PhotoRooms.en.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Resources\Repositories\HotelRepository.uk.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>HotelRepository.uk.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Repositories\PhotoHotelsRepository.en.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>PhotoHotelsRepository.en.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Repositories\PhotoRooms.uk.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>PhotoRooms.uk.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Repositories\PhotoRooms.en.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>PhotoRooms.en.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

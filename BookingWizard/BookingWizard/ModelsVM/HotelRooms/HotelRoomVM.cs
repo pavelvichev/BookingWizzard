@@ -12,7 +12,6 @@ namespace BookingWizard.ModelsVM.HotelRooms
         public BookingVM? booking { get; set; }
         public uint HotelId { get; set; }
         public ushort roomPricePerNight { get; set; } // цена за ночь
-        public static List<int> NumbersOfPeople { get; set; } = new List<int>() { 1, 2, 3, 4, 5 };
         public uint? bookingId { get; set; } // номер бронирования
         public uint NumberOfPeople { get; set; } // номер бронирования
         public IEnumerable<IFormFile>? ImageModelList { get; set; }

@@ -37,7 +37,13 @@
 <div class="container">
 	<form method="post" asp-action="Hotel" asp-controller="Hotels">
 		<div class="input-group mb-3" style="max-width: 250px;">
-			@Html.DropDownList("NumberOfPeople", ViewBag.NumberList as SelectList, new { @class = "form-select", style = "width: 50px;", placeholder = @Localizer["HowManyPeople"], aria_describedby = "basic-addon2" })
+			<select class="form-control" name="NumberOfPeople" required>
+			<option>1</option>
+			<option>2</option>
+			<option>3</option>
+			<option>4</option>
+			<option>5</option>
+		</select>
 			<input type="hidden" name="id" value="@Model.Id" />
 			<div class="input-group-append">
 				<button class="btn btn-outline-secondary" type="submit" id="button-addon2">
@@ -125,7 +131,13 @@
 				</div>
 				<div class="mb-3">
 					<label for="roomNumber" class="form-label">@Localizer["NumberOfPeople"]</label>
-					@Html.DropDownListFor(x => x.Room.NumberOfPeople, ViewBag.NumberList as SelectList, new { @class = "form-control" }) 
+					<select class="form-control" asp-for="Room.NumberOfPeople" id="rating" required>
+						<option>1</option>
+						<option>2</option>
+						<option>3</option>
+						<option>4</option>
+						<option>5</option>
+					</select>
 				</div>
 				<div class="custom-file"> 
 					<input asp-for="@Model.Room.ImageModelList" class="custom-file-input form-control" multiple /> 
@@ -139,19 +151,92 @@
 			<div class="mb-3"> <button class="btn btn-danger" type="submit" id="deleteButton">@Localizer["DeleteHotel"]</button> </div>
 		</form>
 	}
+
+	@foreach(var review in Model.AllReviews)
+	{
+		<div class="card m-2">
+				<div class="card-body">
+					<h5 class="card-title">Отзыв пользователя: @review.User.UserName</h5>
+					<div id="review">
+					<p class="card-text">@review.Text</p>
+
+					<p>
+						<span class="font-weight-bold">Рейтинг:</span>
+						@for (int i = 1; i <= review.Rating; i++)
+						{
+							<span>&#9733;</span>
+						}
+					</p>
+
+					<p>
+						<span class="font-weight-bold">Дата:</span>
+						@review.ReviewDate
+					</p>
+					@if (currentUserId == review.IdentityUserId)
+					{
+						<button type="button" id="editReviewBtn"class="btn btn-primary edit-review-btn" data-id="@review.Id" data-date="@review.ReviewDate" data-text="@review.Text" data-ratinf="@review.Rating">Edit
+						</button>
+					}
+					@if (currentUserId == review.IdentityUserId || User.IsInRole("Owner") && currentUserId == Model.IdentityUserId) {
+						<form asp-action="DeleteReview" asp-controller="Reviews" method="post">
+							<input type="hidden" name="reviewId" value="@review.Id">
+							<input type="hidden" name="hotelId" value="@Model.Id">
+							<button type="submit" id="deleteButton" class="btn btn-danger">Delete</button>
+						</form>
+					}
+				</div>
+				</div>
+			</div>
+	}
 </div>
+
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
 @{
 	var sureDeleteLocalize = Localizer["SureDelete"];
 }
+
 <script>
 	var photos = @Html.Raw(Json.Serialize(Model.Images));
 	var sureDelete = @Html.Raw(Json.Serialize(sureDeleteLocalize.Value));
 	var model = @Html.Raw(Json.Serialize(Model));	
-
+	var modelId = @Html.Raw(Json.Serialize(Model.Id));
+	var IdentityUserId = @Html.Raw(Json.Serialize(Model.IdentityUserId));
 </script>
+@if (currentUserId != Model.IdentityUserId)
+{
+	<form method="post" id="addReviewForm" asp-action="AddReview" asp-controller="Reviews">
+		@{
+			Model.ReviewVM.HotelId = Model.Id;
+			Model.ReviewVM.IdentityUserId = currentUserId;
+		}
+		<input type="hidden" asp-for="ReviewVM.HotelId" />
+		<input type="hidden" asp-for="ReviewVM.IdentityUserId" />
+		<input type="hidden" asp-for="ReviewVM.User" />
 
-<script src="~/Scripts/PhotoHotels.js"></script>
+		<div class="form-group">
+			<label for="text">Текст отзыва</label>
+			<textarea asp-for="ReviewVM.Text" class="form-control" id="text" rows="5" required></textarea>
+		</div>
+
+		<div class="form-group">
+			<label for="rating">Рейтинг (1-5)</label>
+			<select class="form-control" asp-for="ReviewVM.Rating" id="rating" required>
+				<option>1</option>
+				<option>2</option>
+				<option>3</option>
+				<option>4</option>
+				<option>5</option>
+			</select>
+		</div>
+
+
+		<button type="submit" class="btn btn-primary">Отправить</button>
+
+	</form>
+}
+
+<script src="~/Scripts/PhotoHotels.js?v="></script>
 
 <style>
 	.input-group-append {

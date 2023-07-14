@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using BookingWizard.BLL.Interfaces.IBooking;
-using BookingWizard.BLL.Interfaces.IHotels;
-using BookingWizard.BLL.Interfaces.IRooms;
+using BookingWizard.BLL.Interfaces.IBookingServices;
+using BookingWizard.BLL.Interfaces.IHotelRoomsServices;
+using BookingWizard.BLL.Interfaces.IHotelsServices;
 using BookingWizard.BLL.Services;
 using BookingWizard.DAL.Entities.HotelRooms;
 using BookingWizard.DAL.Interfaces;

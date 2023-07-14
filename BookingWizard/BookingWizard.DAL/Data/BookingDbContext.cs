@@ -22,6 +22,8 @@ namespace BookingWizard.DAL.Data
 		public DbSet<Booking> Booking { get; set; }
 		public DbSet<HotelImages> HotelImages { get; set; }
 		public DbSet<RoomImages> RoomImages { get; set; }
+		public DbSet<Review> Reviews { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{

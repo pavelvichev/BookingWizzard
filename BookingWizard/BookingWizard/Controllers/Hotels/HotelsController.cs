@@ -2,12 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
-using BookingWizard.BLL.Interfaces.IRooms;
-using BookingWizard.BLL.Interfaces.IHotels;
 using BookingWizard.DAL.Entities.Hotels;
 using BookingWizard.DAL.Entities.HotelRooms;
 using BookingWizard.ModelsVM.Hotels;
 using BookingWizard.ModelsVM.HotelRooms;
+using BookingWizard.BLL.Interfaces.IHotelsServices;
+using BookingWizard.BLL.Interfaces.IHotelRoomsServices;
+using Microsoft.AspNetCore.Identity;
 
 namespace BookingWizard.Controllers.Hotels
 {
@@ -17,15 +18,17 @@ namespace BookingWizard.Controllers.Hotels
 
         IHotelService _hotelService;
         IHotelRoomService _hotelRoomService;
+        IReviewsService _reviewsService;
         IMapper _map;
         IWebHostEnvironment _webHostEnvironment;
 
-        public HotelsController(IHotelService hotelService, IMapper map, IHotelRoomService hotelRoomService, IWebHostEnvironment webHostEnvironment)
+        public HotelsController(IHotelService hotelService, IMapper map, IHotelRoomService hotelRoomService, IWebHostEnvironment webHostEnvironment, IReviewsService reviewsService)
         {
 
             _hotelService = hotelService;
             _hotelRoomService = hotelRoomService;
             _webHostEnvironment = webHostEnvironment;
+            _reviewsService = reviewsService;
             _map = map;
         }
         [Route("/")]
@@ -44,11 +47,6 @@ namespace BookingWizard.Controllers.Hotels
 
 
             hotelVMList = _map.Map<IEnumerable<HotelVM>>(_hotelService.GetAll());
-
-
-            var selectList = new SelectList(HotelRoomVM.NumbersOfPeople);
-
-            ViewBag.NumberList = selectList;
 
             return View(hotelVMList);
         }
@@ -92,7 +90,7 @@ namespace BookingWizard.Controllers.Hotels
                 _hotelService.Update(hotel);
                 return RedirectToAction("Hotels");
             }
-            return View();
+            return View(hotelVM);
 
         }
 
@@ -105,9 +103,9 @@ namespace BookingWizard.Controllers.Hotels
 
             var hotel = _map.Map<HotelVM>(hotelDTO);
 
-            var selectList = new SelectList(HotelRoomVM.NumbersOfPeople);
-
-            ViewBag.NumberList = selectList;
+            hotel.ReviewVM = new ReviewVM();
+            hotel.ReviewVM.User = new IdentityUser();
+            hotel.AllReviews = _map.Map<IEnumerable<ReviewVM>>(_reviewsService.GetAll(id));
 
             return View(hotel);
 

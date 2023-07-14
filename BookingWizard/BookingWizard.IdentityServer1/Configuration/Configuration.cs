@@ -30,26 +30,13 @@ namespace BookingWizard.IdentityServer.Configuration
                          new ApiScope("BookingWizard.Client" ,"BookingWizard.Client API")};
         public static IEnumerable<ApiResource> GetApiResources() =>
             new List<ApiResource> {
-                new ApiResource("BookingWizard"),
-                new ApiResource("BookingWizard.Client"),
-              
+                new ApiResource("BookingWizard"),     
             };
 
 
         public static IEnumerable<Client> GetClients() =>
             new List<Client>
             {
-                new Client
-                {
-                    ClientId="client_id",
-                    ClientSecrets = {new Secret("client_secret".ToSha256())},
-
-                    AllowedGrantTypes =GrantTypes.ClientCredentials,
-
-                    AllowedScopes={ StandardScopes.OpenId,
-                    StandardScopes.Profile,"BookingWizard", }
-                },
-
                 new Client
                 {
                     ClientId="client_id_mvc",
@@ -63,12 +50,7 @@ namespace BookingWizard.IdentityServer.Configuration
                     PostLogoutRedirectUris = { "https://localhost:44328/signout-callback-oidc" },
                     AlwaysIncludeUserClaimsInIdToken = true
 
-                    
-                   
                 },
-
-
-               
 
             };
     }

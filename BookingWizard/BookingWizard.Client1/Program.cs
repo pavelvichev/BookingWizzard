@@ -1,15 +1,33 @@
+using BookingWizard.Client.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddAuthentication("Bearer")
-            .AddJwtBearer("Bearer", options =>
-            {
-                options.Authority = "https://localhost:7037";
-                options.Audience = "BookingWizard.Client";
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+					.AddJwtBearer(options =>
+					{
+						options.RequireHttpsMetadata = true;
+						options.TokenValidationParameters = new TokenValidationParameters
+						{
+							ValidateIssuer = true,
 
-            });
+							ValidIssuer = AuthOptions.ISSUER,
+
+							ValidateAudience = true,
+
+							ValidAudience = AuthOptions.AUDIENCE,
+
+							ValidateLifetime = true,
+
+							IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+
+							ValidateIssuerSigningKey = true,
+						};
+					});
+
+builder.Services.AddControllersWithViews();
 
 builder.Services.AddHttpClient();
 // Add services to the container.

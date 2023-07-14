@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BookingWizard.BLL.Interfaces.IHotels;
+using BookingWizard.BLL.Interfaces.IHotelsServices;
 using BookingWizard.DAL.Entities;
 using BookingWizard.ModelsVM.Hotels;
 using Microsoft.AspNetCore.Authorization;
