@@ -30,6 +30,8 @@ namespace BookingWizard.DAL.Entities.Hotels
         [NotMapped]
         public HotelImages Image { get; set; }
         public ICollection<HotelImages> Images { get; set; }
+
+        public ICollection<Review> Reviews { get; set; }
         public IEnumerable<HotelRoom>? roomList { get; set; }
 
         public string IdentityUserId { get; set; }

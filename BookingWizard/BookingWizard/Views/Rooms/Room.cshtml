@@ -35,8 +35,10 @@
 
 @if (User.IsInRole("Owner"))
 {
-	<form method="post" action="/Rooms/Delete"> <input type="hidden" asp-for="Id" /> 
-		<button class="alert alert-danger" type="submit" id="deleteButton">@Localizer["DeleteRoom"]</button> </form>
+	<form method="post" action="/Rooms/Delete">
+		<input type="hidden" asp-for="Id" /> 
+		<button class="alert alert-danger" type="submit" id="deleteButton">@Localizer["DeleteRoom"]</button> 
+	</form>
 }
 @if (User.IsInRole("Guest"))
 {
@@ -46,7 +48,7 @@
 	@if (TempData["MessageFromBooking"] != null)
 	{
 		var serializedString = TempData["MessageFromBooking"] as string;
-		var localizedString = new LocalizedString("MessageFromBooking", serializedString); // Восстановление из строки
+		var localizedString = new LocalizedString("MessageFromBooking", serializedString); 
 		<div> <span class="alert alert-primary">@localizedString</span> </div>
 	}
 }

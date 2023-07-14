@@ -21,7 +21,8 @@ namespace BookingWizard.DAL.Migrations
                     HotelShortDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     HotelLongDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     HotelMark = table.Column<int>(type: "int", nullable: false),
-                    isFavourite = table.Column<bool>(type: "bit", nullable: false)
+                    isFavourite = table.Column<bool>(type: "bit", nullable: false),
+                    IdentityUserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -36,8 +37,8 @@ namespace BookingWizard.DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AddressName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     HotelId = table.Column<int>(type: "int", nullable: false),
-                    Lat = table.Column<double>(type: "float", nullable: false),
-                    Lng = table.Column<double>(type: "float", nullable: false)
+                    Lat = table.Column<float>(type: "real", nullable: false),
+                    Lng = table.Column<float>(type: "real", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -96,15 +97,44 @@ namespace BookingWizard.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Reviews",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ReviewDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Rating = table.Column<int>(type: "int", nullable: false),
+                    IdentityUserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HotelId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reviews", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Reviews_hotels_HotelId",
+                        column: x => x.HotelId,
+                        principalTable: "hotels",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Booking",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RoomId = table.Column<int>(type: "int", nullable: false),
-                    arrival_date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    date_of_departure = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    allPrice = table.Column<long>(type: "bigint", nullable: false)
+                    RoomName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HotelName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ArrivalDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateOfDeparture = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    allPrice = table.Column<long>(type: "bigint", nullable: false),
+                    FirstNameBuyer = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastNameBuyer = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IdentityUserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -160,6 +190,11 @@ namespace BookingWizard.DAL.Migrations
                 column: "HotelId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Reviews_HotelId",
+                table: "Reviews",
+                column: "HotelId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RoomImages_RoomId",
                 table: "RoomImages",
                 column: "RoomId");
@@ -176,6 +211,9 @@ namespace BookingWizard.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "HotelImages");
+
+            migrationBuilder.DropTable(
+                name: "Reviews");
 
             migrationBuilder.DropTable(
                 name: "RoomImages");

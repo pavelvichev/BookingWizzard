@@ -17,6 +17,7 @@ namespace BookingWizard.Controllers.Hotels
 			_reviewsService = reviewsService;
 			_map = mapper;
 		}
+
 		[Authorize]
 		public IActionResult AddReview(ReviewVM reviewVM)
 		{

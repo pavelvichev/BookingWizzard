@@ -117,34 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddRoom" xml:space="preserve">
-    <value>Add Room</value>
+  <data name="RoomDescriptionRequired" xml:space="preserve">
+    <value>Введіть опис кімнати!</value>
   </data>
-  <data name="DeleteHotel" xml:space="preserve">
-    <value>Delete the hotel</value>
+  <data name="RoomImagesRequired" xml:space="preserve">
+    <value>Виберіть фото!</value>
   </data>
-  <data name="EditHotel" xml:space="preserve">
-    <value>Edit the room</value>
+  <data name="RoomNameRequired" xml:space="preserve">
+    <value>Введіть назву кімнати!</value>
   </data>
-  <data name="People" xml:space="preserve">
-    <value>Peoples</value>
-  </data>
-  <data name="Rating15Review" xml:space="preserve">
-    <value>Rating (1-5)</value>
-  </data>
-  <data name="Search" xml:space="preserve">
-    <value>Search</value>
-  </data>
-  <data name="SendReview" xml:space="preserve">
-    <value>Send feedback</value>
-  </data>
-  <data name="ShortDesc" xml:space="preserve">
-    <value>Short Description</value>
-  </data>
-  <data name="SureDelete" xml:space="preserve">
-    <value>Are you sure you want to delete the item?</value>
-  </data>
-  <data name="WhereWay" xml:space="preserve">
-    <value>Where do you want to go?</value>
+  <data name="RoomPriceRequired" xml:space="preserve">
+    <value>Введіть ціну за ніч у кімнаті!</value>
   </data>
 </root>

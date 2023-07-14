@@ -45,13 +45,12 @@ namespace BookingWizard.DAL.Repositories.HotelRoomsRepo
 
         public HotelRoom Get(int id)
         {
+			HotelRoom room = _context.hotelRooms
+						.Include(r => r.Images) 
+						.Include(r => r.Hotel) 
+						.FirstOrDefault(r => r.Id == id);
 
-            HotelRoom room = _context.hotelRooms.FirstOrDefault(r => r.Id == id);
-            room.Images = _context.RoomImages.Where(u => u.RoomId == id).AsNoTracking().ToList();
-            room.Image = _context.RoomImages.Where(u => u.RoomId == id).AsNoTracking().FirstOrDefault();
-            Hotel hotel = _context.hotels.FirstOrDefault(x => x.Id == room.HotelId);
-            room.Hotel = hotel;
-
+            room.Image = room.Images.FirstOrDefault();
 
             return room;
 
@@ -59,22 +58,25 @@ namespace BookingWizard.DAL.Repositories.HotelRoomsRepo
 
         public IEnumerable<HotelRoom> GetAll(int hotelId, int NumberOfPeople = 0)
         {
-            List<HotelRoom> all = null;
+			IQueryable<HotelRoom> query = _context.hotelRooms.Include(r => r.Images);
 
-            if (NumberOfPeople != 0)
-            {
-                all = _context.hotelRooms.Where(x => x.NumberOfPeople >= NumberOfPeople).ToList();
-            }
-            else
-            {
-                all = (from h in _context.hotelRooms where h.HotelId == hotelId select h).ToList();
-            }
-            foreach (var item in all)
-            {
-                item.Images = _context.RoomImages.Where(u => u.RoomId == item.Id).AsNoTracking().ToList();
-                item.Image = _context.RoomImages.Where(u => u.RoomId == item.Id).AsNoTracking().FirstOrDefault();
-            }
-            return all;
+			if (NumberOfPeople != 0)
+			{
+				query = query.Where(r => r.NumberOfPeople >= NumberOfPeople);
+			}
+			else
+			{
+				query = query.Where(r => r.HotelId == hotelId);
+			}
+
+			List<HotelRoom> all = query.ToList();
+
+			foreach (var item in all)
+			{
+				item.Image = item.Images.FirstOrDefault();
+			}
+			return all;
+
         }
 
         public HotelRoom Update(HotelRoom item)

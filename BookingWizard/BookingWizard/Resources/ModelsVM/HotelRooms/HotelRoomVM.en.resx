@@ -117,10 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="MessageFromBooking" xml:space="preserve">
-    <value>Номер успішно заброньовано</value>
+  <data name="RoomDescriptionRequired" xml:space="preserve">
+    <value>Введіть опис кімнати!</value>
   </data>
-  <data name="notAuthenticated" xml:space="preserve">
-    <value>Користувач не зареєсстрваниий, увійдіть в систему</value>
+  <data name="RoomImagesRequired" xml:space="preserve">
+    <value>Виберіть фото!</value>
+  </data>
+  <data name="RoomNameRequired" xml:space="preserve">
+    <value>Введіть назву кімнати!</value>
+  </data>
+  <data name="RoomPriceRequired" xml:space="preserve">
+    <value>Введіть ціну за ніч у кімнаті!</value>
   </data>
 </root>

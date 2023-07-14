@@ -12,6 +12,7 @@ using BookingWizard.DAL.Entities;
 using Microsoft.Extensions.Localization;
 using BookingWizard.DAL.Interfaces.IHotelRepo;
 using BookingWizard.DAL.Entities.Hotels;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace BookingWizard.DAL.Repositories.HotelRepo
 {
@@ -46,10 +47,12 @@ namespace BookingWizard.DAL.Repositories.HotelRepo
 
         public Hotel Get(int id)
         {
-            Hotel hotel = _context.hotels.AsNoTracking().FirstOrDefault(h => h.Id == id);
-            hotel.Address = _context.Address.AsNoTracking().FirstOrDefault(x => hotel.Id == x.HotelId);
-            hotel.Images = _context.HotelImages.Where(U => U.HotelId == id).AsNoTracking().ToList();
-            hotel.Image = _context.HotelImages.Where(U => U.HotelId == id).AsNoTracking().FirstOrDefault();
+			Hotel hotel = _context.hotels
+						.Include(h => h.Address)
+						.Include(h => h.Images) 
+						.FirstOrDefault(h => h.Id == id);
+
+            hotel.Image = hotel.Images.FirstOrDefault();
 
 
             return hotel;
@@ -58,21 +61,19 @@ namespace BookingWizard.DAL.Repositories.HotelRepo
 
         public IEnumerable<Hotel> GetAll(string userId = "")
         {
-            List<Hotel> all = null;
-            if (!string.IsNullOrWhiteSpace(userId))
-            {
-                all = _context.hotels.Where(x => x.IdentityUserId.Contains(userId)).ToList();
-            }
-            else
-            {
-                all = (from h in _context.hotels select h).ToList();
-            }
-            foreach (var item in all)
-            {
-                item.Address = _context.Address.Where(u => u.HotelId == item.Id).AsNoTracking().FirstOrDefault();
-                item.Images = _context.HotelImages.Where(u => u.HotelId == item.Id).AsNoTracking().ToList();
-                item.Image = _context.HotelImages.Where(u => u.HotelId == item.Id).AsNoTracking().FirstOrDefault();
+			IQueryable<Hotel> query = _context.hotels.Include(h => h.Address).Include(h => h.Images);
 
+			if (!string.IsNullOrWhiteSpace(userId))
+			{
+				query = query.Where(h => h.IdentityUserId.Contains(userId));
+			}
+
+			List<Hotel> all = query.ToList();
+			foreach (var item in all)
+			{
+
+                item.Image = item.Images.FirstOrDefault();
+			
             }
             return all;
 
@@ -91,10 +92,10 @@ namespace BookingWizard.DAL.Repositories.HotelRepo
         {
             var sourceCoordinates = new Coordinates(Lat, Lng);
 
-            // Получение списка отелей из модели (вы можете заменить его на соответствующий источник данных)
+
             var hotels = GetAll();
 
-            // Создание списка для хранения отелей в пределах 1000 км
+
             var hotelsWithinRadius = new List<Hotel>();
             if (Lat == 0 && Lng == 0)
             {
@@ -104,11 +105,11 @@ namespace BookingWizard.DAL.Repositories.HotelRepo
             {
                 foreach (var hotel in hotels)
                 {
-                    // Вычисление расстояния между заданными координатами и координатами отеля
+
                     var destinationCoordinates = new Coordinates(hotel.Address.Lat, hotel.Address.Lng);
                     var distance = CalculateDistance(sourceCoordinates, destinationCoordinates);
 
-                    // Если расстояние меньше 1000 км, добавить отель в список
+
                     if (distance < 700)
                     {
                         hotelsWithinRadius.Add(hotel);
@@ -130,7 +131,7 @@ namespace BookingWizard.DAL.Repositories.HotelRepo
 
         public float CalculateDistance(Coordinates source, Coordinates destination)
         {
-            const float EarthRadius = 6371; // Радиус Земли в километрах
+            const float EarthRadius = 6371;
 
             var latDifference = ToRadians(destination.Latitude - source.Latitude);
             var lngDifference = ToRadians(destination.Longitude - source.Longitude);

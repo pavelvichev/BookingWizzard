@@ -23,13 +23,12 @@ namespace BookingWizard.Controllers.Admin
         public IActionResult MyHotels(string userId)
         {
             var hotels = _hotelService.GetAll(userId);
+            ViewBag.UserId = userId;
             return View(_map.Map<IEnumerable<HotelVM>>(hotels));
         }
 
         public IActionResult Statistic() 
         {
-
-
             return View(); 
         }
 

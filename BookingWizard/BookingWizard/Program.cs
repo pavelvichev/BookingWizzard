@@ -43,10 +43,7 @@ var loggerFactory = LoggerFactory.Create(builder =>
 
 
 // Add services to the container.
-builder.Services.AddControllersWithViews(options =>
-{
-    options.ModelBinderProviders.Insert(0, new CustomDateTimeModelBinderProvider());
-});
+
 
 
 builder.Services.AddDbContext<BookingDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("HotelsDbConnection")));
@@ -105,8 +102,13 @@ builder.Services.AddAuthentication(config =>
 builder.Services.AddControllers();
 
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
-builder.Services.AddControllersWithViews()
-    .AddViewLocalization();// добавляем локализацию представлений;
+
+builder.Services.AddControllersWithViews(options =>
+{
+	options.ModelBinderProviders.Insert(0, new CustomDateTimeModelBinderProvider());
+})
+	.AddDataAnnotationsLocalization()
+	.AddViewLocalization();
 
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {

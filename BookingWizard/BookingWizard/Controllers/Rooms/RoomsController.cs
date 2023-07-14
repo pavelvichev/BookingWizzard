@@ -3,11 +3,13 @@ using BookingWizard.BLL.Interfaces.IBookingServices;
 using BookingWizard.BLL.Interfaces.IHotelRoomsServices;
 using BookingWizard.BLL.Interfaces.IHotelsServices;
 using BookingWizard.BLL.Services;
+using BookingWizard.Controllers.Hotels;
 using BookingWizard.DAL.Entities.HotelRooms;
 using BookingWizard.DAL.Interfaces;
 using BookingWizard.ModelsVM.HotelRooms;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
 
 namespace BookingWizard.Controllers.Rooms
@@ -18,16 +20,17 @@ namespace BookingWizard.Controllers.Rooms
         IHotelService _hotelService;
         IHotelRoomService _hotelRoomService;
         IBookingService _bookingService;
-        IWebHostEnvironment _webHostEnvironment;
+      
         IMapper _map;
+		IStringLocalizer<RoomsController> _localizer;
 
-        public RoomsController(IHotelService hotelService, IMapper map, IHotelRoomService hotelRoomService, IBookingService bookingService, IWebHostEnvironment webHostEnvironment)
+		public RoomsController(IHotelService hotelService, IMapper map, IHotelRoomService hotelRoomService, IBookingService bookingService, IStringLocalizer<RoomsController> localizer)
         {
 
             _hotelService = hotelService;
             _hotelRoomService = hotelRoomService;
+            _localizer= localizer;
             _bookingService = bookingService;
-            _webHostEnvironment = webHostEnvironment;
             _map = map;
         }
         public IActionResult Room(int id)
@@ -39,7 +42,27 @@ namespace BookingWizard.Controllers.Rooms
             return View(hotelRoom);
         }
 
-        public IActionResult Rooms(int id)
+		[HttpPost]
+		public IActionResult AddRoom(HotelRoomVM roomVM)
+		{
+
+			if (ModelState.IsValid)
+			{
+				_hotelRoomService.Add(_map.Map<HotelRoom>(roomVM), roomVM.HotelId);
+			}
+			else
+			{
+				var localizedString = _localizer["ErrorAddRoom"];
+				var serializedString = localizedString.Value;
+				TempData["ErrorAddRoom"] = serializedString;
+			}
+			return RedirectToAction("Hotel", "Hotels" , new
+			{
+				id = roomVM.HotelId
+			});
+
+		}
+		public IActionResult Rooms(int id)
         {
 
             var hotelRoom = _map.Map<HotelRoomVM>(_hotelRoomService.Get(id));
@@ -59,8 +82,8 @@ namespace BookingWizard.Controllers.Rooms
         [HttpPost]
         public IActionResult Edit(HotelRoomVM roomVM)
         {
-
-            if (ModelState.IsValid)
+			ModelState.Remove("ImageModelList");
+			if (ModelState.IsValid)
             {
                 var room = _map.Map<HotelRoom>(roomVM);
                 _hotelRoomService.Update(room);
@@ -69,7 +92,7 @@ namespace BookingWizard.Controllers.Rooms
                     id = room.HotelId
                 });
             }
-            return View();
+            return View(roomVM);
 
         }
 

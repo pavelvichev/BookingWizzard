@@ -120,31 +120,16 @@
   <data name="AddRoom" xml:space="preserve">
     <value>Add Room</value>
   </data>
-  <data name="DeleteHotel" xml:space="preserve">
-    <value>Delete the hotel</value>
+  <data name="Desc" xml:space="preserve">
+    <value>Decsription</value>
   </data>
-  <data name="EditHotel" xml:space="preserve">
-    <value>Edit the room</value>
+  <data name="NumberOfPeople" xml:space="preserve">
+    <value>Number of people</value>
   </data>
-  <data name="People" xml:space="preserve">
-    <value>Peoples</value>
+  <data name="Price" xml:space="preserve">
+    <value>Ціна</value>
   </data>
-  <data name="Rating15Review" xml:space="preserve">
-    <value>Rating (1-5)</value>
-  </data>
-  <data name="Search" xml:space="preserve">
-    <value>Search</value>
-  </data>
-  <data name="SendReview" xml:space="preserve">
-    <value>Send feedback</value>
-  </data>
-  <data name="ShortDesc" xml:space="preserve">
-    <value>Short Description</value>
-  </data>
-  <data name="SureDelete" xml:space="preserve">
-    <value>Are you sure you want to delete the item?</value>
-  </data>
-  <data name="WhereWay" xml:space="preserve">
-    <value>Where do you want to go?</value>
+  <data name="RoomName" xml:space="preserve">
+    <value>Room Name</value>
   </data>
 </root>

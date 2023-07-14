@@ -35,6 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Resources\Controllers\Hotels\" />
     <Folder Include="wwwroot\lib\jquery\dist\" />
   </ItemGroup>
 

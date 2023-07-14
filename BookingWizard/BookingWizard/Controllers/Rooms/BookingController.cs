@@ -53,7 +53,7 @@ namespace BookingWizard.Controllers.Rooms
                         booking.allPrice = _bookingService.CalcPrice(_map.Map<Booking>(booking));
                         _bookingService.Add(_map.Map<Booking>(booking));
                         var localizedString = _localizer["MessageFromBooking"];
-                        var serializedString = localizedString.Value; // Преобразование в строку
+                        var serializedString = localizedString.Value; 
                         TempData["MessageFromBooking"] = serializedString;
 
                     }

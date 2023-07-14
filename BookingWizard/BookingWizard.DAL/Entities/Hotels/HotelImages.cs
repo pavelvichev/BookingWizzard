@@ -12,8 +12,6 @@ namespace BookingWizard.DAL.Entities.Hotels
         public string Name { get; set; }
 
         public byte[] ImageData { get; set; }
-
-        public Hotel Hotel { get; set; }
         public int HotelId { get; set; }
 
     }

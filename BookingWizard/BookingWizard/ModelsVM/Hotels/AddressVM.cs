@@ -7,6 +7,7 @@ namespace BookingWizard.ModelsVM.Hotels
 {
     public class AddressVM
     {
+        [Required(ErrorMessage = "AddressRequired")]
         public string AddressName { get; set; }
 
         [ModelBinder(typeof(AddressFloatModelBinder))]

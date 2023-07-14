@@ -10,7 +10,6 @@ namespace BookingWizard.DAL.Entities.Hotels
     {
         public int Id { get; set; }
         public string AddressName { get; set; }
-        public Hotel Hotel { get; set; }
         public int HotelId { get; set; }
         public float Lat { get; set; }
         public float Lng { get; set; }

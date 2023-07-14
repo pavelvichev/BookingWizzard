@@ -21,7 +21,7 @@
     {
         <p>@TempData["noHotels"]</p>
     }
-    @if (User.IsInRole("Owner") && currentUserId == Model.FirstOrDefault().IdentityUserId)
+    @if (User.IsInRole("Owner") && currentUserId == ViewBag.UserId)
     {
         <div class="container mb-3">
             <div class="row">

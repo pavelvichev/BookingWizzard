@@ -9,6 +9,7 @@ using BookingWizard.ModelsVM.HotelRooms;
 using BookingWizard.BLL.Interfaces.IHotelsServices;
 using BookingWizard.BLL.Interfaces.IHotelRoomsServices;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Localization;
 
 namespace BookingWizard.Controllers.Hotels
 {
@@ -21,8 +22,10 @@ namespace BookingWizard.Controllers.Hotels
         IReviewsService _reviewsService;
         IMapper _map;
         IWebHostEnvironment _webHostEnvironment;
+		
 
-        public HotelsController(IHotelService hotelService, IMapper map, IHotelRoomService hotelRoomService, IWebHostEnvironment webHostEnvironment, IReviewsService reviewsService)
+
+		public HotelsController(IHotelService hotelService, IMapper map, IHotelRoomService hotelRoomService, IWebHostEnvironment webHostEnvironment, IReviewsService reviewsService)
         {
 
             _hotelService = hotelService;
@@ -30,6 +33,7 @@ namespace BookingWizard.Controllers.Hotels
             _webHostEnvironment = webHostEnvironment;
             _reviewsService = reviewsService;
             _map = map;
+          
         }
         [Route("/")]
         public IActionResult Hotels(string Address, float Lat, float Lng)
@@ -68,23 +72,23 @@ namespace BookingWizard.Controllers.Hotels
 
                 return RedirectToAction("Hotels");
             }
-            return View();
+            return View(hotelVM);
         }
 
         public IActionResult Edit(int id)
         {
             var hotel = _hotelService.Get(id);
-
             var hotelMod = _map.Map<HotelVM>(hotel);
-
             hotelMod.Image = hotelMod.Images.FirstOrDefault();
+            hotelMod.ImageModelList = null;
             return View(hotelMod);
         }
 
         [HttpPost]
         public IActionResult Edit(HotelVM hotelVM)
         {
-            if (ModelState.IsValid)
+			ModelState.Remove("ImageModelList");
+			if (ModelState.IsValid)
             {
                 var hotel = _map.Map<Hotel>(hotelVM);
                 _hotelService.Update(hotel);
@@ -111,20 +115,7 @@ namespace BookingWizard.Controllers.Hotels
 
         }
 
-        [HttpPost]
-        public IActionResult AddRoom(HotelVM hotelVM)
-        {
-
-            var hotel = _hotelService.Get(hotelVM.Id);
-
-            _hotelRoomService.Add(_map.Map<HotelRoom>(hotelVM.Room), hotelVM.Id);
-
-            return RedirectToAction("Hotel", new
-            {
-                id = hotel.Id
-            });
-
-        }
+        
 
         public IActionResult Delete(int id)
         {

@@ -7,16 +7,21 @@ namespace BookingWizard.ModelsVM.HotelRooms
     public class HotelRoomVM
     {
         public int Id { get; set; }
-        public string Name { get; set; } // имя номера
-        public string Description { get; set; } // описание номера
+		[Required(ErrorMessage = "RoomNameRequired")]
+		public string Name { get; set; } 
+		[Required(ErrorMessage = "RoomDescriptionRequired")]
+		public string Description { get; set; }
         public BookingVM? booking { get; set; }
-        public uint HotelId { get; set; }
-        public ushort roomPricePerNight { get; set; } // цена за ночь
-        public uint? bookingId { get; set; } // номер бронирования
-        public uint NumberOfPeople { get; set; } // номер бронирования
-        public IEnumerable<IFormFile>? ImageModelList { get; set; }
+        public int HotelId { get; set; }
+		[Required(ErrorMessage = "RoomPriceRequired")]
+		public short roomPricePerNight { get; set; } 
+        public int? bookingId { get; set; }
+        public int NumberOfPeople { get; set; }
+
+		[Required(ErrorMessage = "RoomImagesRequired")]
+		public IEnumerable<IFormFile>? ImageModelList { get; set; }
         public RoomImagesVM? Image { get; set; }
         public IEnumerable<RoomImagesVM>? Images { get; set; }
-        public bool isBooking { get; set; } // занят ли уже номер
+        public bool isBooking { get; set; } 
     }
 }
