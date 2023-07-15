@@ -19,6 +19,6 @@ jobs:
       - name: Install dependencies
         run: dotnet restore ./BookingWizard/BookingWizard/BookingWizard.csproj
       - name: Build
-        run: dotnet build --configuration Release --no-restore ./BookingWizard/BookingWizard/BookingWizard.csproj
+        run: dotnet build  ./BookingWizard/BookingWizard/BookingWizard.csproj --configuration Release --no-restore
       - name: Test
-        run: dotnet test --no-restore --verbosity normal ~/BookingWizard/BookingWizard.Tests/BookingWizard.Tests.csproj
+        run: dotnet test normal ~/BookingWizard/BookingWizard.Tests/BookingWizard.Tests.csproj --no-restore --verbosity
