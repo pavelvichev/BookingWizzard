@@ -21,4 +21,4 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore ./BookingWizard/BookingWizard/BookingWizard.csproj
       - name: Test
-        run: dotnet test --no-restore --verbosity normal ./BookingWizard/BookingWizard.Tests/BookingWizard.Tests.csproj
+        run: dotnet test --no-restore --verbosity normal 
