@@ -20,6 +20,7 @@ jobs:
     dotnet-version: '6.0.x'
 - name: Install dependencies
   run: dotnet restore
+  working-directory: src/BookingWizard
 - name: Build
   run: dotnet build
 - name: Test with the dotnet CLI
