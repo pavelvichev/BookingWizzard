@@ -3,10 +3,10 @@ name: CI
 on:
   push:
     branches:
-      - BookingWizard
+      - main
   pull_request:
     branches:
-      - BookingWizard
+      - main
 
 jobs:
   build-and-test:
@@ -19,7 +19,10 @@ jobs:
       - name: Set up .NET
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '6.0' # Замените на желаемую версию .NET
+          dotnet-version: '5.0' # Замените на желаемую версию .NET
+
+      - name: Change directory to project
+        run: cd path/to/your/project/directory
 
       - name: Restore dependencies
         run: dotnet restore
