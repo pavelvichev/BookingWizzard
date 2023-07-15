@@ -17,8 +17,7 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
       - name: Install dependencies
-        run: dotnet restore
-        working-directory: src/BookingWizard
+        run: dotnet restore "C:\Users\Steklyashka\BookingWizzard\BookingWizard\BookingWizard.sln"
       - name: Build
         run: dotnet build --configuration Release --no-restore
       - name: Test
