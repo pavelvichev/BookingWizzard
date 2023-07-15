@@ -1,0 +1,42 @@
+﻿@using System.Security.Claims;
+@using BookingWizard.ModelsVM.Hotels;
+@model IEnumerable<HotelVM>
+
+
+@{
+    var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+}
+
+
+<div class="container">
+    <form method="post" asp-action="Hotels" asp-controller="Hotels">
+        <div class="input-group mb-3">
+           <input type="text" id="autocomplete"  placeholder="@Localizer["WhereWay"]" class="form-control" name="Address" aria-describedby="basic-addon2">
+            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">@Localizer["Search"]</button>         
+        </div>
+        <input type="hidden" id="Lat" name="Lat" />
+        <input type="hidden" id="Lng" name="Lng" />
+    </form>
+    @if(TempData["noHotels"] != null)
+    {
+        <p>@TempData["noHotels"]</p>
+    }
+    <div class="row">
+        @foreach (var hotel in Model)
+        {
+            
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <a href="@Url.Action("Hotel","Hotels", new {id = hotel.Id})">
+                  <img style="height: 300px;" src=" @Url.Action("GetPhoto", "PhotoHotels", new { id = hotel.Image.Id })" alt="Hotel Image" class="card-img-top imageTumbnail">
+                    </a>
+                    <div class="card-body">
+                        <h5 style="max-height: 80px;" class="card-title">@hotel.HotelName</h5>
+                        <p style="height: auto; max-height: 100px"class="card-text">@hotel.HotelShortDescription</p>
+                        <p style="height: auto; max-height: 100px"class="card-text">@hotel.Address.AddressName</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

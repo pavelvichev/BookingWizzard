@@ -1,0 +1,36 @@
+﻿@using BookingWizard.ModelsVM.HotelRooms;
+@model HotelRoomVM
+
+<form method="post" action="/Rooms/Edit" enctype="multipart/form-data">
+	<div>
+	<input type="hidden" asp-for="Id" />
+	<input type="hidden" asp-for="HotelId" />
+	<input type="hidden" asp-for="Image" />
+	<div class="input-group mb-3">
+		<input type="text" class="form-control" placeholder="@Model.Name" asp-for="Name" aria-describedby="basic-addon2">
+		<span class="input-group-text" id="basic-addon2">@Localizer["RoomName"]</span>
+	</div>
+		<span asp-validation-for="Name" style="color: red;" class="text-danger"></span>
+	<div class="input-group mb-3">
+		<input type="text" class="form-control" placeholder="@Model.Description" asp-for="Description" aria-describedby="basic-addon2">
+		<span class="input-group-text" id="basic-addon2">@Localizer["Desc"]</span>
+	</div>
+		<span asp-validation-for="Description" style="color: red;" class="text-danger"></span>
+	<div class="input-group mb-3">
+		<input type="text" class="form-control" placeholder="@Model.roomPricePerNight" asp-for="roomPricePerNight" aria-describedby="basic-addon2">
+		<span class="input-group-text" id="basic-addon2">@Localizer["Price"]</span>
+	</div>
+		<span asp-validation-for="roomPricePerNight" style="color: red;" class="text-danger"></span>
+	<div class="mb-3">
+			<select class="form-control" asp-for="NumberOfPeople" id="rating" required>
+				<option>1</option>
+				<option>2</option>
+				<option>3</option>
+				<option>4</option>
+				<option>5</option>
+			</select>
+	</div>
+
+	</div>
+	<button type="submit" class="alert alert-primary">@Localizer["EditRoom"]</button>
+</form>
