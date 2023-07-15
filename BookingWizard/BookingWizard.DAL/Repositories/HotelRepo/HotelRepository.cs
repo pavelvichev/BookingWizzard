@@ -30,24 +30,24 @@ namespace BookingWizard.DAL.Repositories.HotelRepo
         public Hotel Add(Hotel item)
         {
 
-            _context.hotels.Add(item);
+            _context.Hotels.Add(item);
             _context.SaveChanges();
             _photoHotelsRepository.PhotoUpload(item);
 
             return item;
         }
 
-        public Hotel Delete(Hotel item)
+        public void Delete(int id)
         {
-
-            _context.hotels.Remove(item);
+            var hotel = _context.Hotels.FirstOrDefault(h => h.Id == id);
+            _context.Hotels.Remove(hotel);
             _context.SaveChanges();
-            return item;
+            
         }
 
         public Hotel Get(int id)
         {
-			Hotel hotel = _context.hotels
+			Hotel hotel = _context.Hotels
 						.Include(h => h.Address)
 						.Include(h => h.Images) 
 						.FirstOrDefault(h => h.Id == id);
@@ -61,7 +61,7 @@ namespace BookingWizard.DAL.Repositories.HotelRepo
 
         public IEnumerable<Hotel> GetAll(string userId = "")
         {
-			IQueryable<Hotel> query = _context.hotels.Include(h => h.Address).Include(h => h.Images);
+			IQueryable<Hotel> query = _context.Hotels.Include(h => h.Address).Include(h => h.Images);
 
 			if (!string.IsNullOrWhiteSpace(userId))
 			{

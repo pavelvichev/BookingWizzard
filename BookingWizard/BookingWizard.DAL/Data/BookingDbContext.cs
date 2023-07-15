@@ -8,16 +8,19 @@ namespace BookingWizard.DAL.Data
 {
     public class BookingDbContext : DbContext
 	{
+		public BookingDbContext()
+		{
 
-        public BookingDbContext(DbContextOptions<BookingDbContext> options) : base(options)
+		}
+		public BookingDbContext(DbContextOptions<BookingDbContext> options) : base(options)
 		{
             
         }
 
 
 
-		public DbSet<Hotel> hotels { get; set; }
-		public DbSet<HotelRoom> hotelRooms { get; set; }
+		public DbSet<Hotel> Hotels { get; set; }
+		public DbSet<HotelRoom> HotelRooms { get; set; }
 		public DbSet<Address> Address { get; set; }
 		public DbSet<Booking> Booking { get; set; }
 		public DbSet<HotelImages> HotelImages { get; set; }

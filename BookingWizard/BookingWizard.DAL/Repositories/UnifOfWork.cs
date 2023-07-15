@@ -26,20 +26,20 @@ namespace BookingWizard.DAL.Repositories
 		BookingDbContext _bookingContext;
 		IdentityServerContext _identityContext;
 		HotelRepository _hotelRepository;
-		HotelRoomsRepository _roomsRepository;
+		HotelRoomRepository _roomsRepository;
 		BookingRepository _bookingRepository;
         IPhotoHotelsRepository _photoHotelsRepository;
         IPhotoRoomsRepository _photoRoomsRepository;
-        ReviewsRepository _reviewsRepository;
+        ReviewRepository _reviewsRepository;
 		IUsersRepository _usersRepository;
 
 		private readonly IStringLocalizer<BookingRepository> _bookingLocalizer;
 		private readonly IStringLocalizer<HotelRepository> _hotelLocalizer;
-		private readonly IStringLocalizer<PhotoHotelsRepository> _photoHotelsLocalizer;
-		private readonly IStringLocalizer<PhotoRoomsRepository> _photoRoomsLocalizer;
+		private readonly IStringLocalizer<PhotoHotelRepository> _photoHotelsLocalizer;
+		private readonly IStringLocalizer<PhotoRoomRepository> _photoRoomsLocalizer;
 
 
-        public UnifOfWork(BookingDbContext context, IStringLocalizer<BookingRepository> bookingLocalizer, IStringLocalizer<HotelRepository> hotelLocalizer, IPhotoHotelsRepository photoHotelsRepository, IStringLocalizer<PhotoHotelsRepository> photoHotelsLocalizer, IStringLocalizer<PhotoRoomsRepository> photoRoomsLocalizer, IPhotoRoomsRepository photoRoomsRepository, IdentityServerContext identityServerContext, IUsersRepository usersRepository
+        public UnifOfWork(BookingDbContext context, IStringLocalizer<BookingRepository> bookingLocalizer, IStringLocalizer<HotelRepository> hotelLocalizer, IPhotoHotelsRepository photoHotelsRepository, IStringLocalizer<PhotoHotelRepository> photoHotelsLocalizer, IStringLocalizer<PhotoRoomRepository> photoRoomsLocalizer, IPhotoRoomsRepository photoRoomsRepository, IdentityServerContext identityServerContext, IUsersRepository usersRepository
 )
         {
             _bookingContext = context;
@@ -77,7 +77,7 @@ namespace BookingWizard.DAL.Repositories
 			get
 			{
 				if (_roomsRepository == null)
-					_roomsRepository = new HotelRoomsRepository(_bookingContext, _photoRoomsRepository);
+					_roomsRepository = new HotelRoomRepository(_bookingContext, _photoRoomsRepository);
 				return _roomsRepository;
 			}
 		}
@@ -86,7 +86,7 @@ namespace BookingWizard.DAL.Repositories
 			get
 			{
 				if (_photoHotelsRepository == null)
-					_photoHotelsRepository = new PhotoHotelsRepository(_bookingContext, _photoHotelsLocalizer);
+					_photoHotelsRepository = new PhotoHotelRepository(_bookingContext, _photoHotelsLocalizer);
 				return _photoHotelsRepository;
 			}
 		}
@@ -96,7 +96,7 @@ namespace BookingWizard.DAL.Repositories
 			get
 			{
 				if (_photoRoomsRepository == null)
-					_photoRoomsRepository = new PhotoRoomsRepository(_bookingContext, _photoRoomsLocalizer);
+					_photoRoomsRepository = new PhotoRoomRepository(_bookingContext, _photoRoomsLocalizer);
 				return _photoRoomsRepository;
 			}
 		}
@@ -106,7 +106,7 @@ namespace BookingWizard.DAL.Repositories
 			get
 			{
 				if (_reviewsRepository == null)
-					_reviewsRepository = new ReviewsRepository(_bookingContext, _usersRepository);
+					_reviewsRepository = new ReviewRepository(_bookingContext, _usersRepository);
 				return _reviewsRepository;
 			}
 		}

@@ -101,7 +101,7 @@ namespace BookingWizard.Controllers.Rooms
         {
             var room = _map.Map<HotelRoom>(_hotelRoomService.Get(id));
 
-            _hotelRoomService.Delete(room);
+            _hotelRoomService.Delete(id);
             return RedirectToAction("Hotel", "Hotels", new
             {
                 id = room.HotelId

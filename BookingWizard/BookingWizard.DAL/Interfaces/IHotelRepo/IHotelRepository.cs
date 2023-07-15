@@ -12,7 +12,7 @@ namespace BookingWizard.DAL.Interfaces.IHotelRepo
     {
 
         public T Add(T item);
-        public T Delete(T item);
+        public void Delete(int id);
         public T Update(T item);
         public T Get(int id);
         IEnumerable<T> GetAll(string userId = "");

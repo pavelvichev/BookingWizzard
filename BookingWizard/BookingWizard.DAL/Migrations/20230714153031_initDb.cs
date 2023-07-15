@@ -12,7 +12,7 @@ namespace BookingWizard.DAL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "hotels",
+                name: "Hotels",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -46,7 +46,7 @@ namespace BookingWizard.DAL.Migrations
                     table.ForeignKey(
                         name: "FK_Address_hotels_HotelId",
                         column: x => x.HotelId,
-                        principalTable: "hotels",
+                        principalTable: "Hotels",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -67,13 +67,13 @@ namespace BookingWizard.DAL.Migrations
                     table.ForeignKey(
                         name: "FK_HotelImages_hotels_HotelId",
                         column: x => x.HotelId,
-                        principalTable: "hotels",
+                        principalTable: "Hotels",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "hotelRooms",
+                name: "HotelRooms",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -91,7 +91,7 @@ namespace BookingWizard.DAL.Migrations
                     table.ForeignKey(
                         name: "FK_hotelRooms_hotels_HotelId",
                         column: x => x.HotelId,
-                        principalTable: "hotels",
+                        principalTable: "Hotels",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -114,7 +114,7 @@ namespace BookingWizard.DAL.Migrations
                     table.ForeignKey(
                         name: "FK_Reviews_hotels_HotelId",
                         column: x => x.HotelId,
-                        principalTable: "hotels",
+                        principalTable: "Hotels",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -142,7 +142,7 @@ namespace BookingWizard.DAL.Migrations
                     table.ForeignKey(
                         name: "FK_Booking_hotelRooms_RoomId",
                         column: x => x.RoomId,
-                        principalTable: "hotelRooms",
+                        principalTable: "HotelRooms",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -163,7 +163,7 @@ namespace BookingWizard.DAL.Migrations
                     table.ForeignKey(
                         name: "FK_RoomImages_hotelRooms_RoomId",
                         column: x => x.RoomId,
-                        principalTable: "hotelRooms",
+                        principalTable: "HotelRooms",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -186,7 +186,7 @@ namespace BookingWizard.DAL.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_hotelRooms_HotelId",
-                table: "hotelRooms",
+                table: "HotelRooms",
                 column: "HotelId");
 
             migrationBuilder.CreateIndex(
@@ -219,10 +219,10 @@ namespace BookingWizard.DAL.Migrations
                 name: "RoomImages");
 
             migrationBuilder.DropTable(
-                name: "hotelRooms");
+                name: "HotelRooms");
 
             migrationBuilder.DropTable(
-                name: "hotels");
+                name: "Hotels");
         }
     }
 }

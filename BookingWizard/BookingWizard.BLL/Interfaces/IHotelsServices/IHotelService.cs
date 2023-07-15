@@ -10,7 +10,7 @@ namespace BookingWizard.BLL.Interfaces.IHotelsServices
 	public interface IHotelService
 	{
 		public Hotel Add(Hotel item);
-		public void Delete(Hotel item);
+		public void Delete(int id);
 		public Hotel Update(Hotel item);
 		public Hotel Get(int id);
 		IEnumerable<Hotel> GetAll(string userId = "");

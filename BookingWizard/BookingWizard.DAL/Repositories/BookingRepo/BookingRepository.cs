@@ -44,7 +44,7 @@ namespace BookingWizard.DAL.Repositories.BookingRepo
 
 
             }
-            var room = _context.hotelRooms.FirstOrDefault(room => room.Id == order.RoomId);
+            var room = _context.HotelRooms.FirstOrDefault(room => room.Id == order.RoomId);
             room.isBooking = true;
             order.Room = null;
             _context.Booking.Add(order);
@@ -52,12 +52,12 @@ namespace BookingWizard.DAL.Repositories.BookingRepo
             return order;
         }
 
-        public Booking Delete(int id)
+        public void Delete(int id)
         {
             var item = _context.Booking.FirstOrDefault(x => x.Id == id);
             _context.Booking.Remove(item);
             _context.SaveChanges();
-            return item;
+            
         }
 
         public Booking Get(int id)

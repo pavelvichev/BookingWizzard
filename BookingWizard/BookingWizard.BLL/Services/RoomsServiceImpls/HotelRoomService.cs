@@ -27,9 +27,9 @@ namespace BookingWizard.BLL.Services.RoomsServiceImpls
 			return item;
 		}
 
-		public void Delete(HotelRoom item)
+		public void Delete(int id)
 		{
-			_unitOfWork.Rooms.Delete(item);
+			_unitOfWork.Rooms.Delete(id);
 
 		}
 

@@ -119,9 +119,9 @@ namespace BookingWizard.Controllers.Hotels
 
         public IActionResult Delete(int id)
         {
-            var hotel = _hotelService.Get(id);
+        
 
-            _hotelService.Delete(hotel);
+            _hotelService.Delete(id);
 
             return RedirectToAction("Hotels");
         }

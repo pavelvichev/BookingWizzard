@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookingWizard.DAL", "Bookin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookingWizard.IdentityServer", "BookingWizard.IdentityServer1\BookingWizard.IdentityServer.csproj", "{E386FD19-7182-4815-B727-7EA854CE702C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookingWizard.Tests", "BookingWizard.Tests\BookingWizard.Tests.csproj", "{68B427F4-F4F1-4DEF-8DA5-C84D764B7C97}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{E386FD19-7182-4815-B727-7EA854CE702C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E386FD19-7182-4815-B727-7EA854CE702C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E386FD19-7182-4815-B727-7EA854CE702C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68B427F4-F4F1-4DEF-8DA5-C84D764B7C97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68B427F4-F4F1-4DEF-8DA5-C84D764B7C97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68B427F4-F4F1-4DEF-8DA5-C84D764B7C97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68B427F4-F4F1-4DEF-8DA5-C84D764B7C97}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

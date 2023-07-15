@@ -50,11 +50,11 @@ builder.Services.AddDbContext<BookingDbContext>(options => options.UseSqlServer(
 builder.Services.AddDbContext<IdentityServerContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityString")));
 
 builder.Services.AddScoped<IPhotoRoomsService, PhotoRoomsService>();
-builder.Services.AddScoped<IPhotoRoomsRepository, PhotoRoomsRepository>();
-builder.Services.AddScoped<IPhotoHotelsRepository, PhotoHotelsRepository>();
+builder.Services.AddScoped<IPhotoRoomsRepository, PhotoRoomRepository>();
+builder.Services.AddScoped<IPhotoHotelsRepository, PhotoHotelRepository>();
 builder.Services.AddScoped<IPhotoHotelsService, PhotoHotelsService>();
 builder.Services.AddScoped<IHotelRepository<Hotel>, HotelRepository>();
-builder.Services.AddScoped<IHotelRoomsRepository, HotelRoomsRepository>();
+builder.Services.AddScoped<IHotelRoomsRepository, HotelRoomRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnifOfWork>();
 builder.Services.AddScoped<IHotelService, HotelService>();
 builder.Services.AddScoped<IHotelRoomService, HotelRoomService>();
@@ -62,7 +62,7 @@ builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddScoped<IUsersService, UsersService>();
-builder.Services.AddScoped<IReviewsRepository, ReviewsRepository>();
+builder.Services.AddScoped<IReviewsRepository, ReviewRepository>();
 builder.Services.AddScoped<IReviewsService, ReviewsService>();
 
 

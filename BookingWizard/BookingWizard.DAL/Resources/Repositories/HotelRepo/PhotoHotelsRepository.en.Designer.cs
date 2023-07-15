@@ -39,7 +39,7 @@ namespace BookingWizard.DAL.Resources.Repositories {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BookingWizard.DAL.Resources.Repositories.PhotoHotelsRepository.en\'", typeof(PhotoHotelsRepository_en_).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BookingWizard.DAL.Resources.Repositories.PhotoHotelRepository.en\'", typeof(PhotoHotelsRepository_en_).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

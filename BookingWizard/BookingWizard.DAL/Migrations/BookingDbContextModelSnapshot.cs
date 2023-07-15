@@ -105,7 +105,7 @@ namespace BookingWizard.DAL.Migrations
 
                     b.HasIndex("HotelId");
 
-                    b.ToTable("hotelRooms");
+                    b.ToTable("HotelRooms");
                 });
 
             modelBuilder.Entity("BookingWizard.DAL.Entities.HotelRooms.RoomImages", b =>
@@ -195,7 +195,7 @@ namespace BookingWizard.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("hotels");
+                    b.ToTable("Hotels");
                 });
 
             modelBuilder.Entity("BookingWizard.DAL.Entities.Hotels.HotelImages", b =>
