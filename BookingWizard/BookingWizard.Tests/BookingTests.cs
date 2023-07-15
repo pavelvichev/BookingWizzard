@@ -250,10 +250,10 @@ namespace BookingWizard.Tests
 
 					//Assert
 
-					Assert.Null(result);
+					Assert.NotNull(result);
 					Assert.Equal(booking.Id, result.Id);
 					Assert.Equal("Update hello", result.IdentityUserId);
-
+				    //d
 
 			}
 		}
