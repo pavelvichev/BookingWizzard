@@ -1,24 +1,31 @@
-name: dotnet package
+name: CI
 
-on: [push]
+on:
+  push:
+    branches:
+      - BookingWizard
+  pull_request:
+    branches:
+      - BookingWizard
 
 jobs:
-  build:
-
+  build-and-test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        dotnet-version: [ '3.1.x', '6.0.x' ]
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
-        uses: actions/setup-dotnet@v3
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: ${{ matrix.dotnet-version }}
-      - name: Install dependencies
+          dotnet-version: '6.0' # Замените на желаемую версию .NET
+
+      - name: Restore dependencies
         run: dotnet restore
-      - name: Build
+
+      - name: Build project
         run: dotnet build --configuration Release --no-restore
-      - name: Test
-        run: dotnet test --no-restore --verbosity normal
+
+      - name: Run tests
+        run: dotnet test --configuration Release --no-build --verbosity normal
