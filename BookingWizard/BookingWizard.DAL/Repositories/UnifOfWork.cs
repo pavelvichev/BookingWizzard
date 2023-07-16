@@ -32,6 +32,7 @@ namespace BookingWizard.DAL.Repositories
         IPhotoRoomsRepository _photoRoomsRepository;
         ReviewRepository _reviewsRepository;
 		IUsersRepository _usersRepository;
+		IPrivilegesRepository _privilegesRepository;
 
 		private readonly IStringLocalizer<BookingRepository> _bookingLocalizer;
 		private readonly IStringLocalizer<HotelRepository> _hotelLocalizer;
@@ -39,8 +40,20 @@ namespace BookingWizard.DAL.Repositories
 		private readonly IStringLocalizer<PhotoRoomRepository> _photoRoomsLocalizer;
 
 
-        public UnifOfWork(BookingDbContext context, IStringLocalizer<BookingRepository> bookingLocalizer, IStringLocalizer<HotelRepository> hotelLocalizer, IPhotoHotelsRepository photoHotelsRepository, IStringLocalizer<PhotoHotelRepository> photoHotelsLocalizer, IStringLocalizer<PhotoRoomRepository> photoRoomsLocalizer, IPhotoRoomsRepository photoRoomsRepository, IdentityServerContext identityServerContext, IUsersRepository usersRepository
-)
+        public UnifOfWork(
+
+			BookingDbContext context, 
+			IStringLocalizer<BookingRepository> bookingLocalizer, 
+			IStringLocalizer<HotelRepository> hotelLocalizer, 
+			IPhotoHotelsRepository photoHotelsRepository, 
+			IStringLocalizer<PhotoHotelRepository> photoHotelsLocalizer,
+			IStringLocalizer<PhotoRoomRepository> photoRoomsLocalizer, 
+			IPhotoRoomsRepository photoRoomsRepository, 
+			IdentityServerContext identityServerContext, 
+			IUsersRepository usersRepository, 
+			IPrivilegesRepository privilegesRepository
+
+			)
         {
             _bookingContext = context;
 			_identityContext = identityServerContext;
@@ -51,6 +64,7 @@ namespace BookingWizard.DAL.Repositories
             _photoHotelsRepository = photoHotelsRepository;
             _photoRoomsRepository = photoRoomsRepository;
 			_usersRepository= usersRepository;
+			_privilegesRepository = privilegesRepository;
         }
 
         public IHotelRepository<Hotel> Hotels
@@ -77,7 +91,7 @@ namespace BookingWizard.DAL.Repositories
 			get
 			{
 				if (_roomsRepository == null)
-					_roomsRepository = new HotelRoomRepository(_bookingContext, _photoRoomsRepository);
+					_roomsRepository = new HotelRoomRepository(_bookingContext, _photoRoomsRepository,_privilegesRepository);
 				return _roomsRepository;
 			}
 		}

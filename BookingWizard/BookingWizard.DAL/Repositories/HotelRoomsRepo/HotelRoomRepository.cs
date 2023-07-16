@@ -18,11 +18,13 @@ namespace BookingWizard.DAL.Repositories.HotelRoomsRepo
 
         readonly BookingDbContext _context;
         readonly IPhotoRoomsRepository _photoRoomsRepository;
+        readonly IPrivilegesRepository _previlegesRepository;
 
-        public HotelRoomRepository(BookingDbContext context, IPhotoRoomsRepository photoRoomsRepository)
+        public HotelRoomRepository(BookingDbContext context, IPhotoRoomsRepository photoRoomsRepository, IPrivilegesRepository previlegesRepository)
         {
             _context = context;
             _photoRoomsRepository = photoRoomsRepository;
+            _previlegesRepository = previlegesRepository;
         }
         public HotelRoom Add(HotelRoom item, int hotelId)
         {
@@ -31,11 +33,36 @@ namespace BookingWizard.DAL.Repositories.HotelRoomsRepo
 
             _context.HotelRooms.Add(item);
             _context.SaveChanges();
+
+            foreach (var privilege in GetPrivilege(item.Privileges.Privilege))
+            {
+                var privilegeItem = new Privileges
+                {
+                    Privilege = privilege.Trim(),
+                    HotelRoomId = item.Id
+                };
+               _previlegesRepository.Add(privilegeItem);
+            }
             _photoRoomsRepository.PhotoUpload(item);
 
 
 			return item;
 
+        }
+
+        List<string> GetPrivilege(string privileges)
+        {
+            var list = privileges.Split(';').ToList();
+
+            for(int i = 0;i <  list.Count(); i++)
+            {
+                if (string.IsNullOrWhiteSpace(list.ElementAt(i)))
+                {
+                    list.Remove(list.ElementAt(i));
+                }
+            }
+
+            return list;
         }
 
         public HotelRoom Delete(int id)
@@ -50,8 +77,21 @@ namespace BookingWizard.DAL.Repositories.HotelRoomsRepo
         {
 			HotelRoom room = _context.HotelRooms
 						.Include(r => r.Images) 
-						.Include(r => r.Hotel) 
+						.Include(r => r.Hotel)
+                        .Include(r => r.PrivilegesList)
 						.FirstOrDefault(r => r.Id == id);
+            
+			var privileges = _context.Privileges
+	            .Where(x => x.HotelRoomId == id)
+	            .Select(item => item.Privilege);
+
+			var privilegesString = string.Join(";", privileges);
+
+            room.Privileges = new Privileges
+            {
+                HotelRoomId = id,
+                Privilege = privilegesString,        
+            };
 
             room.Image = room.Images.FirstOrDefault();
 
@@ -84,11 +124,24 @@ namespace BookingWizard.DAL.Repositories.HotelRoomsRepo
 
         public HotelRoom Update(HotelRoom item)
         {
+            _context.Privileges.RemoveRange(_context.Privileges.Where(x => x.HotelRoomId == item.Id));
 
-            _context.Update(item);
+			foreach (var privilege in GetPrivilege(item.Privileges.Privilege))
+			{
+				var privilegeItem = new Privileges
+				{
+					Privilege = privilege.Trim(),
+					HotelRoomId = item.Id
+				};
+				_previlegesRepository.Add(privilegeItem);
+			}
+			_context.Update(item);
+            
             _context.SaveChanges();
             return item;
         }
+
+
 
 
     }

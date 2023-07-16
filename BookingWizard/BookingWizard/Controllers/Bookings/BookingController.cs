@@ -6,8 +6,10 @@ using BookingWizard.ModelsVM;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Localization;
 using System.Security.Claims;
+using System.Text.Json;
 
 namespace BookingWizard.Controllers.Bookings
 {
@@ -45,34 +47,58 @@ namespace BookingWizard.Controllers.Bookings
 		{
 			if (User.Identity.IsAuthenticated)
 			{
-				if (ModelState.IsValid)
-				{
-					try
-					{
-						booking.Id = 0;
-						booking.allPrice = _bookingService.CalcPrice(_map.Map<Booking>(booking));
-						_bookingService.Add(_map.Map<Booking>(booking));
-						var localizedString = _localizer["MessageFromBooking"];
-						var serializedString = localizedString.Value; // Преобразование в строку
-						TempData["MessageFromBooking"] = serializedString;
-
-					}
-					catch (Exception ex)
-					{
-						TempData["ErrorMessageFromBooking"] = ex.Message;
-						return View(booking);
-					}
-				}
-			}
+                if (ModelState.IsValid)
+                {
+					booking.allPrice = _bookingService.CalcPrice(_map.Map<Booking>(booking));
+                    string bookingJson = JsonSerializer.Serialize(booking);
+  
+					return RedirectToAction("BookingInfo", new { bookingJson = bookingJson });
+                }
+            }
 			else
 			{
 				TempData["ErrorMessageFromBooking"] = _localizer["notAuthenticated"];
-			}
 
-			return RedirectToAction("Room", "Rooms", new { id = booking.roomId });
+            }
+            return RedirectToAction("Room", "Rooms", new { id = booking.roomId });
+
+        }
+
+
+
+        public IActionResult BookingInfo(string bookingJson)
+		{
+			
+            var booking  = JsonSerializer.Deserialize<BookingVM>(bookingJson);
+
+            return View(booking);	
 		}
 
-		public IActionResult AllOrdersByUser()
+		[HttpPost]
+        public IActionResult BookingComplete(BookingVM booking)
+        {
+            try
+            {
+                _bookingService.Add(_map.Map<Booking>(booking));
+                var localizedString = _localizer["MessageFromBooking"];
+                var serializedString = localizedString.Value;
+                TempData["MessageFromBooking"] = serializedString;
+
+                return RedirectToAction("Room", "Rooms", new { id = booking.roomId });
+
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessageFromBooking"] = ex.Message;
+                string bookingJson = JsonSerializer.Serialize(booking);
+                
+                return RedirectToAction("BookingInfo", new { bookingJson = bookingJson });
+            }
+
+          
+        }
+
+        public IActionResult AllOrdersByUser()
 		{
 			var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 

@@ -123,11 +123,17 @@
   <data name="Desc" xml:space="preserve">
     <value>Decsription</value>
   </data>
+  <data name="ErrorValidation" xml:space="preserve">
+    <value>Enter the characteristics of the room through the sign ';'</value>
+  </data>
   <data name="NumberOfPeople" xml:space="preserve">
     <value>Number of people</value>
   </data>
+  <data name="placeholderText" xml:space="preserve">
+    <value>Enter the characteristics of the room through the sign ';'</value>
+  </data>
   <data name="Price" xml:space="preserve">
-    <value>Ціна</value>
+    <value>Price</value>
   </data>
   <data name="RoomName" xml:space="preserve">
     <value>Room Name</value>

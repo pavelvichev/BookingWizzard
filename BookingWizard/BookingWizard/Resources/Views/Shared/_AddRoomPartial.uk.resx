@@ -123,8 +123,14 @@
   <data name="Desc" xml:space="preserve">
     <value>Короткий опис</value>
   </data>
+  <data name="ErrorValidation" xml:space="preserve">
+    <value>Введіть характеристики кімнати через знак ';'</value>
+  </data>
   <data name="NumberOfPeople" xml:space="preserve">
     <value>Кількість людей</value>
+  </data>
+  <data name="placeholderText" xml:space="preserve">
+    <value>Введіть характеристики кімнати через знак ';'</value>
   </data>
   <data name="Price" xml:space="preserve">
     <value>Ціна</value>

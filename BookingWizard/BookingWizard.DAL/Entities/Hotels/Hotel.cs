@@ -14,17 +14,16 @@ namespace BookingWizard.DAL.Entities.Hotels
     {
         public int Id { get; set; }
 
-        public string HotelName { get; set; } // навзание отеля
+        public string HotelName { get; set; } 
 
-        public string HotelShortDescription { get; set; } // короткое описание отеля(на карточке)
+        public string HotelShortDescription { get; set; } 
 
-        public string HotelLongDescription { get; set; } // общее описание (при нажатии)
+        public string HotelLongDescription { get; set; } 
 
-        public ushort HotelMark { get; set; } // оценка
-        public bool isFavourite { get; set; } // добавить в избраное
+        public ushort HotelMark { get; set; } 
 
-        public IEnumerable<string> previlege; //привилегии
-        public Address Address { get; set; } // Аддрес
+        public IEnumerable<string> previlege; 
+        public Address Address { get; set; } 
         [NotMapped]
         public IEnumerable<IFormFile> ImageModelList { get; set; }
         [NotMapped]

@@ -1,10 +1,7 @@
 ﻿@using System.Security.Claims;
 @model BookingWizard.ModelsVM.BookingVM
 
-
-
-
-<form action="@Url.Action("Booking", "Booking")" method="post" class="form-horizontal">
+<form action="@Url.Action("Booking", "Booking")" method="post" class="form-horizontal" id="bookingForm">
     @{
         Model.IdentityUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
     }
@@ -13,9 +10,9 @@
     <input type="hidden" asp-for="IdentityUserId" />
     <input type="hidden" asp-for="RoomName" />
     <input type="hidden" asp-for="HotelName" />
-   
+
     <div class="form-group">
-        <label  class="col-md-2 control-label">@Localizer["FirstName"]</label>
+        <label class="col-md-2 control-label">@Localizer["FirstName"]</label>
         <div class="col-md-10">
             <input type="text" asp-for="FirstNameBuyer" class="form-control" />
         </div>
@@ -35,20 +32,16 @@
         </div>
     </div>
 
-
-    <div class="mb-3">
+<div class="mb-3">
         <label for="arrivalDate" class="form-label">@Localizer["ArrivalDate"]</label>
-        <input type="date" class="form-control" id="arrivalDate" asp-for="ArrivalDate" min="@DateTime.Now.ToString("yyyy-MM-dd")">
+        <input type="date" class="form-control" id="arrivalDate" asp-for="ArrivalDate" min="@DateTime.Now.ToString("yyyy-MM-dd")" />
     </div>
     <div class="mb-3">
         <label for="departureDate" class="form-label">@Localizer["DateOfDeparture"]</label>
-        <input type="date" class="form-control" id="departureDate" asp-for="DateOfDeparture" min="@DateTime.Now.ToString("yyyy-MM-dd")">
+        <input type="date" class="form-control" id="departureDate" asp-for="DateOfDeparture" min="@DateTime.Now.ToString("yyyy-MM-dd")" onchange="calculateTotalAmount()" />
     </div>
 
-    @if (TempData["ErrorMessageFromBooking"] != null)
-    {
-        <span class="alert alert-danger">@TempData["ErrorMessageFromBooking"]</span>
-    }
-    <button type="submit" class="btn btn-primary">@Localizer["Book"]</button>
-
+   
+    <button type="submit" id="bookingButton" class="btn btn-primary" >@Localizer["Book"]</button>
 </form>
+

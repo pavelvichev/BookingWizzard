@@ -22,7 +22,8 @@
     }
 </style>
 
-<form asp-controller="SetLanguage" asp-action="SetLanguage" style="margin-top: 20px;" asp-route-returnUrl="@Context.Request.Path" method="post" class="form-horizontal">
+<form asp-controller="SetLanguage" asp-action="SetLanguage" style="margin-top: 20px;" asp-route-returnUrl="@($"{Context.Request.Path}{Context.Request.QueryString}")"
+ method="post" class="form-horizontal">
     <div class="form-group">
         @foreach (var culture in cultureItems)
         {

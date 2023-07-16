@@ -46,11 +46,12 @@ namespace BookingWizard.Controllers.Hotels
             }
             catch (Exception e)
             {
+                hotelVMList = _map.Map<IEnumerable<HotelVM>>(_hotelService.GetAll());
                 TempData["noHotels"] = e.Message;
             }
 
 
-            hotelVMList = _map.Map<IEnumerable<HotelVM>>(_hotelService.GetAll());
+            
 
             return View(hotelVMList);
         }

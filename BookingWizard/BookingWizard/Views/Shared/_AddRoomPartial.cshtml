@@ -1,32 +1,45 @@
 ﻿@model BookingWizard.ModelsVM.HotelRooms.HotelRoomVM
 
 <form method="post" action="/Rooms/AddRoom" enctype="multipart/form-data">
-	<input type="hidden" asp-for="HotelId" />
-	<div class="mb-3">
-		<label for="roomNumber" class="form-label">@Localizer["RoomName"]</label>
-		<input type="text" class="form-control" asp-for="Name">
-	</div>
-	<div class="mb-3">
-		<label for="shortDescription" class="form-label">@Localizer["Desc"]</label>
-		<input type="text" class="form-control" id="shortDescription" asp-for="Description">
-	</div>
-	<div class="mb-3">
-		<label for="roomPrice" class="form-label">@Localizer["Price"]</label>
-		<input type="text" class="form-control" id="roomPrice" asp-for="roomPricePerNight">
-	</div>
-	<div class="mb-3">
-		<label for="roomNumber" class="form-label">@Localizer["NumberOfPeople"]</label>
-		<select class="form-control" asp-for="NumberOfPeople" id="rating" required>
-			<option>1</option>
-			<option>2</option>
-			<option>3</option>
-			<option>4</option>
-			<option>5</option>
-		</select>
-	</div>
-	<div class="custom-file">
-		<input asp-for="ImageModelList" class="custom-file-input form-control" multiple />
-		<label class="custom-file-label text-left"></label>
-	</div>
-	<button type="submit" class="btn btn-primary">@Localizer["AddRoom"]</button>
+    <input type="hidden" asp-for="HotelId" />
+    <div class="mb-3">
+        <label for="roomNumber" class="form-label">@Localizer["RoomName"]</label>
+        <input type="text" class="form-control" asp-for="Name">
+    </div>
+    <div class="mb-3">
+        <label for="shortDescription" class="form-label">@Localizer["Desc"]</label>
+        <input type="text" class="form-control" id="shortDescription" asp-for="Description">
+    </div>
+    <div class="mb-3">
+        <label for="roomPrice" class="form-label">@Localizer["Price"]</label>
+        <input type="text" class="form-control" id="roomPrice" asp-for="roomPricePerNight">
+    </div>
+    <div class="mb-3">
+        <label for="roomNumber" class="form-label">@Localizer["NumberOfPeople"]</label>
+        <select class="form-control" asp-for="NumberOfPeople" id="rating" required>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+        </select>
+    </div>
+    <div class="custom-file">
+        <input asp-for="ImageModelList" class="custom-file-input form-control" multiple />
+        <label class="custom-file-label text-left"></label>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">@Localizer["Privileges"]</label>
+       <textarea asp-for="Privileges.Privilege" placeholder="@Localizer["placeholderText"]" class="form-control" id="text" rows="5" required></textarea>
+        <span id="privileges-error" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">@Localizer["AddRoom"]</button>
 </form>
+
+@{
+    var errorValidationLocalize = Localizer["ErrorValidation"];
+}
+
+<script>
+    var errorValidation = @Html.Raw(Json.Serialize(errorValidationLocalize.Value));
+</script>

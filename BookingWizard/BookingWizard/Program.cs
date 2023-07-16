@@ -34,15 +34,13 @@ using BookingWizard.BLL.Services.RoomsServiceImpls;
 using BookingWizard.BLL.Services.BookingServiceImpls;
 using BookingWizard.BLL.Interfaces.IBookingServices;
 using BookingWizard.BLL.Interfaces.IHotelRoomsServices;
+using BookingWizard.DAL.Entities.HotelRooms;
 
 var builder = WebApplication.CreateBuilder(args);
 var loggerFactory = LoggerFactory.Create(builder =>
 {
 	builder.AddConsole(); 
 });
-
-
-// Add services to the container.
 
 
 
@@ -64,6 +62,7 @@ builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddScoped<IUsersService, UsersService>();
 builder.Services.AddScoped<IReviewsRepository, ReviewRepository>();
 builder.Services.AddScoped<IReviewsService, ReviewsService>();
+builder.Services.AddScoped<IPrivilegesRepository, PrivilegesRepository>();
 
 
 
@@ -98,6 +97,7 @@ builder.Services.AddAuthentication(config =>
        
     });
 
+builder.Services.AddSession();
 
 builder.Services.AddControllers();
 
@@ -125,11 +125,9 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 });
 
 
-// Configure route options
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -151,6 +149,7 @@ app.UseRequestLocalization(new RequestLocalizationOptions
     SupportedCultures = supportedCultures,
     SupportedUICultures = supportedCultures
 });
+app.UseSession();
 
 app.UseRouting();
 
@@ -178,5 +177,13 @@ app.UseEndpoints(endpoints =>
         pattern: "{controller=Hotels}/{action=Hotels}/{id?}/{searchString?}");
 });
 
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+    name: "BookingRoute",
+    pattern: "Booking/BookingInfo/{bookingJson}",
+    defaults: new { controller = "Booking", action = "BookingInfo" }
+);
+});
 
 app.Run();

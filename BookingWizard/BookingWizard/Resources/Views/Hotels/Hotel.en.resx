@@ -129,6 +129,9 @@
   <data name="People" xml:space="preserve">
     <value>Peoples</value>
   </data>
+  <data name="Price" xml:space="preserve">
+    <value>Price</value>
+  </data>
   <data name="Rating15Review" xml:space="preserve">
     <value>Rating (1-5)</value>
   </data>

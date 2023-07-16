@@ -45,7 +45,7 @@ namespace BookingWizard.Controllers.Rooms
 		[HttpPost]
 		public IActionResult AddRoom(HotelRoomVM roomVM)
 		{
-
+			ModelState.Remove("PrivilegesList");
 			if (ModelState.IsValid)
 			{
 				_hotelRoomService.Add(_map.Map<HotelRoom>(roomVM), roomVM.HotelId);
@@ -83,6 +83,7 @@ namespace BookingWizard.Controllers.Rooms
         public IActionResult Edit(HotelRoomVM roomVM)
         {
 			ModelState.Remove("ImageModelList");
+			ModelState.Remove("PrivilegesList");
 			if (ModelState.IsValid)
             {
                 var room = _map.Map<HotelRoom>(roomVM);

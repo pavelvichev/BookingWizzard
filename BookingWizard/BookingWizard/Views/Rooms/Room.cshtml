@@ -7,31 +7,43 @@
 		<div class="col-md-6 mb-3">
 			@if (TempData["OnePhotoLeft"] != null)
 			{
-				<span id="alertMessage" style="width: 400px; height: 60px;" class="alert alert-danger">@TempData["OnePhotoLeft"]</span>
+				<div class="alert alert-danger" style="width: 400px; height: 60px;">
+					<span id="alertMessage">@TempData["OnePhotoLeft"]</span>
+				</div>
 			}
-			<div id="photoContainer" class="mt-3"> 	
-			<img src="/PhotoRooms/GetPhoto/@Model.Image.Id" class="img-fluid" style="height: 400px;" /> 
+			<div id="photoContainer" class="mt-3">
+				<img src="/PhotoRooms/GetPhoto/@Model.Image.Id" class="img-fluid" style="height: 400px;" />
 			</div>
-			<div style="text-align: center;"> 
-				<button type="button" id="prevButton" class="btn btn-primary"><i></i></button> 
-				<button type="button" id="nextButton" class="btn btn-primary"><i></i></button> 
+			<div class="text-center mt-3">
+				<button type="button" id="prevButton" class="btn btn-primary"><i></i></button>
+				<button type="button" id="nextButton" class="btn btn-primary"><i></i></button>
 				@if (User.IsInRole("Owner"))
 				{
-					<button type="button" id="deletePhotoButton" class="btn btn-danger"><i></i></button> 
-					<button type="button" id="addButton" class="btn btn-success"><i></i></button> 
+					<button type="button" id="deletePhotoButton" class="btn btn-danger"><i></i></button>
+					<button type="button" id="addButton" class="btn btn-success"><i></i></button>
 					<input type="file" id="photoInput" style="display: none;" accept="image/*" multiple>
-				} 		
+				}
 			</div>
-		</div>	
+		</div>
 		<div class="col-md-6">
 			<div class="text-center">
 				<h1 class="display-4">@Model.Name</h1>
 				<div class="lead">@Model.Description</div>
 				<p class="lead">@Model.roomPricePerNight.ToString("c")</p>
+				<p class="lead">
+					@foreach (var item in Model.PrivilegesList)
+					{
+						@item.Privilege
+						@if (!item.Equals(Model.PrivilegesList.Last()))
+						{
+							<span>,</span>
+						}
+					}
+				</p>
 			</div>
 		</div>
 	</div>
-</div> 
+</div>
 
 @if (User.IsInRole("Owner"))
 {

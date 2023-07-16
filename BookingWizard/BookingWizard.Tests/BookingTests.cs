@@ -1,6 +1,7 @@
 ﻿using BookingWizard.DAL.Data;
 using BookingWizard.DAL.Entities.HotelRooms;
 using BookingWizard.DAL.Entities.Hotels;
+using BookingWizard.DAL.Interfaces.IHotelRoomsRepo;
 using BookingWizard.DAL.Repositories.BookingRepo;
 using BookingWizard.DAL.Repositories.HotelRoomsRepo;
 using Microsoft.EntityFrameworkCore;
@@ -68,7 +69,8 @@ namespace BookingWizard.Tests
 					var mockLocalizer = new Mock<IStringLocalizer<BookingRepository>>();
 					var bookingRepository = new BookingRepository(context, mockLocalizer.Object);
 					var mockStringLocalizer = new Mock<IStringLocalizer<HotelRoomRepository>>();
-					var roomRepository = new HotelRoomRepository(context, null);
+					var mockPrivilegesRepository = new Mock<IPrivilegesRepository>();
+					var roomRepository = new HotelRoomRepository(context, null, mockPrivilegesRepository.Object);
 
 					HotelRoomsTests tests = new HotelRoomsTests();
 					tests.Add_ReturnsAddedHotelRoom();
@@ -253,7 +255,7 @@ namespace BookingWizard.Tests
 					Assert.NotNull(result);
 					Assert.Equal(booking.Id, result.Id);
 					Assert.Equal("Update hello", result.IdentityUserId);
-				    //d
+				    
 
 			}
 		}

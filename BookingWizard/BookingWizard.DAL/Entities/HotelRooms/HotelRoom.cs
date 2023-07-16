@@ -13,27 +13,22 @@ namespace BookingWizard.DAL.Entities.HotelRooms
     public class HotelRoom
     {
         public int Id { get; set; }
-        public string Name { get; set; } // имя номера
-
-        public string Description { get; set; } // описание номера
-
-        public Hotel? Hotel { get; set; }// инфо про отель
+        public string Name { get; set; } 
+        public string Description { get; set; } 
+        public Hotel? Hotel { get; set; }
         public int HotelId { get; set; }
-
-        public ushort RoomPricePerNight { get; set; } // цена за ночь
-
+        public ushort RoomPricePerNight { get; set; }
         public int NumberOfPeople { get; set; }
-
-
-        public ICollection<Booking>? Bookings { get; set; } // информация про бронь
-
+        public ICollection<Booking>? Bookings { get; set; }
         [NotMapped]
         public IEnumerable<IFormFile> ImageModelList { get; set; }
         [NotMapped]
         public RoomImages Image { get; set; }
         public ICollection<RoomImages> Images { get; set; }
+        public bool isBooking { get; set; }
+        [NotMapped]
+        public Privileges Privileges { get; set; }
+        public List<Privileges> PrivilegesList { get; set; }
 
-
-        public bool isBooking { get; set; } // занят ли уже номер
-    }
+	}
 }

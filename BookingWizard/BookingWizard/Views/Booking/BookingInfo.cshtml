@@ -1,0 +1,67 @@
+﻿@model BookingWizard.ModelsVM.BookingVM
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h4 class="text-center">Booking Details</h4>
+            <hr>
+            <div class="form-group">
+                <label>@Localizer["RoomName"]:</label>
+                <p>@Model.RoomName</p>
+            </div>
+            <div class="form-group">
+                <label>@Localizer["HotelName"]:</label>
+                <p>@Model.HotelName</p>
+            </div>
+            <div class="form-group">
+                <label>@Localizer["AllPrice"]:</label>
+                <p>@Model.allPrice.ToString("c")</p>
+            </div>
+            <div class="form-group">
+                <label>@Localizer["FirstName"]:</label>
+                <p>@Model.FirstNameBuyer</p>
+            </div>
+            <div class="form-group">
+                <label>@Localizer["LastName"]:</label>
+                <p>@Model.LastNameBuyer</p>
+            </div>
+            <div class="form-group">
+                <label>@Localizer["Email"]:</label>
+                <p>@Model.Email</p>
+            </div>
+            <div class="form-group">
+                <label>@Localizer["ArrivalDate"]:</label>
+                <p>@Model.ArrivalDate.ToShortDateString()</p>
+            </div>
+            <div class="form-group">
+                <label>@Localizer["DateOfDeparture"]:</label>
+                <p>@Model.DateOfDeparture.ToShortDateString()</p>
+            </div>
+            <div class="text-center">
+                <form action="@Url.Action("BookingComplete", "Booking")" method="post">
+                    <input type="hidden" asp-for="roomId" />
+                    <input type="hidden" asp-for="IdentityUserId" />
+                    <input type="hidden" asp-for="RoomName" />
+                    <input type="hidden" asp-for="HotelName" />
+                    <input type="hidden" asp-for="allPrice" />
+                    <input type="hidden" asp-for="FirstNameBuyer" />
+                    <input type="hidden" asp-for="LastNameBuyer" />
+                    <input type="hidden" asp-for="Email" />
+                    <input type="hidden" asp-for="ArrivalDate" />
+                    <input type="hidden" asp-for="DateOfDeparture" />
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="bookCheckbox" required>
+                        <label class="form-check-label" for="bookCheckbox">I agree to book</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Book</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+    @if (TempData["ErrorMessageFromBooking"] != null)
+    {
+        <span class="alert alert-danger">@TempData["ErrorMessageFromBooking"]</span>
+    }
+</div>

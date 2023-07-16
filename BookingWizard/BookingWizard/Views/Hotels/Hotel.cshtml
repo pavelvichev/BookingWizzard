@@ -212,7 +212,7 @@
 	var IdentityUserId = @Html.Raw(Json.Serialize(currentUserId));
 </script>
 
-@if (currentUserId != Model.IdentityUserId)
+@if (currentUserId != Model.IdentityUserId && User.Identity.IsAuthenticated)
 {
 	<form method="post" id="addReviewForm" asp-action="AddReview" asp-controller="Reviews">
 		@{

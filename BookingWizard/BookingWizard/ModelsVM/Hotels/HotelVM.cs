@@ -7,16 +7,14 @@ namespace BookingWizard.ModelsVM.Hotels
     {
         public int Id { get; set; }
 		[Required(ErrorMessage = "HotelNameRequired")]
-		public string HotelName { get; set; } // навзание отеля
+		public string HotelName { get; set; }
 		[Required(ErrorMessage = "HotelShortDescriptionRequired")]
-		public string HotelShortDescription { get; set; } // короткое описание отеля(на карточке)
+		public string HotelShortDescription { get; set; }
 		[Required(ErrorMessage = "HotelLongDescriptionRequired")]
-		public string HotelLongDescription { get; set; } // общее описание (при нажатии)
-        public ushort HotelMark { get; set; } // оценка
-        public bool IsFavourite { get; set; } // добавить в избраное
-        public List<string> previlege; //привилегии
-        public AddressVM Address { get; set; } // Аддрес
-        public int AddressId { get; set; } // айди адресса в таблице
+		public string HotelLongDescription { get; set; }
+        public ushort HotelMark { get; set; } 
+        public AddressVM Address { get; set; }
+        public int AddressId { get; set; }
 		[Required(ErrorMessage = "HotelsImagesRequired")]
 		public IEnumerable<IFormFile>? ImageModelList { get; set; }
         public HotelImagesVM? Image { get; set; }

@@ -132,6 +132,9 @@
   <data name="People" xml:space="preserve">
     <value>Людей</value>
   </data>
+  <data name="Price" xml:space="preserve">
+    <value>Ціна</value>
+  </data>
   <data name="Rating15Review" xml:space="preserve">
     <value>Рейтинг (1-5)</value>
   </data>
