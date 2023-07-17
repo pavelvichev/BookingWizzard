@@ -1,13 +1,22 @@
 # BookingWizzard
 
-## Проект: системы бронирования и управления отелями на основе ASP.NET MVC
+## Project: hotel booking and management systems based on ASP.NET MVC
 
-Основные задачи: 
-1.	Просмотр списка отелей: Пользователи должны иметь возможность просматривать список доступных отелей, включая их название, краткое описание и изображение.
-2.	Поиск отелей: функционал поиска отелей на основе различных критериев, таких как местоположение, цена, количество звезд и доступность.
-3.	Просмотр информации об отеле: Пользователи могут просматривать подробную информацию об отеле, включая описание, фотографии, список доступных номеров и предоставляемые услуги.
-4.	Бронирование номеров: Предоставьте пользователю возможность выбрать нужный номер в отеле и забронировать его на определенные даты. Включите функционал проверки доступности номеров и учет свободных мест.
-5.	Управление бронированиями: Пользователи должны иметь возможность просматривать свои существующие бронирования, редактировать их (если это разрешено), отменять бронирования и просматривать подтверждения.
-6.	Аутентификация и авторизация : система аутентификации и авторизации, чтобы пользователи могли регистрироваться, входить в систему и иметь доступ к функционалу бронирования. Администраторы должны иметь дополнительные права доступа для управления данными и бронированиями.
-7.	Административная панель: Создайте административную панель, где администраторы смогут управлять данными отелей, номеров и бронирований. Они должны иметь возможность добавлять, редактировать и удалять отели и номера, а также просматривать и управлять существующими бронированиями.
-9.	Отчеты и аналитика: Реализуйте функционал для генерации отчетов и аналитики, чтобы администраторы могли просматривать статистику по бронированиям, популярности отелей, выручке и другим показателям.
+Main goals:
+1. Viewing a list of hotels: Users should be able to view a list of available hotels, including their name, short description, and image.
+2. Hotel Search: Search functionality for hotels based on various criteria such as location, price, star rating and availability.
+3. View hotel information: Users can view detailed information about the hotel, including description, photos, list of available rooms and services provided.
+4. Room Reservation: Allow the user to select the desired hotel room and book it for specific dates. Turn on the functionality of checking the availability of rooms and accounting for free places.
+5. Managing Bookings: Users should be able to view their existing bookings, edit them (if allowed), cancel bookings, and view confirmations.
+6. Authentication and Authorization : Authentication and authorization system to enable users to register, log in and have access to the booking functionality. Administrators must have additional access rights to manage data and bookings.
+7. Admin Panel: Create an admin panel where admins can manage hotel, room and booking details. They should be able to add, edit and delete hotels and rooms, as well as view and manage existing bookings.
+9. Reports and analytics: Implement reporting and analytics functionality so that administrators can view statistics on bookings, hotel popularity, revenue and other indicators.
+
+# Connection of models in the Main Project Database
+
+![image](https://github.com/pavelvichev/BookingWizzard/assets/71034124/f65f6aaf-14ac-44b3-a61f-c2533ddf95a7)
+
+# Connecting models to the database for project authentication
+
+![image](https://github.com/pavelvichev/BookingWizzard/assets/71034124/72d05313-ebb6-4fa8-b06c-8d71daa262c2)
+
